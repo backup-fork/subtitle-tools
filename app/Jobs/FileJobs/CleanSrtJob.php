@@ -2,46 +2,29 @@
 
 namespace App\Jobs\FileJobs;
 
+use App\Subtitles\TextFile;
 use App\Subtitles\Tools\Options\SrtCleanerOptions;
 use App\Subtitles\Tools\SrtCleaner;
-use App\Support\Facades\TextFileFormat;
-use App\Models\StoredFile;
 use App\Subtitles\PlainText\Srt;
 
 class CleanSrtJob extends FileJob
 {
-    /** @var SrtCleanerOptions $options */
-    protected $options;
+    protected $newExtension = 'srt';
 
-    public function handle()
+    protected $options = SrtCleanerOptions::class;
+
+    public function process(TextFile $subtitle, $options)
     {
-        $this->startFileJob();
-
-        $this->options = new SrtCleanerOptions($this->fileGroup->job_options);
-
-        if (! is_text_file($this->inputStoredFile->filePath)) {
-            return $this->abortFileJob('messages.not_a_text_file');
+        if (! $subtitle instanceof Srt) {
+            $this->abort('messages.file_is_not_srt');
         }
 
-        $srt = TextFileFormat::getMatchingFormat($this->inputStoredFile->filePath);
+        (new SrtCleaner)->clean($subtitle, $options);
 
-        if (! $srt instanceof Srt) {
-            return $this->abortFileJob('messages.file_is_not_srt');
+        if (! $subtitle->hasCues()) {
+            $this->abort('messages.file_has_no_dialogue');
         }
 
-        (new SrtCleaner)->clean($srt, $this->options);
-
-        if (! $srt->hasCues()) {
-            return $this->abortFileJob('messages.file_has_no_dialogue');
-        }
-
-        $outputStoredFile = StoredFile::createFromTextFile($srt);
-
-        return $this->finishFileJob($outputStoredFile);
-    }
-
-    public function getNewExtension()
-    {
-        return 'srt';
+        return $subtitle;
     }
 }

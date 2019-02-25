@@ -109,6 +109,10 @@ abstract class FileJob extends BaseJob implements ShouldQueue
 
     protected function createOptions($data)
     {
+        if (isset($this->options)) {
+            return new $this->options($data);
+        }
+
         $baseName = substr(class_basename(static::class), 0, -3);
 
         $optionsClass = '\\App\\Subtitles\\Tools\\Options\\'.$baseName.'Options';
