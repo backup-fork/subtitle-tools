@@ -6,6 +6,7 @@ use App\Exceptions\FileJobException;
 use App\Jobs\BaseJob;
 use App\Subtitles\TextFile;
 use App\Subtitles\TextFileFormat;
+use App\Subtitles\Tools\Options\NoOptions;
 use App\Support\Facades\TempFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\FileJobChanged;
@@ -113,13 +114,13 @@ abstract class FileJob extends BaseJob implements ShouldQueue
         $optionsClass = '\\App\\Subtitles\\Tools\\Options\\'.$baseName.'Options';
 
         if (! class_exists($optionsClass)) {
-            throw new RuntimeException('Could not automatically discover options class');
+            $optionsClass = NoOptions::class;
         }
 
         return new $optionsClass($data);
     }
 
-    protected function abort($message)
+    protected function abort($message): void
     {
         throw new FileJobException($message);
     }
