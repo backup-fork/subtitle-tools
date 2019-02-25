@@ -2,13 +2,17 @@
 
 namespace App\Jobs\FileJobs;
 
+use App\Exceptions\FileJobException;
 use App\Jobs\BaseJob;
+use App\Subtitles\TextFile;
+use App\Subtitles\TextFileFormat;
 use App\Support\Facades\TempFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\FileJobChanged;
 use App\Models\FileJob as FileJobModel;
 use App\Models\StoredFile;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 abstract class FileJob extends BaseJob implements ShouldQueue
 {
@@ -27,6 +31,34 @@ abstract class FileJob extends BaseJob implements ShouldQueue
         $this->inputStoredFile = $fileJobModel->inputStoredFile;
     }
 
+    public function handle()
+    {
+        $this->fileJob->started_at = now();
+
+        $options = $this->createOptions($this->fileGroup->job_options);
+
+        if (! is_text_file($this->inputStoredFile->filePath)) {
+            return $this->abortFileJob('messages.not_a_text_file');
+        }
+
+        $subtitle = (new TextFileFormat)->get($this->inputStoredFile->filePath);
+
+        try {
+            $subtitle = $this->process($subtitle, $options);
+        } catch (FileJobException $e) {
+            return $this->abortFileJob($e->getMessage());
+        }
+
+        $outputStoredFile = StoredFile::createFromTextFile($subtitle);
+
+        return $this->finishFileJob($outputStoredFile);
+    }
+
+    public function process(TextFile $subtitle, $options)
+    {
+        throw new RuntimeException('Implement this, or override "->handle()"');
+    }
+
     public function startFileJob()
     {
         $this->fileJob->started_at = now();
@@ -36,8 +68,8 @@ abstract class FileJob extends BaseJob implements ShouldQueue
     {
         $this->fileJob->fill([
             'output_stored_file_id' => $outputStoredFile->id,
-            'new_extension'         => $this->getNewExtension(),
-            'finished_at'           => now(),
+            'new_extension' => $this->getNewExtension(),
+            'finished_at' => now(),
         ]);
 
         return $this->endFileJob();
@@ -47,7 +79,7 @@ abstract class FileJob extends BaseJob implements ShouldQueue
     {
         $this->fileJob->fill([
             'error_message' => $errorMessage,
-            'finished_at'   => now(),
+            'finished_at' => now(),
         ]);
 
         return $this->endFileJob();
@@ -74,6 +106,24 @@ abstract class FileJob extends BaseJob implements ShouldQueue
         return $this->fileJob;
     }
 
+    protected function createOptions($data)
+    {
+        $baseName = substr(class_basename(static::class), 0, -3);
+
+        $optionsClass = '\\App\\Subtitles\\Tools\\Options\\'.$baseName.'Options';
+
+        if (! class_exists($optionsClass)) {
+            throw new RuntimeException('Could not automatically discover options class');
+        }
+
+        return new $optionsClass($data);
+    }
+
+    protected function abort($message)
+    {
+        throw new FileJobException($message);
+    }
+
     public function failed()
     {
         $this->abortFileJob('messages.unknown_error');
@@ -81,5 +131,14 @@ abstract class FileJob extends BaseJob implements ShouldQueue
         Log::error("FileJob (filejob id: {$this->fileJob->id}) failed! (usually because of a TextEncodingException)");
     }
 
-    abstract public function getNewExtension();
+    public function getNewExtension()
+    {
+        $newExtension = $this->newExtension ?? null;
+
+        if (! $newExtension) {
+            throw new RuntimeException('New extension not set');
+        }
+
+        return $newExtension;
+    }
 }

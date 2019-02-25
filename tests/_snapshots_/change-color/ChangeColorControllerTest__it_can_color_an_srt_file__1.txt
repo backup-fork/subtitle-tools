@@ -1,0 +1,14 @@
+﻿1
+00:00:01,266 --> 00:00:03,366
+<font color="#ff0000">Do you know what this is all
+about? Why we're here?</font>
+
+2
+00:00:03,400 --> 00:00:06,366
+<font color="#ff0000">To be out. This is out.
+[AUDIENCE LAUGHS]</font>
+
+3
+00:00:06,400 --> 00:00:08,233
+<font color="#ff0000">And out is one of
+the single most</font>

@@ -24,6 +24,13 @@ Route::post('convert-sub-idx-to-srt-online/{urlKey}/{index}', ['uses' => 'SubIdx
 Route::get('convert-sub-idx-to-srt-online/{urlKey}/{index}',  ['uses' => 'SubIdxController@downloadRedirect', 'as' => 'subIdx.downloadRedirect']);
 
 
+Route::get('/convert-sup-to-srt-online',                    ['uses' => 'SupController@index',            'as' => 'sup']);
+Route::post('/convert-sup-to-srt-online',                   ['uses' => 'SupController@post',             'as' => 'sup.post']);
+Route::get('/convert-sup-to-srt-online/{urlKey}',           ['uses' => 'SupController@show',             'as' => 'sup.show']);
+Route::post('/convert-sup-to-srt-online/{urlKey}/download', ['uses' => 'SupController@download',         'as' => 'sup.show.download']);
+Route::get('/convert-sup-to-srt-online/{urlKey}/download',  ['uses' => 'SupController@downloadRedirect', 'as' => 'sup.show.downloadRedirect']);
+
+
 Route::get('/merge-subtitles-online/',               ['uses' => 'MergeController@index',            'as' => 'merge']);
 Route::post('/merge-subtitles-online/',              ['uses' => 'MergeController@post',             'as' => 'merge.post']);
 Route::get('/merge-subtitles-online/{urlKey}',       ['uses' => 'MergeController@result',           'as' => 'merge.result']);
@@ -87,8 +94,8 @@ Route::post('/make-chinese-pinyin-subtitles/{urlKey}/{id}', ['uses' => 'PinyinCo
 Route::get('/make-chinese-pinyin-subtitles/{urlKey}/{id}',  ['uses' => 'PinyinController@downloadRedirect', 'as' => 'pinyin.downloadRedirect']);
 
 
-Route::get('/convert-sup-to-srt-online',                    ['uses' => 'SupController@index',            'as' => 'sup']);
-Route::post('/convert-sup-to-srt-online',                   ['uses' => 'SupController@post',             'as' => 'sup.post']);
-Route::get('/convert-sup-to-srt-online/{urlKey}',           ['uses' => 'SupController@show',             'as' => 'sup.show']);
-Route::post('/convert-sup-to-srt-online/{urlKey}/download', ['uses' => 'SupController@download',         'as' => 'sup.show.download']);
-Route::get('/convert-sup-to-srt-online/{urlKey}/download',  ['uses' => 'SupController@downloadRedirect', 'as' => 'sup.show.downloadRedirect']);
+Route::get('/change-subtitle-color-online/',               ['uses' => 'ChangeColorController@index',            'as' => 'changeColor']);
+Route::post('/change-subtitle-color-online/',              ['uses' => 'ChangeColorController@post',             'as' => 'changeColor.post']);
+Route::get('/change-subtitle-color-online/{urlKey}',       ['uses' => 'ChangeColorController@result',           'as' => 'changeColor.result']);
+Route::post('/change-subtitle-color-online/{urlKey}/{id}', ['uses' => 'ChangeColorController@download',         'as' => 'changeColor.download']);
+Route::get('/change-subtitle-color-online/{urlKey}/{id}',  ['uses' => 'ChangeColorController@downloadRedirect', 'as' => 'changeColor.downloadRedirect']);

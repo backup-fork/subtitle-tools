@@ -45,6 +45,7 @@ class CollectFileJobStatsJob extends BaseJob implements ShouldQueue
 
     private function collectStats($toolRoute, $forDate)
     {
+        /** @var FileGroup[] $fileGroups */
         $fileGroups = FileGroup::query()
             ->where('tool_route', $toolRoute)
             ->whereDate('created_at', $forDate)
@@ -64,11 +65,6 @@ class CollectFileJobStatsJob extends BaseJob implements ShouldQueue
             }
 
             foreach ($fileGroup->fileJobs as $fileJob) {
-                // TODO: sometimes, because of a missing foreign key, input stored files do not exist.
-                if (! $fileJob->inputStoredFile) {
-                    continue;
-                }
-
                 if ($fileJob->inputStoredFile->meta) {
                     $totalSize += $fileJob->inputStoredFile->meta->size;
                 }

@@ -35,4 +35,9 @@ class TextFileFormat
 
         throw new RuntimeException('The file is not a text file format');
     }
+
+    public function get($file)
+    {
+        return $this->getMatchingFormat($file);
+    }
 }

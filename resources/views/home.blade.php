@@ -116,6 +116,13 @@
             'text'  => 'Combine two subtitles into a single file.',
         ])
 
+        @include('helpers.homepage-card', [
+            'route' => route('changeColor'),
+            'icon'  => 'wrench',
+            'title' => 'Color changer',
+            'text'  => 'Change the color of subtitle text.',
+        ])
+
     </div>
 
 @endsection

@@ -63,7 +63,7 @@ class ExtractSupImagesJob extends BaseJob implements ShouldQueue
                 $imageFilePaths[] = $sup->extractImage($index, $this->supJob->temp_dir);
 
                 if ($extractingStartedAt->diffInSeconds(now()) > 300) {
-                    info('ExtractSupImagesJob: extracting took too long, stopped at '.$index.' / '.count($cueIndexes));
+                    info('ExtractSupImagesJob (id '.$this->supJob->id.'): extracting took too long, stopped at '.$index.' / '.count($cueIndexes));
 
                     return $this->failed(null, 'messages.sup.extracting_images_took_too_long');
                 }

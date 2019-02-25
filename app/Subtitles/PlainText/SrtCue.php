@@ -2,12 +2,13 @@
 
 namespace App\Subtitles\PlainText;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\LoadsGenericCues;
 use App\Subtitles\TimingStrings;
 use Exception;
 use LogicException;
 
-class SrtCue extends GenericSubtitleCue implements TimingStrings, LoadsGenericCues
+class SrtCue extends GenericSubtitleCue implements TimingStrings, LoadsGenericCues, ChangesColor
 {
     public function __construct($source = null)
     {
@@ -66,6 +67,19 @@ class SrtCue extends GenericSubtitleCue implements TimingStrings, LoadsGenericCu
         $this->lines[0] = str_start($this->lines[0], '{\an8}');
 
         return $this;
+    }
+
+    public function changeColor($color)
+    {
+        if (count($this->lines) === 0) {
+            throw new LogicException('A cue with no lines cannot be colored');
+        }
+
+        $text = '<font color="'.$color.'">'.implode("\n", $this->lines).'</font>';
+
+        return $this->setLines(
+            explode("\n", $text)
+        );
     }
 
     public function toArray()

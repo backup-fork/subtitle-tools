@@ -2,6 +2,7 @@
 
 namespace App\Subtitles\PlainText;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\PartialShiftsCues;
 use App\Subtitles\ShiftsCues;
@@ -11,15 +12,13 @@ use App\Subtitles\WithFileLines;
 use App\Subtitles\WithGenericCues;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, PartialShiftsCues, ContainsGenericCues
+class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, PartialShiftsCues, ContainsGenericCues, ChangesColor
 {
     use WithFileLines, WithGenericCues;
 
     protected $extension = 'ass';
 
-    /**
-     * @var AssCue[]
-     */
+    /** @var AssCue[] $cues */
     protected $cues = [];
 
     protected $cueClass = AssCue::class;
@@ -31,7 +30,7 @@ class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, P
 
     public function __construct()
     {
-
+        //
     }
 
     /**
@@ -201,6 +200,15 @@ class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, P
 
     public function stripSquareBracketsFromCues()
     {
+        return $this;
+    }
+
+    public function changeColor($color)
+    {
+        foreach ($this->cues as $cue) {
+            $cue->changeColor($color);
+        }
+
         return $this;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChangeColorController;
 use App\Http\Controllers\ConvertToSrtController;
 use App\Http\Controllers\ConvertToVttController;
 use App\Http\Controllers\CleanSrtController;
@@ -16,6 +17,7 @@ return [
      * These tool routes are use for FileJobStats.
      */
     'tool_routes' => [
+        ChangeColorController::class => 'changeColor',
         ConvertToSrtController::class => 'convertToSrt',
         ConvertToVttController::class => 'convertToVtt',
         CleanSrtController::class => 'cleanSrt',

@@ -243,4 +243,18 @@ class AssCueTest extends TestCase
             $cue->toString()
         );
     }
+
+    /** @test */
+    function it_removes_existing_colors_when_applying_a_new_one()
+    {
+        $cue = (new AssCue)
+            ->addLine('{\c&H0000ff&}Wow!')
+            ->addLine('{\2c&H0000Ff&}again!!')
+            ->changeColor('#aabbcc');
+
+        $this->assertSame(
+            ['{\c&Hccbbaa&}Wow!', 'again!!'],
+            $cue->getLines()
+        );
+    }
 }

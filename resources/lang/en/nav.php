@@ -14,5 +14,6 @@ return [
     'item.convertToPlainText' => 'Convert to Plain Text',
     'item.sup' => 'Sup to Srt',
     'item.merge' => 'Merge Subtitles',
+    'item.changeColor' => 'Color changer',
 
 ];

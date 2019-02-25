@@ -2,6 +2,7 @@
 
 namespace App\Subtitles\PlainText;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\LoadsGenericSubtitles;
 use App\Subtitles\PartialShiftsCues;
@@ -12,7 +13,7 @@ use App\Subtitles\WithFileLines;
 use App\Subtitles\WithGenericCues;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, PartialShiftsCues, ContainsGenericCues, TransformsToGenericSubtitle
+class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, PartialShiftsCues, ContainsGenericCues, TransformsToGenericSubtitle, ChangesColor
 {
     use WithFileLines, WithGenericCues;
 
@@ -138,6 +139,15 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
 
         foreach ($genericSubtitle->getCues() as $genericCue) {
             $this->addCue($genericCue);
+        }
+
+        return $this;
+    }
+
+    public function changeColor($color)
+    {
+        foreach ($this->cues as $cue) {
+            $cue->changeColor($color);
         }
 
         return $this;

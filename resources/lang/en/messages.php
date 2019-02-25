@@ -13,6 +13,7 @@ return [
     'file_is_not_srt' => 'This file is not an srt file',
     'file_can_not_be_shifted' => 'Files of this type can\'t be shifted',
     'file_can_not_be_partial_shifted' => 'Files of this type can\'t be partially shifted',
+    'file_can_not_change_color' => 'Files of this type can\'t change color',
     'unknown_error' => 'An unknown error occurred',
 
     'subidx_no_vobsub2srt_output_file' => 'No output file after trying to extract the language',

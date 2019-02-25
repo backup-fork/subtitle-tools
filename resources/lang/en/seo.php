@@ -26,6 +26,7 @@ return [
     'title.error'                => 'Whoops | Subtitle Tools',
     'title.stats'                => 'Statistics | Subtitle Tools',
     'title.blogVlcSubtitleBoxes' => 'How to fix subtitles in VLC: no more weird symbols, boxes or question marks',
+    'title.changeColor'          => 'Change the color of subtitle text online | Subtitle Tools',
 
 //--------------160-characters------------'################################################################################################################################################################'---------------------------
     'description.cleanSrt'             => 'Removes formatting, brackets (curly, square or angle brackets), html and other effects from subrip files. Can also clean up SDH (hearing impaired) subtitles. Easy online tool for fixing srt subtitles',
@@ -47,6 +48,7 @@ return [
     'description.error'                => 'Whoops!',
     'description.stats'                => 'SubtitleTools.com usage statistics.',
     'description.blogVlcSubtitleBoxes' => 'A simple guide on how to fix VLC displaying srt subtitles as weird symbols, boxes or question marks. Use subtitles with unicode UTF-8 encoding and use a unicode font.',
+    'description.changeColor'          => 'Select a subtitle file, choose a color, and press the button. Color the text of subtitle files to make them stand out, or to make them easier to read.',
 
 
     'keywords.cleanSrt'        => 'subtitle, subtitles, srt, clean, bracket, html, braces, square, angle, effects, colors, font, b, i, formatting, strip, stripping', 'SDH', 'hearing-impaired', 'speaker labels',
@@ -67,5 +69,6 @@ return [
     'keywords.error'           => 'whoops',
     'keywords.stats'           => 'statistics, numbers, stats',
     'keywords.blogVlcSubtitleBoxes' => 'utf-8, unicode, fix, vlc, subtitles, srt, display, can\'t read, font, boxes, squares, question marks, weird symbols, unreadable, broken, VLC',
+    'keywords.changeColor' => 'color, colour, red, blue, green, srt, ass, ssa, webvtt',
 
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Subtitles\PlainText;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\LoadsGenericSubtitles;
 use App\Subtitles\WithGenericCues;
@@ -12,7 +13,7 @@ use App\Subtitles\TransformsToGenericSubtitle;
 use App\Subtitles\WithFileLines;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, TransformsToGenericSubtitle, LoadsGenericSubtitles, ContainsGenericCues
+class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, TransformsToGenericSubtitle, LoadsGenericSubtitles, ContainsGenericCues, ChangesColor
 {
     use WithFileLines, WithGenericCues;
 
@@ -108,6 +109,18 @@ class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, Transfor
         }
 
         return false;
+    }
+
+    public function changeColor($color)
+    {
+        $this->styleLines = [
+            'STYLE',
+            '::cue {',
+            '    color: '.$color.';',
+            '}',
+        ];
+
+        return $this;
     }
 
     public function shift($ms)

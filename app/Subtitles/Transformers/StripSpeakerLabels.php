@@ -56,7 +56,7 @@ class StripSpeakerLabels extends CueTransformer
 
     protected function isMostlyUppercase($string): bool
     {
-        // Remove everything that can not be uppercased (such as spaces, dashed)
+        // Remove everything that can not be uppercased (such as spaces, dashes)
         $string = preg_replace('/[^a-zA-Z]/', '', $string);
 
         $lowercaseCount = strlen(

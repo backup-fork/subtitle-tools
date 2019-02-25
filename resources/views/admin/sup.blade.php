@@ -18,6 +18,7 @@
     @foreach($sups as $sup)
     <div class="flex hover:bg-grey-light mb-8 font-mono text-sm border-l-4 pl-4 {{ $sup->is_finished ? ($sup->has_error ? 'border-red' : 'border-green') : 'border-yellow-dark' }}">
         <div class="mr-24">
+            Id: {{ $sup->id }} -
             <a href="{{ route('sup.show', $sup->url_key) }}" target="_blank">Result page</a>
 
             <div><span class="font-bold">Input stored file id:</span> {{ $sup->input_stored_file_id }}</div>

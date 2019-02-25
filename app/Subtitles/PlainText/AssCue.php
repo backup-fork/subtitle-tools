@@ -2,6 +2,7 @@
 
 namespace App\Subtitles\PlainText;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\LoadsGenericCues;
 use App\Subtitles\TimingStrings;
 use App\Subtitles\TransformsToGenericCue;
@@ -9,7 +10,7 @@ use Exception;
 use InvalidArgumentException;
 use LogicException;
 
-class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGenericCue, LoadsGenericCues
+class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGenericCue, LoadsGenericCues, ChangesColor
 {
     /**
      * Unimportant information before timing
@@ -191,5 +192,21 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
         $this->lines[0] = str_start($this->lines[0], '{\a6}');
 
         return $this;
+    }
+
+    public function changeColor($hexColor)
+    {
+        $r = $hexColor[1].$hexColor[2];
+        $g = $hexColor[3].$hexColor[4];
+        $b = $hexColor[5].$hexColor[6];
+
+        $text = implode("\n", $this->lines);
+
+        // Remove all existing colors
+        $text = preg_replace('/{\\\\\d?c&H[0-9a-f]{6}&}/i', '', $text);
+
+        return $this->setLines(
+            explode("\n", "{\\c&H$b$g$r&}".$text)
+        );
     }
 }
