@@ -25,7 +25,7 @@
         @include('helpers.svg.logout')
     </button>
 
-    <a class="block w-4 h-4 ml-8 font-semibold text-black" href="/">
+    <a class="block w-4 h-4 ml-8 mb-12 font-semibold text-black" href="/">
         @include('helpers.svg.home')
     </a>
 </form>
