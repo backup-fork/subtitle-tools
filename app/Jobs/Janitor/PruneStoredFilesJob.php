@@ -80,8 +80,21 @@ class PruneStoredFilesJob extends BaseJob implements ShouldQueue
 
         $unreferencedIds = array_diff($allStoredFileIds, $referencedStoredFileIds);
 
-        foreach (array_chunk($unreferencedIds, 10000) as $chunkOfUnreferencedIds) {
-            StoredFile::whereIn('id', $chunkOfUnreferencedIds)->delete();
+        $chunks = array_chunk($unreferencedIds, 100);
+
+        foreach ($chunks as $i => $chunkOfUnreferencedIds) {
+            try {
+                StoredFile::whereIn('id', $chunkOfUnreferencedIds)->delete();
+            } catch (\PDOException $e) {
+                // Sometimes, deleting these stored files fails due to a foreign key constraint.
+                // I have a hunch that while collecting all referenced ids, one of the unreferenced ids becomes referenced again.
+                // This should be properly fixed, but for now, just show a shorter log message.
+                if (stripos($e->getMessage(), 'a foreign key constraint fails') === false) {
+                    throw $e;
+                }
+
+                info('PruneStoredFilesJob: failed to delete some StoredFile records due to a foreign key constraint (chunk '.$i.' / '.count($chunks).')');
+            }
         }
     }
 
