@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 class StoredFile extends Model
 {
@@ -30,7 +31,7 @@ class StoredFile extends Model
 
         $hash = FileHash::make($filePath);
 
-        $storedFileFromCache = StoredFile::where('hash', $hash)->first();
+        $storedFileFromCache = StoredFile::query()->where('hash', $hash)->first();
 
         if ($storedFileFromCache) {
             return $storedFileFromCache;
@@ -47,11 +48,27 @@ class StoredFile extends Model
         // copy instead of moving to prevent from moving test files
         copy($filePath, storage_disk_file_path($storageFilePath));
 
-        return StoredFile::updateOrCreate([
-            'hash' => $hash,
-        ], [
-            'storage_file_path' => $storageFilePath,
-        ]);
+        try {
+            return StoredFile::create([
+                'hash' => $hash,
+                'storage_file_path' => $storageFilePath,
+            ]);
+        } catch (\PDOException $e) {
+            // Due to having multiple queue workers, a race condition can
+            // cause a "duplicate entry" unique constraint failure.
+            if (stripos($e->getMessage(), '1062 Duplicate entry') === false) {
+                throw $e;
+            }
+
+            // The race condition can never happen when running tests.
+            if (app()->environment('testing')) {
+                throw $e;
+            }
+
+            return StoredFile::query()->where('hash', $hash)->firstOr(function () {
+                throw new RuntimeException('Unable to create StoredFile due to unique key constraint, also unable to retrieve from database (???)');
+            });
+        }
     }
 
     public static function createFromTextFile(TextFile $textFile)
