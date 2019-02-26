@@ -26,6 +26,13 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->testFilesStoragePath = base_path('tests/Files/');
+
+        $this->settingUp();
+    }
+
+    public function settingUp()
+    {
+        //
     }
 
     protected function getSnapshotDirectory(): string
