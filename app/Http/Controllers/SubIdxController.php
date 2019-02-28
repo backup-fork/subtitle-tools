@@ -65,7 +65,10 @@ class SubIdxController
         // Don't update the SubIdx "updated_at" column, that column is used in "RandomizeSubIdxUrlKeysJob".
         $language->setTouchedRelations([])->increment('times_downloaded');
 
-        return response()->download($language->outputStoredFile->file_path, $language->file_name);
+        return response()->download($language->outputStoredFile->file_path, $language->file_name, [
+            // Safari on MacOS appends a ".txt" extension when downloading subtitle files, this header is an attempt to fix that.
+            'Content-type' => 'application/octet-stream',
+        ]);
     }
 
     public function downloadRedirect($urlKey, $index)
