@@ -90,7 +90,9 @@ class SupController
 
         $fileName = FileName::changeExtension($supJob->original_name, 'srt');
 
-        return response()->download($filePath, $fileName);
+        return response()->download($filePath, $fileName, [
+            'Content-type' => 'application/octet-stream', // this stops Safari on MacOS from adding a .txt extension when downloading
+        ]);
     }
 
     public function downloadRedirect($urlKey)

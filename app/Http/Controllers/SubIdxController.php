@@ -66,8 +66,7 @@ class SubIdxController
         $language->setTouchedRelations([])->increment('times_downloaded');
 
         return response()->download($language->outputStoredFile->file_path, $language->file_name, [
-            // Safari on MacOS appends a ".txt" extension when downloading subtitle files, this header is an attempt to fix that.
-            'Content-type' => 'application/octet-stream',
+            'Content-type' => 'application/octet-stream', // this stops Safari on MacOS from adding a .txt extension when downloading
         ]);
     }
 

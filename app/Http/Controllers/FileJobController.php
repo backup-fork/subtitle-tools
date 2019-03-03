@@ -168,7 +168,9 @@ abstract class FileJobController extends BaseController
             abort(404);
         }
 
-        return response()->download($fileJob->outputStoredFile->file_path, $name);
+        return response()->download($fileJob->outputStoredFile->file_path, $name, [
+            'Content-type' => 'application/octet-stream', // this stops Safari on MacOS from adding a .txt extension when downloading
+        ]);
     }
 
     public function downloadRedirect($urlKey, $id)
