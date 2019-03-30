@@ -22,6 +22,10 @@ class WebVttTiming
 
         [$startTimecode, $rest] = preg_split('/-?->/', $timing, 2);
 
+        if (! preg_match('/(,|\.)\d{3}/', $rest)) {
+            return;
+        }
+
         [$endTimecode, $style] = preg_split('/(?<=(,|\.)\d{3})/', $rest, 2);
 
         $this->startTimecode = new WebVttTimecode($startTimecode);

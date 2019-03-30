@@ -22,4 +22,12 @@ class WebVttTimingTest extends TestCase
 
         $this->assertSame($original, $timing->toString());
     }
+
+    /** @test */
+    function string_with_an_arrow_is_not_a_valid_timing()
+    {
+        $timing = new WebVttTiming('return Car -> accelerate(), like so.');
+
+        $this->assertFalse($timing->valid());
+    }
 }
