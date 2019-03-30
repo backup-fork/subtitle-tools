@@ -9,7 +9,7 @@ class WebVttCueTest extends TestCase
 {
     private function assertValidTimingString($timingString)
     {
-        $this->assertTrue(WebVttCue::isTimingString($timingString), "'{$timingString}' is not a valid timing string");
+        $this->assertTrue(WebVttCue::isTimingString($timingString), "Failed asserting that '$timingString' is a valid WebVtt timing");
     }
 
     private function assertInvalidTimingString($timingString)
@@ -58,7 +58,7 @@ class WebVttCueTest extends TestCase
     /** @test */
     function it_corrects_valid_timing_strings_with_common_mistakes()
     {
-        // dot instead of comma
+        // Comma instead of dot as milliseconds separator
         $cue = (new WebVttCue)->setTimingFromString('00:00:00,000 --> 00:00:00,000');
 
         $this->assertSame('00:00:00.000 --> 00:00:00.000', $cue->getTimingString());
