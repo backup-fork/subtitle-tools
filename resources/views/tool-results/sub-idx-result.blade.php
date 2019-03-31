@@ -1,9 +1,11 @@
 @extends('layout.base-template')
 
-@include('helpers.robots-no-index')
-
 @section('title', __('seo.title.subIdxDetail'))
 @section('description', __('seo.description.subIdxDetail'))
+
+@include('helpers.robots-no-index')
+
+@include('helpers.dont-connect-echo')
 
 @section('content')
     <h1>Sub/Idx to Srt</h1>
