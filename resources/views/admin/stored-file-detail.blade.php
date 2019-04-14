@@ -12,7 +12,7 @@
                 <tr>
                     <td class="block w-32"></td>
                     <td>
-                        <form target="_blank" method="post" action="{{ route('admin.storedFiles.delete') }}" enctype="multipart/form-data">
+                        <form target="_blank" method="post" action="{{ route('admin.storedFiles.download') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
                             <input type="hidden" name="id" value="{{ $storedFileId }}" />
