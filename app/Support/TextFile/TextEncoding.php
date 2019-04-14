@@ -105,12 +105,14 @@ class TextEncoding
 
         $encodingName = $this->allowedEncodings[$encoding];
 
-        // When uchardet detects windows-1252, some manual work is needed to
-        // figure out the correct encoding
+        // When uchardet detects one of the encodings below, some manual work
+        // is needed to figure out the correct encoding.
         if ($encodingName === 'windows-1252') {
             $encodingName = $this->getCorrect1252Encoding($filePath);
         } elseif ($encodingName === 'ISO-8859-3') {
             $encodingName = $this->getCorrectIso8859_3Encoding($filePath);
+        } elseif ($encodingName === 'MacCyrillic') {
+            $encodingName = $this->getCorrectMacCyrillicEncoding($filePath);
         }
 
         return $encodingName;
@@ -168,6 +170,26 @@ class TextEncoding
         }
 
         return 'windows-1252';
+    }
+
+    private function getCorrectMacCyrillicEncoding($filePath)
+    {
+        $content = file_get_contents($filePath);
+
+        if (substr_count($content, "\xA1") > 2) {
+            // A1 hex in windows-1256 === ﺧ (something Persian)
+            // A1 hex in MacCyrillic  === ° (degree sign)
+            return 'windows-1256';
+        }
+
+        $windows1256Content = $this->toUtf8($content, 'windows-1256');
+
+        // \xA7
+        if (strpos($windows1256Content, 'ﺱ') !== false) {
+            return 'windows-1256';
+        }
+
+        return 'MacCyrillic';
     }
 
     private function getCorrectIso8859_3Encoding($filePath)
