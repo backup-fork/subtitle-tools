@@ -6,8 +6,6 @@ return [
         'unknown' => 'Unknown language',
         'failed' => 'Failed',
 
-        'skipped' => '(Skipped)',
-
         'aa' => 'Afar',
         'ab' => 'Abkhaz',
         'ae' => 'Avestan',
@@ -197,6 +195,9 @@ return [
         // The languages below come from the Language detection package
         'sr-Latn' => 'Serbian (latin)',
         'bs-Latn' => 'Bosnian (latin)',
+
+        // Other
+        'skipped' => '(Skipped)',
     ],
 
 
