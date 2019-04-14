@@ -68,7 +68,16 @@
 
                     <span class="mx-2">🡆</span>
                     @if($fileJob->output_stored_file_id)
-                        <a target="_blank" href="{{ route('admin.storedFiles.show', $fileJob->output_stored_file_id) }}">{{ $fileJob->output_stored_file_id }}</a>
+                        <div class="inline-flex">
+                            <a target="_blank" href="{{ route('admin.storedFiles.show', $fileJob->output_stored_file_id) }}">{{ $fileJob->output_stored_file_id }}</a>
+
+                            <form target="_blank" method="post" action="{{ route('admin.storedFiles.download') }}" class="ml-2">
+                                {{ csrf_field() }}
+
+                                <input type="hidden" name="id" value="{{ $fileJob->output_stored_file_id }}" />
+                                <button type="submit">⬇</button>
+                            </form>
+                        </div>
                     @endif
                 </div>
                 <div class="w-2/12">
