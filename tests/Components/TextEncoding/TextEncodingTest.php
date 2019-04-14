@@ -272,10 +272,8 @@ class TextEncodingTest extends TestCase
         $this->assertTrue(strlen($output) > 200);
     }
 
-    public function setUp()
+    public function settingUp()
     {
-        parent::setUp();
-
         $this->path = base_path('tests/Components/TextEncoding/Files/');
 
         $this->testFilesStoragePath = 'dont-use-this-one';

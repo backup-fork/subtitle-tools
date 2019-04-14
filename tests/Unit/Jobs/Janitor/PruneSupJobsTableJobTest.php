@@ -12,10 +12,8 @@ class PruneSupJobsTableJobTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp()
+    public function settingUp()
     {
-        parent::setUp();
-
         Carbon::setTestNow('2018-05-01 12:00:00');
     }
 

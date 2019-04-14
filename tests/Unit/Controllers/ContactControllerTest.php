@@ -9,10 +9,8 @@ class ContactControllerTest extends TestCase
 {
     protected $feedbackLogFilePath;
 
-    public function setUp()
+    public function settingUp()
     {
-        parent::setUp();
-
         $this->feedbackLogFilePath = storage_path('logs/feedback.log');
 
         Carbon::setTestNow('2018-07-14 12:30:00');
@@ -22,7 +20,7 @@ class ContactControllerTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

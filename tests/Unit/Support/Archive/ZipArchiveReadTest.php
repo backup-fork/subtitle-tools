@@ -8,10 +8,8 @@ use Tests\TestCase;
 
 class ZipArchiveReadTest extends TestCase
 {
-    public function setUp()
+    public function settingUp()
     {
-        parent::setUp();
-
         if (! ZipArchiveRead::isAvailable()) {
             $this->markTestSkipped('ZipArchive is not available');
         }

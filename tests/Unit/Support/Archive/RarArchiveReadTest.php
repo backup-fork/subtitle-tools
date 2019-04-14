@@ -8,10 +8,8 @@ use Tests\TestCase;
 
 class RarArchiveReadTest extends TestCase
 {
-    public function setUp()
+    public function settingUp()
     {
-        parent::setUp();
-
         if (! RarArchiveRead::isAvailable()) {
             $this->markTestSkipped('RarArchive is not available');
         }
