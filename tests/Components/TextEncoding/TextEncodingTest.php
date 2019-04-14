@@ -213,6 +213,12 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
+    function it_detects_encoding_for_viscii()
+    {
+        $this->assertEncoding('viscii', 'viscii/viscii-000.txt');
+    }
+
+    /** @test */
     function it_detects_encodings_from_strings()
     {
         $string = file_get_contents($this->path.'big5/big5-001-zho.txt');

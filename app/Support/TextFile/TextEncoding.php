@@ -40,6 +40,7 @@ class TextEncoding
         'utf-16' => 'UTF-16',
         'utf-8' => 'UTF-8',
         'utf-32' => 'UTF-32',
+        'viscii' => 'viscii',
         'windows-1250' => 'windows-1250', // ANSI (for Polish, doesn't work for scandinavian languages)
         'windows-1251' => 'windows-1251', // Russian
         'windows-1252' => 'windows-1252', // ANSI (for scandinavian languages, doesn't work for Polish)
@@ -61,6 +62,7 @@ class TextEncoding
         'IBM855',
         'MacCyrillic',
         'TIS-620',
+        'viscii',
         'windows-1250',
         'windows-1253',
         'windows-1255',
