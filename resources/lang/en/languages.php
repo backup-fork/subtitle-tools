@@ -6,6 +6,8 @@ return [
         'unknown' => 'Unknown language',
         'failed' => 'Failed',
 
+        'skipped' => '(Skipped)',
+
         'aa' => 'Afar',
         'ab' => 'Abkhaz',
         'ae' => 'Avestan',
