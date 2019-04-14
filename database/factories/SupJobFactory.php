@@ -1,5 +1,7 @@
 <?php
 
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
 use App\Models\StoredFile;
 use App\Models\SupJob;
 use Faker\Generator as Faker;

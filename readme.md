@@ -33,7 +33,7 @@ npm i && npm run dev
 ```
 
 ## Laravel version
-The following link can be used to keep the application in sync with Laravel's master branch: [compare to laravel master](https://github.com/laravel/laravel/compare/321d9e3786bfd605fe847e34687ccfa8def5bda2...master)
+The following link can be used to keep the application in sync with Laravel's master branch: [compare to laravel master](https://github.com/laravel/laravel/compare/0f58190c7ba955cf7a58b47a9469bf4c6c992abb...master)
 
 ## General information
 * Language codes use [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) (same as Tesseract)

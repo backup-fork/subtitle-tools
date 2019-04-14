@@ -1,5 +1,7 @@
 <?php
 
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
 use App\Models\StoredFile;
 use App\Models\SubIdxLanguage;
 use Faker\Generator as Faker;

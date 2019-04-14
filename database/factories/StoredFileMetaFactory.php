@@ -1,5 +1,7 @@
 <?php
 
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
 use App\Models\StoredFileMeta;
 use Faker\Generator as Faker;
 

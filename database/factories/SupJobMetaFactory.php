@@ -1,5 +1,7 @@
 <?php
 
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
 use App\Models\Diagnostic\SupJobMeta;
 use Faker\Generator as Faker;
 
