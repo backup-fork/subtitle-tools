@@ -16,37 +16,37 @@ class TextEncoding
      */
     protected $allowedEncodings = [
         'unknown' => 'UTF-8', // default to UTF-8
-        'ASCII' => 'UTF-8', // default to UTF-8
+        'ascii' => 'UTF-8', // default to UTF-8
         'ascii/unknown' => 'UTF-8', // default to UTF-8
-        'BIG5' => 'Big5', // Traditional Chinese
-        'EUC-JP' => 'EUC-JP',
-        'EUC-KR' => 'EUC-KR', // Korean
-        'GB18030' => 'gb18030', // Simplified Chinese
-        'GB2312' => 'gb2312', // Simplified Chinese
-        'HZ-GB-2312' => 'HZ', // Simplified Chinese
-        'IBM866' => 'IBM866',
-        'ISO-2022-JP' => 'ISO-2022-JP',
-        'ISO-8859-1' => 'ISO-8859-1',
-        'ISO-8859-2' => 'ISO-8859-2', // Romanian (gets detected as windows-1252)
-        'ISO-8859-3' => 'ISO-8859-3',
-        'ISO-8859-5' => 'ISO-8859-5',
-        'ISO-8859-7' => 'ISO-8859-7', // Greek, almost identical to "windows-1253"
-        'ISO-8859-8' => 'ISO-8859-8',
-        'ISO-8859-9' => 'ISO-8859-9', // Turkish
-        'ISO-8859-15' => 'ISO-8859-15',
-        'SHIFT_JIS' => 'Shift_JIS', // Japanese
-        'TIS-620' => 'TIS-620', // Thai
-        'UTF-16' => 'UTF-16',
-        'UTF-8' => 'UTF-8',
-        'UTF-32' => 'UTF-32',
-        'WINDOWS-1250' => 'windows-1250', // ANSI (for Polish, doesn't work for scandinavian languages)
-        'WINDOWS-1251' => 'windows-1251', // Russian
-        'WINDOWS-1252' => 'windows-1252', // ANSI (for scandinavian languages, doesn't work for Polish)
-        'WINDOWS-1253' => 'windows-1253', // Greek, almost identical to "iso-8859-7"
-        'WINDOWS-1255' => 'windows-1255',
-        'WINDOWS-1256' => 'windows-1256',
-        'WINDOWS-1258' => 'windows-1258',
-        'MAC-CYRILLIC' => 'MacCyrillic',
+        'big5' => 'Big5', // Traditional Chinese
+        'euc-jp' => 'EUC-JP',
+        'euc-kr' => 'EUC-KR', // Korean
+        'gb18030' => 'gb18030', // Simplified Chinese
+        'gb2312' => 'gb2312', // Simplified Chinese
+        'hz-gb-2312' => 'HZ', // Simplified Chinese
+        'ibm866' => 'IBM866',
+        'iso-2022-jp' => 'ISO-2022-JP',
+        'iso-8859-1' => 'ISO-8859-1',
+        'iso-8859-2' => 'ISO-8859-2', // Romanian (gets detected as windows-1252)
+        'iso-8859-3' => 'ISO-8859-3',
+        'iso-8859-5' => 'ISO-8859-5',
+        'iso-8859-7' => 'ISO-8859-7', // Greek, almost identical to "windows-1253"
+        'iso-8859-8' => 'ISO-8859-8',
+        'iso-8859-9' => 'ISO-8859-9', // Turkish
+        'iso-8859-15' => 'ISO-8859-15',
+        'shift_jis' => 'Shift_JIS', // Japanese
+        'tis-620' => 'TIS-620', // Thai
+        'utf-16' => 'UTF-16',
+        'utf-8' => 'UTF-8',
+        'utf-32' => 'UTF-32',
+        'windows-1250' => 'windows-1250', // ANSI (for Polish, doesn't work for scandinavian languages)
+        'windows-1251' => 'windows-1251', // Russian
+        'windows-1252' => 'windows-1252', // ANSI (for scandinavian languages, doesn't work for Polish)
+        'windows-1253' => 'windows-1253', // Greek, almost identical to "iso-8859-7"
+        'windows-1255' => 'windows-1255',
+        'windows-1256' => 'windows-1256',
+        'windows-1258' => 'windows-1258',
+        'mac-cyrillic' => 'MacCyrillic',
     ];
 
     /**
@@ -86,9 +86,9 @@ class TextEncoding
             throw new RuntimeException('File does not exist :'.$filePath);
         }
 
-        $encoding = trim(
+        $encoding = strtolower(trim(
             shell_exec("uchardet \"{$filePath}\"")
-        );
+        ));
 
         if (empty($encoding)) {
             return $this->allowedEncodings['ascii/unknown'];
