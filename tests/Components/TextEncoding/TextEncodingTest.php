@@ -42,6 +42,9 @@ class TextEncodingTest extends TestCase
     function it_detects_encoding_for_iso_8859_7()
     {
         $this->assertEncoding('ISO-8859-7', 'iso-8859-7/iso-8859-7-000-gre.txt');
+
+        // Server detected this as "koi8-r", but local env detects "iso-8859-7"
+        $this->assertEncoding('ISO-8859-7', 'iso-8859-7/iso-8859-7-001.txt');
     }
 
     /** @test */
@@ -142,6 +145,12 @@ class TextEncodingTest extends TestCase
         $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-005-tur.txt');
         $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-006-tur.txt');
         $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-007-tur.txt');
+    }
+
+    /** @test */
+    function it_detects_encoding_for_koi8_r()
+    {
+        // no example files yet. Server detects files as "koi8-r", local env says "iso-8859-7"
     }
 
     /** @test */
@@ -271,7 +280,7 @@ class TextEncodingTest extends TestCase
             return;
         }
 
-        $this->assertTrue(strlen($output) > 200);
+        $this->assertTrue(strlen($output) > 100);
     }
 
     public function settingUp()

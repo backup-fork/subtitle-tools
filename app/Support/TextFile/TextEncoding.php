@@ -34,6 +34,7 @@ class TextEncoding
         'iso-8859-8' => 'ISO-8859-8',
         'iso-8859-9' => 'ISO-8859-9', // Turkish
         'iso-8859-15' => 'ISO-8859-15',
+        'koi8-r' => 'KOI8-R',
         'shift_jis' => 'Shift_JIS', // Japanese
         'tis-620' => 'TIS-620', // Thai
         'utf-16' => 'UTF-16',
