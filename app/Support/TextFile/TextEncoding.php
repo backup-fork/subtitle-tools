@@ -47,6 +47,7 @@ class TextEncoding
         'windows-1256' => 'windows-1256',
         'windows-1258' => 'windows-1258',
         'mac-cyrillic' => 'MacCyrillic',
+        'x-mac-cyrillic' => 'MacCyrillic',
     ];
 
     /**
