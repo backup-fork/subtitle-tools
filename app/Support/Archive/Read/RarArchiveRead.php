@@ -2,6 +2,7 @@
 
 namespace App\Support\Archive\Read;
 
+use Exception;
 use RarArchive;
 use App\Support\Archive\CompressedFile;
 
@@ -11,17 +12,12 @@ class RarArchiveRead extends ArchiveRead
 
     protected $rar;
 
-    // temp hack to catch an broken rar file.
-    private $filePath;
-
     public function __construct($filePath)
     {
-        $this->filePath = $filePath;
-
         $this->rar = @RarArchive::open($filePath);
 
         if ($this->rar !== false) {
-            $this->successfullyOpened = (@$this->rar->isBroken() === false);
+            $this->successfullyOpened = @$this->rar->isBroken() === false;
         }
     }
 
@@ -65,15 +61,14 @@ class RarArchiveRead extends ArchiveRead
 
         $rarEntry = $this->rar->getEntries()[$file->getIndex()];
 
-        // This try/catch is a temporary hack to catch a rar file that throws a "ERAR_BAD_DATA" exception.
         try {
             $rarEntry->extract(false, $destinationFilePath);
-        } catch (\Exception $e) {
-            copy($this->filePath, $aaa = storage_path('rar-error-'.now()->format('U').'.rar'));
+        } catch (Exception $e) {
+            if ($e->getMessage() !== 'RarEntry::extract(): ERAR_BAD_DATA') {
+                throw $e;
+            }
 
-            info($aaa);
-
-            throw $e;
+            touch($destinationFilePath);
         }
     }
 

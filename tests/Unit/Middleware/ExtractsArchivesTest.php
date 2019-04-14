@@ -79,6 +79,15 @@ class ExtractsArchivesTest extends TestCase
     }
 
     /** @test */
+    function it_gracefully_handles_broken_rar_entries()
+    {
+        $this->post(route('convertToSrt'), [
+                'subtitles' => [$this->createUploadedFile('archives/rar/rar-with-broken-file-inside.rar')],
+            ])
+            ->assertStatus(302);
+    }
+
+    /** @test */
     function it_removes_archives_from_the_request()
     {
         $this->withoutJobs();
