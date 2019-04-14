@@ -8,7 +8,6 @@ Most of the work when identifying text encodings is done by [uchardet](https://g
 I am not confident about the following encodings:
 - **euc-jp** (example file looks kind of weird)
 - **ISO-8859-5** (only example is a ".nfo" file)
-- **KOI8-R** (only example is not a text file, consists mostly of NULL bytes)
-- **windows-1253** (only example is a binary file)
-- **EUC-TW** (only example seems like gibberish)
+- **windows-1258** (example file has no special characters)
 - **HZ** (one weird example file)
+- **UTF-32** (one weird example file)

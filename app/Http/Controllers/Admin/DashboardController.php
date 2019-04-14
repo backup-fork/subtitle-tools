@@ -81,7 +81,7 @@ class DashboardController
 
         $dependencies['Tesseract binary'] = ! empty(shell_exec('command -v tesseract'));
 
-        $dependencies['Tesseract traineddata'] = file_exists('/usr/share/tesseract-ocr/tessdata/nld.traineddata');
+        $dependencies['Tesseract traineddata'] = file_exists('/usr/share/tesseract-ocr/tessdata/nld.traineddata') || file_exists('/usr/local/share/tessdata/nld.traineddata');
 
         return collect($dependencies);
     }

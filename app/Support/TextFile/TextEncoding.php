@@ -9,40 +9,53 @@ class TextEncoding
 {
     protected $fallbackEncoding = null;
 
+    /**
+     * "uchardet encoding name" => "php encoding name"
+     *
+     * @var array
+     */
     protected $allowedEncodings = [
-        //  uchardet name   php encoding name
-        'ascii/unknown'  => 'UTF-8', // assuming UTF-8
-        'Big5'           => 'Big5', // Traditional Chinese
-        'EUC-JP'         => 'EUC-JP',
-        'EUC-KR'         => 'EUC-KR', // Korean
-        'gb18030'        => 'gb18030', // Simplified Chinese
-        'gb2312'         => 'gb2312', // Simplified Chinese
-        'HZ-GB-2312'     => 'HZ', // Simplified Chinese
-        'IBM855'         => 'IBM855',
-        'IBM866'         => 'IBM866',
-        'ISO-2022-JP'    => 'ISO-2022-JP',
-        'ISO-8859-2'     => 'ISO-8859-2', // Romanian (gets detected as windows-1252)
-        'ISO-8859-5'     => 'ISO-8859-5',
-        'ISO-8859-7'     => 'ISO-8859-7',
-        'ISO-8859-8'     => 'ISO-8859-8',
-        'KOI8-R'         => 'KOI8-R',
-        'Shift_JIS'      => 'Shift_JIS', // Japanese
-        'TIS-620'        => 'TIS-620', // Thai
-        'UTF-16'         => 'UTF-16',
-        'UTF-8'          => 'UTF-8',
-        'windows-1250'   => 'windows-1250', // ANSI (for Polish, doesn't work for scandinavian languages)
-        'windows-1251'   => 'windows-1251', // Russian
-        'windows-1252'   => 'windows-1252', // ANSI (for scandinavian languages, doesn't work for Polish)
-        'windows-1253'   => 'windows-1253',
-        'windows-1254'   => 'windows-1254', // Turkish (often identified as "windows-1252")
-        'windows-1255'   => 'windows-1255',
-        'windows-1256'   => 'windows-1256',
-        'x-euc-tw'       => 'EUC-TW',
-        'x-mac-cyrillic' => 'MacCyrillic',
+        'unknown' => 'UTF-8', // default to UTF-8
+        'ASCII' => 'UTF-8', // default to UTF-8
+        'ascii/unknown' => 'UTF-8', // default to UTF-8
+        'BIG5' => 'Big5', // Traditional Chinese
+        'EUC-JP' => 'EUC-JP',
+        'EUC-KR' => 'EUC-KR', // Korean
+        'GB18030' => 'gb18030', // Simplified Chinese
+        'GB2312' => 'gb2312', // Simplified Chinese
+        'HZ-GB-2312' => 'HZ', // Simplified Chinese
+        'IBM866' => 'IBM866',
+        'ISO-2022-JP' => 'ISO-2022-JP',
+        'ISO-8859-1' => 'ISO-8859-1',
+        'ISO-8859-2' => 'ISO-8859-2', // Romanian (gets detected as windows-1252)
+        'ISO-8859-3' => 'ISO-8859-3',
+        'ISO-8859-5' => 'ISO-8859-5',
+        'ISO-8859-7' => 'ISO-8859-7', // Greek, almost identical to "windows-1253"
+        'ISO-8859-8' => 'ISO-8859-8',
+        'ISO-8859-9' => 'ISO-8859-9', // Turkish
+        'ISO-8859-15' => 'ISO-8859-15',
+        'SHIFT_JIS' => 'Shift_JIS', // Japanese
+        'TIS-620' => 'TIS-620', // Thai
+        'UTF-16' => 'UTF-16',
+        'UTF-8' => 'UTF-8',
+        'UTF-32' => 'UTF-32',
+        'WINDOWS-1250' => 'windows-1250', // ANSI (for Polish, doesn't work for scandinavian languages)
+        'WINDOWS-1251' => 'windows-1251', // Russian
+        'WINDOWS-1252' => 'windows-1252', // ANSI (for scandinavian languages, doesn't work for Polish)
+        'WINDOWS-1253' => 'windows-1253', // Greek, almost identical to "iso-8859-7"
+        'WINDOWS-1255' => 'windows-1255',
+        'WINDOWS-1256' => 'windows-1256',
+        'WINDOWS-1258' => 'windows-1258',
+        'MAC-CYRILLIC' => 'MacCyrillic',
     ];
 
+    /**
+     * List of php encoding names that should be converted using the "iconv()"
+     * function instead of the "mb_convert_encoding()" function.
+     *
+     * @var array
+     */
     protected $iconvEncodings = [
-    //  php encoding name
         'IBM855',
         'MacCyrillic',
         'TIS-620',
@@ -50,6 +63,7 @@ class TextEncoding
         'windows-1253',
         'windows-1255',
         'windows-1256',
+        'windows-1258',
     ];
 
     public function __construct($fallbackEncoding = null)
@@ -94,10 +108,8 @@ class TextEncoding
         // figure out the correct encoding
         if ($encodingName === 'windows-1252') {
             $encodingName = $this->getCorrect1252Encoding($filePath);
-        }
-
-        if ($encodingName === 'MacCyrillic') {
-            $encodingName = $this->getCorrectMacCyrillicEncoding($filePath);
+        } elseif ($encodingName === 'ISO-8859-3') {
+            $encodingName = $this->getCorrectIso8859_3Encoding($filePath);
         }
 
         return $encodingName;
@@ -152,33 +164,21 @@ class TextEncoding
             // BA hex in windows-1254 === º (degree sign)
             // BA hex in   ISO-8859-2 === ş (romanian letter)
             return 'ISO-8859-2';
-        } elseif (strpos($content, "\xF0") !== false) {
-            // F0 hex in windows-1252 === ð (weird o)
-            // F0 hex in   ISO-8859-2 === đ (weird a)
-            // F0 hex in windows-1254 === ğ (common turkish letter)
-            return 'windows-1254';
         }
 
         return 'windows-1252';
     }
 
-    protected function getCorrectMacCyrillicEncoding($filePath)
+    private function getCorrectIso8859_3Encoding($filePath)
     {
         $content = file_get_contents($filePath);
 
-        if (substr_count($content, "\xA1") > 2) {
-            // A1 hex in windows-1256 === ﺧ (something Persian)
-            // A1 hex in MacCyrillic  === ° (degree sign)
-            return 'windows-1256';
+        if (strpos($content, "\xB3") !== false) {
+            // B3 hex in   iso-8559-3 === ³ (cube)
+            // B3 hex in windows-1250 === ł (polish letter)
+            return 'windows-1250';
         }
 
-        $windows1256Content = $this->toUtf8($content, 'windows-1256');
-
-        // \xA7
-        if (strpos($windows1256Content, 'ﺱ') !== false) {
-            return 'windows-1256';
-        }
-
-        return 'MacCyrillic';
+        return 'ISO-8559-3';
     }
 }

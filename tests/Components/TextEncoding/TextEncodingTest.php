@@ -20,8 +20,7 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_euc_tw()
     {
-        // seems like gibberish
-        $this->assertEncoding('EUC-TW', 'euc-tw/euc-tw-000.txt');
+
     }
 
     /** @test */
@@ -33,8 +32,16 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_windows_1253()
     {
-        // this is a binary file.
-        $this->assertEncoding('windows-1253', 'windows-1253/windows-1253-000.txt');
+        $this->assertEncoding('windows-1253', 'windows-1253/windows-1253-000-gre.txt');
+        $this->assertEncoding('windows-1253', 'windows-1253/windows-1253-001-gre.txt');
+        $this->assertEncoding('windows-1253', 'windows-1253/windows-1253-002-gre.txt');
+        $this->assertEncoding('windows-1253', 'windows-1253/windows-1253-003-gre.txt');
+    }
+
+    /** @test */
+    function it_detects_encoding_for_iso_8859_7()
+    {
+        $this->assertEncoding('ISO-8859-7', 'iso-8859-7/iso-8859-7-000-gre.txt');
     }
 
     /** @test */
@@ -63,16 +70,10 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
-    function it_detects_encoding_for_koi8_r()
+    function it_detects_encoding_for_utf32()
     {
         // this file is mostly NULL bytes
-        $this->assertEncoding('KOI8-R', 'koi8-r/koi8-r-000.txt');
-    }
-
-    /** @test */
-    function it_detects_encoding_for_iso_8859_7()
-    {
-        $this->assertEncoding('ISO-8859-7', 'iso-8859-7/iso-8859-7-000-gre.txt');
+        $this->assertEncoding('UTF-32', 'utf-32/utf-32-000.txt');
     }
 
     /** @test */
@@ -100,21 +101,22 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
-    function it_detects_encoding_for_ibm855()
-    {
-        $this->assertEncoding('IBM855', 'ibm855/ibm855-001-eng.txt');
-    }
-
-    /** @test */
     function it_detects_encoding_for_ibm866()
     {
-        $this->assertEncoding('IBM866', 'ibm866/ibm866-001-eng.txt');
+        $this->assertEncoding('IBM866', 'ibm866/ibm866-000.txt');
+        $this->assertEncoding('IBM866', 'ibm866/ibm866-001.txt');
     }
 
     /** @test */
     function it_detects_encoding_for_iso_2022_jp()
     {
         $this->assertEncoding('ISO-2022-JP', 'iso-2022-jp/iso-2022-jp-001-jpn.txt');
+    }
+
+    /** @test */
+    function it_detects_encoding_for_iso_8859_1()
+    {
+        $this->assertEncoding('ISO-8859-1', 'iso-8859-1/iso-8859-1-000.txt');
     }
 
     /** @test */
@@ -130,16 +132,16 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
-    function it_detects_encoding_for_windows_1254()
+    function it_detects_encoding_for_iso_8859_9()
     {
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-000-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-001-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-002-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-003-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-004-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-005-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-006-tur.txt');
-        $this->assertEncoding('windows-1254', 'windows-1254/windows-1254-007-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-000-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-001-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-002-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-003-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-004-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-005-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-006-tur.txt');
+        $this->assertEncoding('ISO-8859-9', 'iso-8859-9/iso-8859-9-007-tur.txt');
     }
 
     /** @test */
@@ -152,8 +154,20 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_windows_1252()
     {
-        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-000-dan.txt');
-        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-001-eng.txt');
+
+    }
+
+    /** @test */
+    function it_detects_encoding_for_windows_1258()
+    {
+        // No special characters
+        $this->assertEncoding('windows-1258', 'windows-1258/windows-1258-001-eng.txt');
+    }
+
+    /** @test */
+    function it_detects_encoding_for_iso_8859_15()
+    {
+        $this->assertEncoding('ISO-8859-15', 'iso-8859-15/iso-8859-15-000-dan.txt');
     }
 
     /** @test */
@@ -164,6 +178,7 @@ class TextEncodingTest extends TestCase
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-001-fas.txt');
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-002-fas.txt');
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-003-fas.txt');
+        $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-004.txt');
     }
 
     /** @test */
