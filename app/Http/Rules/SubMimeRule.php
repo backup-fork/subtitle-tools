@@ -13,7 +13,9 @@ class SubMimeRule implements Rule
             return false;
         }
 
-        return file_mime($value->getRealPath()) === 'video/mpeg';
+        $mime = file_mime($value->getRealPath());
+
+        return $mime === 'video/mpeg' || $mime === 'image/x-tga';
     }
 
     public function message()

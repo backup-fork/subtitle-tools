@@ -21,6 +21,7 @@ class TextEncoding
         'big5' => 'Big5', // Traditional Chinese
         'euc-jp' => 'EUC-JP',
         'euc-kr' => 'EUC-KR', // Korean
+        'euc-tw' => 'EUC-TW',
         'gb18030' => 'gb18030', // Simplified Chinese
         'gb2312' => 'gb2312', // Simplified Chinese
         'hz-gb-2312' => 'HZ', // Simplified Chinese

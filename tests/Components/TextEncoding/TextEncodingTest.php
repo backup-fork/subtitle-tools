@@ -20,7 +20,7 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_euc_tw()
     {
-
+        $this->assertEncoding('EUC-TW', 'euc-tw/euc-tw-000.txt');
     }
 
     /** @test */
@@ -45,6 +45,12 @@ class TextEncodingTest extends TestCase
 
         // Server detected this as "koi8-r", but local env detects "iso-8859-7"
         $this->assertEncoding('ISO-8859-7', 'iso-8859-7/iso-8859-7-001.txt');
+    }
+
+    /** @test */
+    function it_detects_encoding_for_iso_8859_3()
+    {
+        $this->assertEncoding('ISO-8859-3', 'iso-8859-3/iso-8859-3-000.txt');
     }
 
     /** @test */
