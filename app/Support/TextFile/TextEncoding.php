@@ -200,11 +200,11 @@ class TextEncoding
         $content = file_get_contents($filePath);
 
         if (strpos($content, "\xB3") !== false) {
-            // B3 hex in   iso-8559-3 === ³ (cube)
+            // B3 hex in   iso-8859-3 === ³ (cube)
             // B3 hex in windows-1250 === ł (polish letter)
             return 'windows-1250';
         }
 
-        return 'ISO-8559-3';
+        return 'ISO-8859-3';
     }
 }
