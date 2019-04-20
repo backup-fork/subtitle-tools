@@ -70,7 +70,14 @@
                 <h4 class="mt-0 mr-16">laravel.log</h4>
                 <div class="text-xs text-red-light font-semibold cursor-pointer select-none" onclick="submitWhenClickedOften('error-log')">delete</div>
             </div>
-            <pre class="text-xs max-w-3xl overflow-scroll max-h-96 p-4 border-2 bg-grey-lightest">{{ implode("\r\n", str_replace(base_path(), '', $errorLogLines)) }}</pre>
+<pre class="text-xs max-w-3xl overflow-scroll max-h-96 p-4 border-2 bg-grey-lightest">
+@foreach($errorLogLines as $line)
+@if(Str::startsWith($line, '[') && $line !== '[stacktrace]')
+{{ str_replace(base_path(), '', $line) }}
+
+@endif
+@endforeach
+</pre>
         </form>
     @endif
 
@@ -87,15 +94,9 @@
             </div>
 <pre class="text-xs max-w-3xl overflow-scroll max-h-96 p-4 border-2 bg-grey-lightest">
 @foreach($failedJobs as $failedJob)
-<strong>Queue:</strong> {{ $failedJob->queue }}
-<strong>Failed at:</strong> {{ $failedJob->failed_at }}
-<strong>Payload</strong>
-{{ $failedJob->payload }}
-
+<strong>Queue:</strong> {{ $failedJob->queue }}, failed at <strong>{{ $failedJob->failed_at }}</strong>
 <strong>Exception</strong>
-{{ str_replace(base_path(), '', $failedJob->exception) }}
-
------
+{{ str_replace([base_path(), '/var/www/st'], '', Str::before($failedJob->exception, "\n")) }}
 
 @endforeach
 </pre>
