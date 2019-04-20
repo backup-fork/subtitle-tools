@@ -24,3 +24,4 @@ Route::get('/sub-idx', ['uses' => 'SubIdxController@index', 'as' => 'subIdx.inde
 
 Route::post('/convert-to-utf8')->uses('ConvertToUtf8')->name('convertToUtf8');
 Route::get('/phpinfo')->uses('ShowPhpInfo')->name('showPhpinfo');
+Route::get('/error-log')->uses('ShowErrorLog')->name('showErrorLog');

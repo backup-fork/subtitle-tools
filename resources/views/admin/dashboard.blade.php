@@ -67,7 +67,9 @@
             {{ method_field('delete') }}
 
             <div class="flex items-center mb-2">
-                <h4 class="mt-0 mr-16">laravel.log</h4>
+                <a href="{{ route('admin.showErrorLog') }}">
+                    <h4 class="mt-0 mr-16">laravel.log</h4>
+                </a>
                 <div class="text-xs text-red-light font-semibold cursor-pointer select-none" onclick="submitWhenClickedOften('error-log')">delete</div>
             </div>
 <pre class="text-xs max-w-3xl overflow-scroll max-h-96 p-4 border-2 bg-grey-lightest">
