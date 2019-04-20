@@ -11,3 +11,4 @@ I am not confident about the following encodings:
 - **windows-1258** (example file has no special characters)
 - **HZ** (one weird example file)
 - **UTF-32** (one weird example file)
+- **ISO-8859-11** (wrong example file)

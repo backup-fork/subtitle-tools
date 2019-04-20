@@ -133,7 +133,7 @@ abstract class FileJob extends BaseJob implements ShouldQueue
     {
         $this->abortFileJob('messages.unknown_error');
 
-        Log::error("FileJob (filejob id: {$this->fileJob->id}) failed! (usually because of a TextEncodingException)");
+        Log::error("FileJob id: {$this->fileJob->id} (StoredFile id: {$this->fileJob->input_stored_file_id}) failed! (usually because of a TextEncodingException)");
     }
 
     public function getNewExtension()

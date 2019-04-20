@@ -34,6 +34,7 @@ class TextEncoding
         'iso-8859-7' => 'ISO-8859-7', // Greek, almost identical to "windows-1253"
         'iso-8859-8' => 'ISO-8859-8',
         'iso-8859-9' => 'ISO-8859-9', // Turkish
+        'iso-8859-11' => 'ISO-8859-11',
         'iso-8859-15' => 'ISO-8859-15',
         'koi8-r' => 'KOI8-R',
         'shift_jis' => 'Shift_JIS', // Japanese
@@ -61,6 +62,7 @@ class TextEncoding
      */
     protected $iconvEncodings = [
         'IBM855',
+        'ISO-8859-11',
         'MacCyrillic',
         'TIS-620',
         'viscii',

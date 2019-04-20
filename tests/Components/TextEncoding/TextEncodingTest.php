@@ -154,6 +154,13 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
+    function it_detects_encoding_for_iso_8859_11()
+    {
+        // Not the right encoding for this file, but uchardet detects it as "ISO-8859-11"
+        $this->assertEncoding('ISO-8859-11', 'iso-8859-11/iso-8859-11-000.txt');
+    }
+
+    /** @test */
     function it_detects_encoding_for_koi8_r()
     {
         // no example files yet. Server detects files as "koi8-r", local env says "iso-8859-7"
