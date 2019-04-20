@@ -9,8 +9,8 @@ use App\Http\Middleware\CountUploadedFiles;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\EnhanceUploadedFiles;
 use App\Http\Middleware\ExtractArchives;
+use App\Http\Middleware\RecordUploadedFileMimes;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\SwapSubAndIdx;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
+            RecordUploadedFileMimes::class,
             CountUploadedFiles::class,
             EnhanceUploadedFiles::class,
         ],
@@ -63,7 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
 
         'guest' => RedirectIfAuthenticated::class,
-        'swap-sub-and-idx' => SwapSubAndIdx::class,
         'extract-archives' => ExtractArchives::class,
         'check-file-size' => CheckFileSize::class,
     ];

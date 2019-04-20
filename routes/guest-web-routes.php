@@ -18,7 +18,7 @@ Route::get('/file-group-archive/{urlKey}',  ['uses' => 'FileGroupArchiveControll
 
 
 Route::get('convert-sub-idx-to-srt-online',                   ['uses' => 'SubIdxController@index',            'as' => 'subIdx']);
-Route::post('convert-sub-idx-to-srt-online',                  ['uses' => 'SubIdxController@post',             'as' => 'subIdx.post'])->middleware('swap-sub-and-idx');
+Route::post('convert-sub-idx-to-srt-online',                  ['uses' => 'SubIdxController@post',             'as' => 'subIdx.post']);
 Route::get('convert-sub-idx-to-srt-online/{urlKey}',          ['uses' => 'SubIdxController@show',             'as' => 'subIdx.show']);
 Route::post('convert-sub-idx-to-srt-online/{urlKey}/{index}', ['uses' => 'SubIdxController@downloadSrt',      'as' => 'subIdx.download']);
 Route::get('convert-sub-idx-to-srt-online/{urlKey}/{index}',  ['uses' => 'SubIdxController@downloadRedirect', 'as' => 'subIdx.downloadRedirect']);

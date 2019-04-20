@@ -34,7 +34,7 @@ return [
      *   PruneStoredFiles command
      *
      */
-    'checked-migration' => '2019_02_16_124034_create_sup_stats_table',
+    'checked-migration' => '2019_04_20_001631_create_uploaded_file_mimes_table',
 
     'tesseract' => [
 

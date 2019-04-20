@@ -85,21 +85,6 @@ class SubIdxControllerTest extends TestCase
     }
 
     /** @test */
-    function it_swaps_sub_and_idx_files_if_they_are_put_in_the_wrong_input()
-    {
-        $response = $this->postSubIdx([
-                'sub' => $this->createUploadedFile('sub-idx/error-and-nl.idx'),
-                'idx' => $this->createUploadedFile('sub-idx/error-and-nl.sub'),
-            ])
-            ->assertSessionHasNoErrors()
-            ->assertStatus(302);
-
-        $subIdx = SubIdx::findOrFail(1);
-
-        $response->assertRedirect(route('subIdx.show', $subIdx->url_key));
-    }
-
-    /** @test */
     function it_can_show_the_detail_page()
     {
         $subIdx = factory(SubIdx::class)->create();
