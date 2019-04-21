@@ -257,4 +257,17 @@ class AssCueTest extends TestCase
             $cue->getLines()
         );
     }
+
+    /** @test */
+    function it_keeps_colors_from_angle_brackets()
+    {
+        $srtCue = (new SrtCue)->addLine('<font color="#e4e4e4">Wow!</font>');
+
+        $assCue = new AssCue($srtCue);
+
+        $this->assertSame(
+            ['{\c&He4e4e4&}Wow!'],
+            $assCue->getLines()
+        );
+    }
 }

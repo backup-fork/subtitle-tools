@@ -70,6 +70,8 @@ module.exports = {
     }),
 
     margin: Object.assign(defaultConfig.margin, {
+        '5': '1.25rem',
+        '8': '2rem',
         '10': '2.5rem',
         '12': '3rem',
         '14': '3.5rem',

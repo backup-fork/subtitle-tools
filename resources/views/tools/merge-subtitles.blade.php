@@ -1,8 +1,8 @@
 @extends('layout.base-template')
 
-@section('title',       __('seo.title.mergeSubtitles'))
+@section('title', __('seo.title.mergeSubtitles'))
 @section('description', __('seo.description.mergeSubtitles'))
-@section('keywords',    __('seo.keywords.mergeSubtitles'))
+@section('keywords', __('seo.keywords.mergeSubtitles'))
 
 @include('helpers.dont-connect-echo')
 
@@ -41,7 +41,7 @@
 
                 <label class="block cursor-pointer mt-3">
                     <input type="radio" name="mode" onchange="toggleThresholdField()" value="topBottom" {{ old('mode') === 'topBottom' ? 'checked' : '' }}>
-                    Top and Bottom
+                    Top and bottom of screen
                 </label>
 
                 <label class="block cursor-pointer my-3">
@@ -63,6 +63,27 @@
                     Glue offset (ms):
                     <input id="glue-offset-input" class="field py-1 w-24" type="number" name="glue_offset" value="{{ old('glue_offset', 1000) }}" required>
                 </label>
+            </div>
+
+            <strong class="block mt-4">Color</strong>
+            <div class="max-w-xs mt-2 ml-4 leading-normal">
+                <input type="hidden" name="should_color_base_subtitle" value="0">
+                <input type="hidden" name="should_color_merge_subtitle" value="0">
+
+                <label class="flex items-center cursor-pointer mt-3 mb-1">
+                    <input type="checkbox" name="should_color_base_subtitle" value="1" class="mr-2 cursor-pointer" onchange="baseColorField.classList.toggle('hidden', !this.checked)">
+                    Color the "base" subtitle file
+                </label>
+
+                <input id="base-color-field" class="hidden cursor-pointer ml-5 w-24 h-8" title="Select a color for the base subtitle" type="color" name="base_subtitle_color" value="{{ old('base_subtitle_color', '#f46b41') }}">
+
+
+                <label class="flex items-center cursor-pointer mt-3 mb-1">
+                    <input type="checkbox" name="should_color_merge_subtitle" value="1" class="mr-2 cursor-pointer" onchange="mergeColorField.classList.toggle('hidden', !this.checked)">
+                    Color the "merge" subtitle file
+                </label>
+
+                <input id="merge-color-field" class="hidden cursor-pointer ml-5 w-24 h-8" title="Select a color for the merge subtitle" type="color" name="merge_subtitle_color" value="{{ old('merge_subtitle_color', '#4286f4') }}">
             </div>
         @endslot
 
@@ -95,7 +116,7 @@
         Cue style and cue timings are not changed.
     </p>
 
-    <h4>Top and Bottom merge</h4>
+    <h4>Top and bottom of screen merge</h4>
     <p>
         Similar to the simple merge mode, this mode combines the cues of both files.
         It will add style effects so that the cues of the merge subtitle appear on top of the screen.
@@ -130,6 +151,9 @@
 
 @push('footer')
     <script>
+        var baseColorField = document.getElementById('base-color-field');
+        var mergeColorField = document.getElementById('merge-color-field');
+
         function toggleThresholdField() {
             var thresholdField = document.getElementById('threshold-field');
 

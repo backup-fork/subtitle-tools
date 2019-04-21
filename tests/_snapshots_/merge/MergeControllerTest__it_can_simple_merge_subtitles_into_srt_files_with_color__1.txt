@@ -1,0 +1,27 @@
+﻿1
+00:00:00,000 --> 00:00:38,730
+<font color="#AAAAAA">This is the first line, it is crazy</font>
+
+2
+00:00:01,266 --> 00:00:03,366
+<font color="#BBBBBB">Do you know what this is all
+about? Why we're here?</font>
+
+3
+00:00:03,400 --> 00:00:06,366
+<font color="#BBBBBB">To be out. This is out.
+[AUDIENCE LAUGHS]</font>
+
+4
+00:00:06,400 --> 00:00:08,233
+<font color="#BBBBBB">And out is one of
+the single most</font>
+
+5
+00:00:59,730 --> 00:01:00,000
+<font color="#AAAAAA">Second line starts here
+Also crazy</font>
+
+6
+00:01:00,250 --> 00:10:00,000
+<font color="#AAAAAA">And this is the third line</font>

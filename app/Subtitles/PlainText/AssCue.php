@@ -33,17 +33,6 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
         } else {
             throw new InvalidArgumentException('Invalid AssCue source');
         }
-
-        // TODO: use proper cue transformers
-        // Strip angle brackets from this cue. These can be present when
-        // creating AssCues from GenericCues.
-        $this->alterAllLines(function ($lines) {
-            $singleLine = implode("\n", $lines);
-
-            $strippedLines = preg_replace('/<.*?>/s', '', $singleLine);
-
-            return explode("\n", $strippedLines);
-        });
     }
 
     public function loadString($string)
@@ -66,8 +55,14 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
 
     public function addLine($line)
     {
+        $hasColor = preg_match('/color=("|\')?(#[a-f0-9]{6})/i', $line, $matches);
+
         // Strip angle brackets from this cue.
         $line = preg_replace('/<.*?>/s', '', $line);
+
+        if ($hasColor) {
+            $line = $this->hexToAssColor($matches[2]).$line;
+        }
 
         return parent::addLine($line);
     }
@@ -196,17 +191,22 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
 
     public function changeColor($hexColor)
     {
-        $r = $hexColor[1].$hexColor[2];
-        $g = $hexColor[3].$hexColor[4];
-        $b = $hexColor[5].$hexColor[6];
-
         $text = implode("\n", $this->lines);
 
         // Remove all existing colors
         $text = preg_replace('/{\\\\\d?c&H[0-9a-f]{6}&}/i', '', $text);
 
         return $this->setLines(
-            explode("\n", "{\\c&H$b$g$r&}".$text)
+            explode("\n", $this->hexToAssColor($hexColor).$text)
         );
+    }
+
+    private function hexToAssColor($hexColor)
+    {
+        $r = $hexColor[1].$hexColor[2];
+        $g = $hexColor[3].$hexColor[4];
+        $b = $hexColor[5].$hexColor[6];
+
+        return "{\\c&H$b$g$r&}";
     }
 }

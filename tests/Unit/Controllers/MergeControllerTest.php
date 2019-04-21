@@ -19,9 +19,31 @@ class MergeControllerTest extends TestCase
     }
 
     /** @test */
+    function it_can_simple_merge_subtitles_into_srt_files_with_color()
+    {
+        $this->snapshotSimpleMerge('text/srt/three-cues.srt', 'text/ass/three-cues.ass', [
+            'should_color_base_subtitle' => true,
+            'should_color_merge_subtitle' => true,
+            'base_subtitle_color' => '#BBBBBB',
+            'merge_subtitle_color' => '#AAAAAA',
+        ]);
+    }
+
+    /** @test */
     function it_can_simple_merge_subtitles_into_ass_files()
     {
         $this->snapshotSimpleMerge('text/ass/three-cues.ass', 'text/srt/three-cues.srt');
+    }
+
+    /** @test */
+    function it_can_simple_merge_subtitles_into_ass_files_with_color()
+    {
+        $this->snapshotSimpleMerge('text/ass/three-cues.ass', 'text/srt/three-cues.srt', [
+            'should_color_base_subtitle' => true,
+            'should_color_merge_subtitle' => true,
+            'base_subtitle_color' => '#BBBBBB',
+            'merge_subtitle_color' => '#AAAAAA',
+        ]);
     }
 
     /** @test */
@@ -102,41 +124,41 @@ class MergeControllerTest extends TestCase
         $this->snapshotGlueMerge('text/vtt/three-cues.vtt', 'text/ass/three-cues.ass', 1000);
     }
 
-    private function snapshotSimpleMerge($baseFile, $mergeFile)
+    private function snapshotSimpleMerge($baseFile, $mergeFile, $attributes = [])
     {
         $this->snapshotMerge([
-            'subtitles'       => $this->createUploadedFile($baseFile),
+            'subtitles' => $this->createUploadedFile($baseFile),
             'second-subtitle' => $this->createUploadedFile($mergeFile),
-            'mode'            => 'simple',
-        ]);
+            'mode' => 'simple',
+        ] + $attributes);
     }
 
     private function snapshotTopBottomMerge($baseFile, $mergeFile)
     {
         $this->snapshotMerge([
-            'subtitles'       => $this->createUploadedFile($baseFile),
+            'subtitles' => $this->createUploadedFile($baseFile),
             'second-subtitle' => $this->createUploadedFile($mergeFile),
-            'mode'            => 'topBottom',
+            'mode' => 'topBottom',
         ]);
     }
 
     private function snapshotNearestCueMerge($baseFile, $mergeFile, $threshold)
     {
         $this->snapshotMerge([
-            'subtitles'             => $this->createUploadedFile($baseFile),
-            'second-subtitle'       => $this->createUploadedFile($mergeFile),
+            'subtitles' => $this->createUploadedFile($baseFile),
+            'second-subtitle' => $this->createUploadedFile($mergeFile),
             'nearest_cue_threshold' => $threshold,
-            'mode'                  => 'nearestCueThreshold',
+            'mode' => 'nearestCueThreshold',
         ]);
     }
 
     private function snapshotGlueMerge($baseFile, $mergeFile, $offset)
     {
         $this->snapshotMerge([
-            'subtitles'       => $this->createUploadedFile($baseFile),
+            'subtitles' => $this->createUploadedFile($baseFile),
             'second-subtitle' => $this->createUploadedFile($mergeFile),
-            'glue_offset'     => $offset,
-            'mode'            => 'glue',
+            'glue_offset' => $offset,
+            'mode' => 'glue',
         ]);
     }
 
@@ -144,8 +166,12 @@ class MergeControllerTest extends TestCase
     {
         [$response, $fileGroup] = $this->postFileJob('merge', [], $attributes + [
             'nearest_cue_threshold' => 1000,
-            'glue_offset'           => 1000,
-            'mode'                  => 'simple',
+            'glue_offset' => 1000,
+            'mode' => 'simple',
+            'should_color_base_subtitle' => false,
+            'should_color_merge_subtitle' => false,
+            'base_subtitle_color' => '#FFFFFF',
+            'merge_subtitle_color' => '#FFFFFF',
         ]);
 
         $this->assertSuccessfulFileJobRedirect($response, $fileGroup);

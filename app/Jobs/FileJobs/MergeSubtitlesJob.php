@@ -2,87 +2,62 @@
 
 namespace App\Jobs\FileJobs;
 
+use App\Subtitles\ChangesColor;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\PlainText\GenericSubtitleCue;
 use App\Subtitles\PlainText\Srt;
 use App\Subtitles\TextFile;
 use App\Subtitles\Tools\Options\MergeSubtitlesOptions;
 use App\Subtitles\TransformsToGenericSubtitle;
-use App\Models\StoredFile;
 use App\Support\Facades\TextFileFormat;
 use RuntimeException;
 
 class MergeSubtitlesJob extends FileJob
 {
-    protected $fileExtension = '';
+    protected $newExtension = '';
 
-    /**
-     * @var MergeSubtitlesOptions
-     */
-    protected $options;
-
-    public function handle()
+    public function process(TextFile $subtitle, $options)
     {
-        $this->startFileJob();
+        /** @var MergeSubtitlesOptions $options */
 
-        $this->options = new MergeSubtitlesOptions($this->fileGroup->job_options);
+        $baseSubtitle = TextFileFormat::getMatchingFormat($this->inputStoredFile);
 
-        $baseSubtitle = $this->getBaseSubtitle();
+        $mergeSubtitle = TextFileFormat::getMatchingFormat($options->getMergeStoredFile());
 
-        $this->fileExtension = $baseSubtitle->getExtension();
-
-        $mergeSubtitle = $this->getMergeWithSubtitle();
-
-        if (! $baseSubtitle || ! $mergeSubtitle) {
-            return $this->abortFileJob('messages.cant_merge_these_subtitles');
+        if ($baseSubtitle instanceof Srt || ! $mergeSubtitle instanceof ContainsGenericCues) {
+            $mergeSubtitle = $this->convertToSrt($mergeSubtitle);
         }
 
-        if ($this->options->simpleMode() || $this->options->topBottomMode()) {
-            $outputSubtitle = $this->simpleMerge($baseSubtitle, $mergeSubtitle);
-        } elseif ($this->options->nearestCueThresholdMode()) {
-            $outputSubtitle = $this->nearestCueThresholdMerge($baseSubtitle, $mergeSubtitle);
-        } elseif ($this->options->glueEndToEndMode()) {
-            $outputSubtitle = $this->glueEndToEndMerge($baseSubtitle, $mergeSubtitle);
-        } else {
-            throw new RuntimeException('Invalid mode');
+        $this->newExtension = $baseSubtitle->getExtension();
+
+        if (! $baseSubtitle || ! $mergeSubtitle || ! $baseSubtitle instanceof ContainsGenericCues) {
+            $this->abort('messages.cant_merge_these_subtitles');
         }
 
-        $outputStoredFile = StoredFile::createFromTextFile($outputSubtitle);
+        if ($options->shouldColorBaseSubtitle && $baseSubtitle instanceof ChangesColor) {
+            $baseSubtitle->changeColor($options->baseSubtitleColor);
+        }
 
-        return $this->finishFileJob($outputStoredFile);
+        if ($options->shouldColorMergeSubtitle && $mergeSubtitle instanceof ChangesColor) {
+            $mergeSubtitle->changeColor($options->mergeSubtitleColor);
+        }
+
+        if ($options->simpleMode() || $options->topBottomMode()) {
+            return $this->simpleMerge($baseSubtitle, $mergeSubtitle, $options->topBottomMode());
+        }
+
+        if ($options->nearestCueThresholdMode()) {
+            return $this->nearestCueThresholdMerge($baseSubtitle, $mergeSubtitle, $options->nearestCueThreshold);
+        }
+
+        if ($options->glueEndToEndMode()) {
+            return $this->glueEndToEndMerge($baseSubtitle, $mergeSubtitle, $options->glueOffset);
+        }
+
+        throw new RuntimeException('Invalid mode');
     }
 
-    /**
-     * @return null|ContainsGenericCues|TextFile
-     */
-    protected function getBaseSubtitle()
-    {
-        $inputSubtitle = TextFileFormat::getMatchingFormat($this->inputStoredFile);
-
-        if (! $inputSubtitle instanceof ContainsGenericCues) {
-            return null;
-        }
-
-        return $inputSubtitle;
-    }
-
-    /**
-     * @return null|ContainsGenericCues|TextFile
-     */
-    protected function getMergeWithSubtitle()
-    {
-        $mergeWithStoredFile = $this->options->getMergeStoredFile();
-
-        $mergeWithSubtitle = TextFileFormat::getMatchingFormat($mergeWithStoredFile);
-
-        if (! $mergeWithSubtitle instanceof ContainsGenericCues) {
-            return $this->convertToSrt($mergeWithSubtitle);
-        }
-
-        return $mergeWithSubtitle;
-    }
-
-    protected function convertToSrt($subtitle)
+    private function convertToSrt($subtitle)
     {
         if (! $subtitle instanceof TransformsToGenericSubtitle && ! $subtitle instanceof Srt) {
             return null;
@@ -106,15 +81,16 @@ class MergeSubtitlesJob extends FileJob
     /**
      * @param $baseSubtitle ContainsGenericCues|TextFile
      * @param $mergeSubtitle ContainsGenericCues|TextFile
+     * @param $styleOnTop bool
      *
      * @return ContainsGenericCues|TextFile
      */
-    protected function simpleMerge($baseSubtitle, $mergeSubtitle)
+    private function simpleMerge($baseSubtitle, $mergeSubtitle, bool $styleOnTop)
     {
         foreach ($mergeSubtitle->getCues() as $mergeCue) {
             $addedCue = $baseSubtitle->addCue($mergeCue);
 
-            if ($this->options->topBottomMode()) {
+            if ($styleOnTop) {
                 $addedCue->stylePositionTop();
             }
         }
@@ -127,14 +103,15 @@ class MergeSubtitlesJob extends FileJob
     /**
      * @param $baseSubtitle ContainsGenericCues|TextFile
      * @param $mergeSubtitle ContainsGenericCues|TextFile
+     * @param $glueOffset
      *
      * @return ContainsGenericCues|TextFile
      */
-    protected function glueEndToEndMerge($baseSubtitle, $mergeSubtitle)
+    private function glueEndToEndMerge($baseSubtitle, $mergeSubtitle, $glueOffset)
     {
         $baseCues = $baseSubtitle->getCues();
 
-        $glueOffset = ($baseCues ? end($baseCues)->getStartMs() : 0) + $this->options->glueOffset;
+        $glueOffset = ($baseCues ? end($baseCues)->getStartMs() : 0) + $glueOffset;
 
         foreach ($mergeSubtitle->getCues() as $mergeCue) {
             $baseSubtitle->addCue($mergeCue)->shift($glueOffset);
@@ -148,15 +125,16 @@ class MergeSubtitlesJob extends FileJob
     /**
      * @param $baseSubtitle ContainsGenericCues|TextFile
      * @param $mergeSubtitle ContainsGenericCues|TextFile
+     * @param $threshold
      *
      * @return ContainsGenericCues|TextFile
      */
-    protected function nearestCueThresholdMerge($baseSubtitle, $mergeSubtitle)
+    private function nearestCueThresholdMerge($baseSubtitle, $mergeSubtitle, $threshold)
     {
         $baseCues = $baseSubtitle->getCues();
 
         foreach ($mergeSubtitle->getCues() as $cue) {
-            $nearestCue = $this->findNearestCue($baseCues, $cue);
+            $nearestCue = $this->findNearestCue($baseCues, $cue, $threshold);
 
             // If there is no nearby cue, merge the whole cue.
             is_null($nearestCue)
@@ -170,10 +148,11 @@ class MergeSubtitlesJob extends FileJob
     /**
      * @param $baseCues GenericSubtitleCue[]
      * @param $cue GenericSubtitleCue
+     * @param $threshold
      *
      * @return GenericSubtitleCue|null
      */
-    protected function findNearestCue($baseCues, $cue)
+    private function findNearestCue($baseCues, $cue, $threshold)
     {
         $cueStartMs = $cue->getStartMs();
 
@@ -185,7 +164,7 @@ class MergeSubtitlesJob extends FileJob
             $difference = abs($cue->getStartMs() - $cueStartMs);
 
             // Cues should be within the threshold to be a nearby cue.
-            if ($difference > $this->options->nearestCueThreshold) {
+            if ($difference > $threshold) {
                 continue;
             }
 
@@ -199,10 +178,5 @@ class MergeSubtitlesJob extends FileJob
         }
 
         return $nearestCue;
-    }
-
-    public function getNewExtension()
-    {
-        return $this->fileExtension;
     }
 }
