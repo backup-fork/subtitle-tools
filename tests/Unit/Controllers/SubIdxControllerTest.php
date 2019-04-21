@@ -39,20 +39,6 @@ class SubIdxControllerTest extends TestCase
     }
 
     /** @test */
-    function it_validates_uploaded_sub_and_idx_files()
-    {
-        $this->postSubIdx([
-                'sub' => UploadedFile::fake()->image('movie.sub'),
-                'idx' => UploadedFile::fake()->image('text.idx'),
-            ])
-            ->assertStatus(302)
-            ->assertSessionHasErrors([
-                'sub' => __('validation.subidx_invalid_sub_mime', ['attribute' => 'sub']),
-                'idx' => __('validation.file_is_not_a_textfile',  ['attribute' => 'idx']),
-            ]);
-    }
-
-    /** @test */
     function it_fails_when_the_subidx_is_not_readable()
     {
         $this->postSubIdx([

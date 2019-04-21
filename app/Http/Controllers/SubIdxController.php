@@ -9,6 +9,7 @@ use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SubIdxController
 {
@@ -19,6 +20,29 @@ class SubIdxController
 
     public function post(Request $request)
     {
+        //--- temporary debug logging
+
+        $request->validate([
+            'sub' => ['required', 'file', new FileNotEmptyRule],
+            'idx' => ['required', 'file', new FileNotEmptyRule, new TextFileRule],
+        ]);
+
+        $subFile = $request->files->get('sub');
+        $idxFile = $request->files->get('idx');
+
+        if (file_mime($subFile) === 'application/octet-stream') {
+            $name = substr(sha1(Str::random()), 0, 6);
+
+            $destination = storage_path();
+
+            copy($subFile->getRealPath(), $temp = "$destination/$name.sub");
+            copy($idxFile->getRealPath(), "$destination/$name.idx");
+
+            info($temp);
+        }
+
+        //---
+
         $request->validate([
             'sub' => ['required', 'file', new FileNotEmptyRule, new SubMimeRule],
             'idx' => ['required', 'file', new FileNotEmptyRule, new TextFileRule],
