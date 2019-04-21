@@ -43,10 +43,7 @@ class SubIdx extends Model
             // Don't update the "updated_at" column, that column is used in "RandomizeSubIdxUrlKeysJob".
             $cachedSubIdx->timestamps = false;
 
-            $cachedSubIdx->update([
-                'last_cache_hit' => now(),
-                'cache_hits' => $cachedSubIdx->cache_hits + 1,
-            ]);
+            $cachedSubIdx->increment('cache_hits', 1, ['last_cache_hit' => now()]);
 
             $cachedSubIdx->timestamps = true;
 
