@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Rules\FileNotEmptyRule;
 use App\Http\Rules\SupRule;
 use App\Jobs\Sup\ExtractSupImagesJob;
-use App\Support\Facades\FileHash;
 use App\Support\Facades\FileName;
 use App\Models\StoredFile;
 use App\Models\SupJob;
@@ -31,7 +30,7 @@ class SupController
 
         $ocrLanguage = $request->get('ocrLanguage');
 
-        $hash = FileHash::make($supFile);
+        $hash = file_hash($supFile);
 
         $supJob = SupJob::query()
             ->where('input_file_hash', $hash)

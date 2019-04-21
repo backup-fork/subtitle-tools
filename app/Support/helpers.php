@@ -122,3 +122,20 @@ function dd_delay(int $timesCalled, ...$vars)
 
     $calls[$caller] = $callCount + 1;
 }
+
+function file_hash(...$files)
+{
+    if (! $files) {
+        throw new RuntimeException('"file_hash()" required at least one argument');
+    }
+
+    $hashes = array_map(function ($file) {
+        if ($file instanceof UploadedFile) {
+            $file = $file->getRealPath();
+        }
+
+        return sha1_file($file);
+    }, $files);
+
+    return count($hashes) === 1 ? $hashes[0] : $hashes;
+}

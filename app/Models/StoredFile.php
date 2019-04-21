@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Support\Facades\FileHash;
 use App\Support\Facades\TempFile;
 use App\Subtitles\TextFile;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +28,7 @@ class StoredFile extends Model
     {
         $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
 
-        $hash = FileHash::make($filePath);
+        $hash = file_hash($filePath);
 
         $storedFileFromCache = StoredFile::query()->where('hash', $hash)->first();
 

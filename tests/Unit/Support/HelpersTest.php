@@ -37,4 +37,19 @@ class HelpersTest extends TestCase
             storage_disk_file_path('/dirname/file.jpg')
         );
     }
+
+    /** @test */
+    function file_hash_hashes_files()
+    {
+        $fileA = $this->testFilesStoragePath.'sub-idx/error-and-nl.sub';
+        $fileB = $this->testFilesStoragePath.'sub-idx/error-and-nl.idx';
+
+        $this->assertSame($hashA = 'ca9b27eec6c23c8961604afeb08ecfb96901df5d', file_hash($fileA));
+        $this->assertSame($hashB = 'da96b233385f273882f4e7ff60d5008b345dbecb', file_hash($fileB));
+
+        [$a, $b] = file_hash($fileA, $fileB);
+
+        $this->assertSame($hashA, $a);
+        $this->assertSame($hashB, $b);
+    }
 }

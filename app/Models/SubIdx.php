@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Jobs\ExtractSubIdxLanguageJob;
-use App\Support\Facades\FileHash;
 use App\Support\Facades\VobSub2Srt;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -33,8 +32,7 @@ class SubIdx extends Model
 
     public static function getOrCreateFromUpload(UploadedFile $subFile, UploadedFile $idxFile)
     {
-        $subHash = FileHash::make($subFile);
-        $idxHash = FileHash::make($idxFile);
+        [$subHash, $idxHash] = file_hash($subFile, $idxFile);
 
         $cachedSubIdx = SubIdx::query()
             ->where('sub_hash', $subHash)

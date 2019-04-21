@@ -7,7 +7,6 @@ use App\Models\FileGroup;
 use App\Subtitles\TextFileFormat;
 use App\Subtitles\VobSub\VobSub2Srt;
 use App\Subtitles\VobSub\VobSub2SrtInterface;
-use App\Support\Utils\FileHash;
 use App\Support\Utils\FileName;
 use App\Support\Utils\TempDir;
 use App\Support\Utils\TempFile;
@@ -21,10 +20,6 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('FileHash', function () {
-            return new FileHash();
-        });
-
         $this->app->bind('TextFileFormat', function ($app, $args) {
             return new TextFileFormat();
         });
