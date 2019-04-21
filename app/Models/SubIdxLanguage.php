@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Jobs\ExtractSubIdxLanguageJob;
 use Illuminate\Database\Eloquent\Model;
+use RuntimeException;
 
 class SubIdxLanguage extends Model
 {
@@ -62,5 +64,18 @@ class SubIdxLanguage extends Model
         }
 
         return route('subIdx.download', [$this->subIdx->url_key, $this->index]);
+    }
+
+    public function queueExtractJob()
+    {
+        if ($this->queued_at) {
+            throw new RuntimeException();
+        }
+
+        $this->update(['queued_at' => now()]);
+
+        SubIdxLanguageStats::recordLanguageExtracted($this);
+
+        ExtractSubIdxLanguageJob::dispatch($this);
     }
 }

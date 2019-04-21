@@ -5,6 +5,7 @@ namespace Tests\Unit\Controllers\Api;
 use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
+use App\Models\SubIdxLanguageStats;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -58,6 +59,11 @@ class SubIdxControllerTest extends TestCase
 
         $language = $subIdx->languages->first();
 
+        $languageStats = SubIdxLanguageStats::where('language', $language->language)->first();
+
+        $this->assertSame(1, $languageStats->times_seen);
+        $this->assertSame(0, $languageStats->times_extracted);
+
         $this->extractLanguage($subIdx, $language)->assertStatus(200);
 
         Queue::assertPushed(ExtractSubIdxLanguageJob::class, function (ExtractSubIdxLanguageJob $job) use ($language) {
@@ -67,6 +73,9 @@ class SubIdxControllerTest extends TestCase
         Queue::assertPushedOn('B200', ExtractSubIdxLanguageJob::class);
 
         $this->assertNotNull($language->refresh()->queued_at);
+
+        $this->assertSame(1, $languageStats->refresh()->times_extracted);
+        $this->assertSame(1, $languageStats->times_seen);
     }
 
     /** @test */

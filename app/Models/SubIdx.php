@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Support\Facades\VobSub2Srt;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +37,8 @@ class SubIdx extends Model
             ->where('sub_hash', $subHash)
             ->where('idx_hash', $idxHash)
             ->first();
+
+        SubIdxStats::recordNewUpload($subFile, $idxFile, (bool) $cachedSubIdx);
 
         if ($cachedSubIdx) {
             // Don't update the "updated_at" column, that column is used in "RandomizeSubIdxUrlKeysJob".
@@ -78,12 +79,10 @@ class SubIdx extends Model
 
         $subIdx->languages()->createMany($languages);
 
+        SubIdxLanguageStats::recordForNewUpload($subIdx);
+
         if (count($languages) === 1) {
-            $language = $subIdx->languages->first();
-
-            $language->update(['queued_at' => now()]);
-
-            ExtractSubIdxLanguageJob::dispatch($language);
+            $subIdx->languages->first()->queueExtractJob();
         }
 
         return $subIdx;

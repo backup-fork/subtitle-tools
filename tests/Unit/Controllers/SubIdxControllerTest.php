@@ -2,9 +2,13 @@
 
 namespace Tests\Unit\Controllers;
 
+use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
+use App\Models\SubIdxLanguageStats;
+use App\Models\SubIdxStats;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -82,6 +86,124 @@ class SubIdxControllerTest extends TestCase
         $subIdx = SubIdx::findOrFail(1);
 
         $response->assertRedirect(route('subIdx.show', $subIdx->url_key));
+    }
+
+    /** @test */
+    function it_creates_new_records_for_sub_idx_statistics()
+    {
+        $this->postSubIdx([
+                'sub' => $this->createUploadedFile('sub-idx/en-en-en-es.sub'),
+                'idx' => $this->createUploadedFile('sub-idx/en-en-en-es.idx'),
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertStatus(302);
+
+        $stats = SubIdxStats::today();
+
+        $this->assertSame(0, $stats->cache_hits);
+        $this->assertSame(1, $stats->cache_misses);
+        $this->assertSame(8945664 + 144413, $stats->total_file_size);
+
+        $languages = SubIdxLanguageStats::all();
+
+        $this->assertCount(2, $languages);
+
+        $this->assertSame(3, $languages->where('language', 'en')->first()->times_seen);
+        $this->assertSame(1, $languages->where('language', 'es')->first()->times_seen);
+    }
+
+    /** @test */
+    function it_increments_existing_records_for_sub_idx_statistics()
+    {
+        factory(SubIdxStats::class)->create([
+            'total_file_size' => 500,
+            'cache_hits' => 5,
+            'cache_misses' => 99,
+        ]);
+
+        factory(SubIdxLanguageStats::class)->create([
+            'language' => 'es',
+            'times_seen' => 3,
+        ]);
+
+        $this->postSubIdx([
+                'sub' => $this->createUploadedFile('sub-idx/en-en-en-es.sub'),
+                'idx' => $this->createUploadedFile('sub-idx/en-en-en-es.idx'),
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertStatus(302);
+
+        $stats = SubIdxStats::today();
+
+        $this->assertSame(5, $stats->cache_hits);
+        $this->assertSame(100, $stats->cache_misses);
+        $this->assertSame(8945664 + 144413 + 500, $stats->total_file_size);
+
+        $languages = SubIdxLanguageStats::all();
+
+        $this->assertCount(2, $languages);
+
+        $this->assertSame(3, $languages->where('language', 'en')->first()->times_seen);
+        $this->assertSame(4, $languages->where('language', 'es')->first()->times_seen);
+    }
+
+    /** @test */
+    function it_automatically_starts_extracting_if_there_is_only_one_language()
+    {
+        Queue::fake();
+
+        $this->postSubIdx([
+            'sub' => $this->createUploadedFile('sub-idx/only-danish.sub'),
+            'idx' => $this->createUploadedFile('sub-idx/only-danish.idx'),
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertStatus(302);
+
+        $subIdx = SubIdx::firstOrFail();
+
+        $this->assertCount(1, $subIdx->languages);
+
+        $language = $subIdx->languages->first();
+
+        $languageStats = SubIdxLanguageStats::where('language', $language->language)->first();
+
+        $this->assertSame(1, $languageStats->times_seen);
+        $this->assertSame(1, $languageStats->times_extracted);
+
+        Queue::assertPushed(ExtractSubIdxLanguageJob::class, function (ExtractSubIdxLanguageJob $job) use ($language) {
+            return $job->subIdxLanguage->id === $language->id;
+        });
+
+        $this->assertNotNull($language->queued_at);
+    }
+
+    /** @test */
+    function it_retrieves_sub_idx_from_cache()
+    {
+        /** @var SubIdx $subIdx */
+        $subIdx = factory(SubIdx::class)->create([
+            'sub_hash' => file_hash($this->testFilesStoragePath.'sub-idx/only-danish.sub'),
+            'idx_hash' => file_hash($this->testFilesStoragePath.'sub-idx/only-danish.idx'),
+            'cache_hits' => 0,
+            'last_cache_hit' => null,
+        ]);
+
+        $this->postSubIdx([
+                'sub' => $this->createUploadedFile('sub-idx/only-danish.sub'),
+                'idx' => $this->createUploadedFile('sub-idx/only-danish.idx'),
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subIdx.show', $subIdx->url_key));
+
+        $subIdx->refresh();
+
+        $this->assertSame(1, $subIdx->cache_hits);
+        $this->assertNow($subIdx->last_cache_hit);
+
+        $stats = SubIdxStats::today();
+
+        $this->assertSame(1, $stats->cache_hits);
+        $this->assertSame(0, $stats->cache_misses);
     }
 
     /** @test */
