@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\StoredFile;
 use App\Models\SubIdxLanguage;
+use App\Models\SubIdxLanguageStats;
 use App\Subtitles\PlainText\Srt;
 use App\Support\Facades\VobSub2Srt;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -69,6 +70,8 @@ class ExtractSubIdxLanguageJob extends BaseJob implements ShouldQueue
             'error_message' => $error,
             'finished_at' => now(),
         ]);
+
+        SubIdxLanguageStats::recordLanguageFailed($this->subIdxLanguage);
 
         return $this->subIdxLanguage;
     }

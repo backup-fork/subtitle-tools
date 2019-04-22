@@ -24,6 +24,7 @@ class CreateSubIdxStatsTable extends Migration
             $table->string('language')->unique();
             $table->unsignedInteger('times_seen')->default(0);
             $table->unsignedInteger('times_extracted')->default(0);
+            $table->unsignedInteger('times_failed')->default(0);
             $table->timestamps();
         });
     }

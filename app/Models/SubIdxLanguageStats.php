@@ -11,6 +11,7 @@ class SubIdxLanguageStats extends Model
     protected $casts = [
         'times_seen' => 'int',
         'times_extracted' => 'int',
+        'times_failed' => 'int',
     ];
 
     public static function recordForNewUpload(SubIdx $subIdx)
@@ -33,5 +34,10 @@ class SubIdxLanguageStats extends Model
     public static function recordLanguageExtracted(SubIdxLanguage $subIdxLanguage)
     {
         static::where('language', $subIdxLanguage->language)->increment('times_extracted');
+    }
+
+    public static function recordLanguageFailed(SubIdxLanguage $subIdxLanguage)
+    {
+        static::where('language', $subIdxLanguage->language)->increment('times_failed');
     }
 }

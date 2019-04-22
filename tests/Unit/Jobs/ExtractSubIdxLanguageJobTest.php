@@ -6,6 +6,7 @@ use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Models\StoredFile;
 use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
+use App\Models\SubIdxLanguageStats;
 use App\Support\Facades\VobSub2Srt;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,11 +44,17 @@ class ExtractSubIdxLanguageJobTest extends TestCase
 
         $language = $this->createSubIdxLanguage();
 
+        $stats = SubIdxLanguageStats::where('language', $language->language)->first();
+
+        $this->assertSame(0, $stats->times_failed);
+
         (new ExtractSubIdxLanguageJob($language))->handle();
 
         $this->assertNow($language->started_at);
         $this->assertNow($language->finished_at);
         $this->assertSame('messages.subidx_no_vobsub2srt_output_file', $language->error_message);
+
+        $this->assertSame(1, $stats->refresh()->times_failed);
     }
 
     /** @test */

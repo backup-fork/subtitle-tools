@@ -10,5 +10,6 @@ $factory->define(SubIdxLanguageStats::class, function (Faker $faker) {
         // 'language' => '',
         'times_seen' => 0,
         'times_extracted' => 0,
+        'times_failed' => 0,
     ];
 });
