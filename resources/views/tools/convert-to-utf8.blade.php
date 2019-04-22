@@ -32,7 +32,7 @@
         Many devices have trouble displaying text encodings that are not UTF-8, they will display the text as random, unreadable characters.
         <br/><br/>
         This tool converts the uploaded text files to UTF-8 so modern devices can properly read them.
-        You can uploaded multiple files at the same time, or upload a zip or rar file.
+        You can uploaded multiple files at the same time, or upload a zip file.
     </p>
 
     <h2>VLC showing weird symbols or boxes</h2>

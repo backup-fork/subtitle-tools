@@ -12,7 +12,7 @@
     <p>
         Online tool for changing subtitles to srt
         <br/><br/>
-        You can select multiple files or upload a zip or rar file to convert a batch of subtitles to srt
+        You can select multiple files or upload a zip file to convert a batch of subtitles to srt
     </p>
 
 
@@ -118,7 +118,7 @@
     <h3>Converting a batch of subtitles</h3>
     <p>
         You can convert up to a hundred files at the same time by uploading multiple files.
-        You can also upload a zip files or rar (winrar) files.
+        You can also upload a zip file.
         The tool will attempt to convert all the files inside the archive file.
         After uploading you will be redirected to the download page, where you can individually download the converted files, or generate a zip file and download them all at once.
     </p>

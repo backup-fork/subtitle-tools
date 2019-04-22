@@ -67,7 +67,7 @@ class DashboardController
 
         $dependencies['Zip archives'] = class_exists(\ZipArchive::class);
 
-        $dependencies['Rar archives (PECL)'] = class_exists(\RarArchive::class);
+        // $dependencies['Rar archives (PECL)'] = class_exists(\RarArchive::class);
 
         $dependencies['Curl extension'] = function_exists('curl_exec');
 

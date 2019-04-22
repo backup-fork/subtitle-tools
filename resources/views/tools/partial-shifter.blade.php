@@ -134,7 +134,7 @@
         It will not work if the subtitles gradually get more ouf of sync.
         <br/><br/>
         The following subtitle formats can be resynced: srt, ssa, ass, webvtt.
-        Multiple files can be uploaded at the same time, you can also upload a zip or a rar file.
+        Multiple files can be uploaded at the same time, you can also upload a zip file.
     </p>
 
     <h3>Learning more about shifting</h3>

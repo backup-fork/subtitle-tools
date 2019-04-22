@@ -10,7 +10,7 @@ class Archive
 {
     protected static $archiveReadClasses = [
         ZipArchiveRead::class,
-        RarArchiveRead::class,
+        // RarArchiveRead::class,
     ];
 
     protected static $isInitialized = false;

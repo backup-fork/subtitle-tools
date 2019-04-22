@@ -33,7 +33,7 @@
         This tool is especially useful for language learners, who can easily print out a transcript of a movie or video for studying.
         For Chinese students, it can be used together with the <a href="{{ route('pinyin') }}">pinyin subtitles tool</a> to create a plain text file with Chinese and pinyin.
         <br/><br/>
-        You can upload multiple files at once. You can also upload a zip or rar file to convert a batch of subtitles.
+        You can upload multiple files at once. You can also upload a zip file to convert a batch of subtitles.
     </p>
 
 @endsection
