@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.error'))
-@section('description', __('seo.description.error'))
-@section('keywords',    __('seo.keywords.error'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.error'),
+    'description' => __('seo.description.error'),
+    'keywords' => __('seo.keywords.error'),
+])
 
 @section('content')
 

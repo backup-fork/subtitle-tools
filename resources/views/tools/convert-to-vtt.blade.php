@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.convertToVtt'))
-@section('description', __('seo.description.convertToVtt'))
-@section('keywords',    __('seo.keywords.convertToVtt'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.convertToVtt'),
+    'description' => __('seo.description.convertToVtt'),
+    'keywords' => __('seo.keywords.convertToVtt'),
+])
 
 @include('helpers.dont-connect-echo')
 

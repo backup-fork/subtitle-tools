@@ -1,10 +1,9 @@
-@extends('layout.base-template')
+@extends('layout.guest.template', [
+    'title' => 'Download sup to srt file | Subtitle Tools',
+    'description' => 'Download your srt file when it is done processing',
+])
 
 @include('helpers.robots-no-index')
-
-@section('title',       'Download sup to srt file | Subtitle Tools')
-@section('description', 'Download your srt file when it is done processing')
-@section('keywords',    'sup, download')
 
 @section('content')
 

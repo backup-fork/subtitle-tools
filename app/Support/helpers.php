@@ -126,7 +126,7 @@ function dd_delay(int $timesCalled, ...$vars)
 function file_hash(...$files)
 {
     if (! $files) {
-        throw new RuntimeException('"file_hash()" required at least one argument');
+        throw new RuntimeException('"file_hash()" requires at least one argument');
     }
 
     $hashes = array_map(function ($file) {

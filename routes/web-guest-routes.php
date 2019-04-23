@@ -1,8 +1,8 @@
 <?php
 
-Route::get('st-login',   ['uses' => 'LoginController@index',  'as' => 'login'])->middleware('guest');
-Route::post('st-login',  ['uses' => 'LoginController@login',  'as' => 'login.post']);
-Route::post('st-logout', ['uses' => 'LoginController@logout', 'as' => 'logout']);
+Route::get('login',   ['uses' => 'LoginController@index',  'as' => 'login'])->middleware('guest');
+Route::post('login',  ['uses' => 'LoginController@login',  'as' => 'login.post']);
+Route::post('logout', ['uses' => 'LoginController@logout', 'as' => 'logout']);
 
 Route::view('/', 'home')->name('home');
 

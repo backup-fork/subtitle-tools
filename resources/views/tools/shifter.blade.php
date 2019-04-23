@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.shift'))
-@section('description', __('seo.description.shift'))
-@section('keywords',    __('seo.keywords.shift'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.shift'),
+    'description' => __('seo.description.shift'),
+    'keywords' => __('seo.keywords.shift'),
+])
 
 @include('helpers.dont-connect-echo')
 

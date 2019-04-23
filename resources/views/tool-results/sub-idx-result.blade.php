@@ -1,7 +1,7 @@
-@extends('layout.base-template')
-
-@section('title', __('seo.title.subIdxDetail'))
-@section('description', __('seo.description.subIdxDetail'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.subIdxDetail'),
+    'description' => __('seo.description.subIdxDetail'),
+])
 
 @include('helpers.robots-no-index')
 

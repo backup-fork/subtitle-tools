@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.cleanSrt'))
-@section('description', __('seo.description.cleanSrt'))
-@section('keywords',    __('seo.keywords.cleanSrt'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.cleanSrt'),
+    'description' => __('seo.description.cleanSrt'),
+    'keywords' => __('seo.keywords.cleanSrt'),
+])
 
 @include('helpers.dont-connect-echo')
 

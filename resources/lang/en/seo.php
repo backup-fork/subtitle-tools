@@ -57,7 +57,6 @@ return [
     'keywords.convertToVtt'    => 'convert to vtt, subtitles to vtt, ass to vtt, ssa to vtt, microdvd, smi to vtt, ass2vtt, ssa2vtt, smi2vtt, online, free, converter, conversion, subtitles, windows, mac, linux, freeware, vtt, webvtt, otranscribe',
     'keywords.convertToPlainText' => 'convert, plain text, transcript, timestamps, srt, ass, ssa, smi, microdvd, sub, learn, subtitle, subtitles, extract, webvtt',
     'keywords.convertToUtf8'   => 'subtitle, subtitles, unicode, srt, ass, txt, utf-8, encoding, file, files, text, textfile, convert, ascii, plain, ansi, online',
-    'keywords.fileGroupResult' => 'download, processed, files, subtitles, subtitle',
     'keywords.home'            => 'subtitle, subtitles, tool, tools, convert, clean, srt, ass, smi, ssa',
     'keywords.pinyin'          => 'pinyin, subtitles, make, chinese, learn, subtitle, srt, ass, smi, taiwan, hong kong, china',
     'keywords.shift'           => 'sync, resync, shift, shifter, online, free, tool, srt, ass, ssa, smi, fix subtitle, synchronizer, permanently, permanent, adjust, vlc, timing, vtt, webvtt',

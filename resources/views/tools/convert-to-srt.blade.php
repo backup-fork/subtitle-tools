@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.convertToSrt'))
-@section('description', __('seo.description.convertToSrt'))
-@section('keywords',    __('seo.keywords.convertToSrt'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.convertToSrt'),
+    'description' => __('seo.description.convertToSrt'),
+    'keywords' => __('seo.keywords.convertToSrt'),
+])
 
 @include('helpers.dont-connect-echo')
 

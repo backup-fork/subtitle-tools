@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title', __('seo.title.mergeSubtitles'))
-@section('description', __('seo.description.mergeSubtitles'))
-@section('keywords', __('seo.keywords.mergeSubtitles'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.mergeSubtitles'),
+    'description' => __('seo.description.mergeSubtitles'),
+    'keywords' => __('seo.keywords.mergeSubtitles'),
+])
 
 @include('helpers.dont-connect-echo')
 

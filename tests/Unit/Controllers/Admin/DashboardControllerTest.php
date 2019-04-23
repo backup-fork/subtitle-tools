@@ -18,6 +18,16 @@ class DashboardControllerTest extends TestCase
     }
 
     /** @test */
+    function it_forbids_users()
+    {
+        $this->userLogin()
+            ->getDashboard()
+            ->assertRedirect(route('login'));
+
+        $this->assertGuest();
+    }
+
+    /** @test */
     function it_can_show_with_a_seeded_database()
     {
         $this->seed();

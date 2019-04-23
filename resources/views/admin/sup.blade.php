@@ -1,4 +1,4 @@
-@extends('admin.layout.admin-template')
+@extends('layout.admin.template')
 
 @section('content')
     <h1>Sups</h1>

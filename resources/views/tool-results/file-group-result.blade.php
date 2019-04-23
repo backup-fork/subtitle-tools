@@ -1,8 +1,7 @@
-@extends('layout.base-template')
-
-@section('title', __('seo.title.fileGroupResult'))
-@section('description', __('seo.description.fileGroupResult'))
-@section('keywords', __('seo.keywords.fileGroupResult'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.fileGroupResult'),
+    'description' => __('seo.description.fileGroupResult'),
+])
 
 @include('helpers.robots-no-index')
 

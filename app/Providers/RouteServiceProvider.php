@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -13,22 +14,31 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->group(base_path('routes/guest-web-routes.php'));
+            ->group(base_path('routes/web-guest-routes.php'));
+
 
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/redirects.php'));
 
+
         Route::middleware('api')
             ->namespace($this->namespace.'\Api')
             ->name('api.')
             ->prefix('api/v1/')
-            ->group(base_path('routes/guest-api-routes.php'));
+            ->group(base_path('routes/api-guest-routes.php'));
 
-        Route::middleware(['web', 'auth'])
+
+        Route::middleware(['web', 'auth', IsAdmin::class])
             ->namespace($this->namespace.'\Admin')
             ->name('admin.')
             ->prefix('st-admin')
-            ->group(base_path('routes/admin-web-routes.php'));
+            ->group(base_path('routes/web-admin-routes.php'));
+
+
+        Route::middleware(['web', 'auth'])
+            ->namespace($this->namespace.'\User')
+            ->name('user.')
+            ->group(base_path('routes/web-user-routes.php'));
     }
 }

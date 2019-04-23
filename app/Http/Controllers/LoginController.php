@@ -16,11 +16,8 @@ class LoginController
 
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->route('admin.dashboard.index');
-    }
-
-    public function username()
-    {
-        return 'username';
+        return $user->is_admin
+            ? redirect()->route('admin.dashboard.index')
+            : redirect()->route('user.dashboard.index');
     }
 }

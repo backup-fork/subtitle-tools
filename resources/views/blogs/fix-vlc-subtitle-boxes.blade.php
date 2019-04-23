@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.blogVlcSubtitleBoxes'))
-@section('description', __('seo.description.blogVlcSubtitleBoxes'))
-@section('keywords',    __('seo.keywords.blogVlcSubtitleBoxes'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.blogVlcSubtitleBoxes'),
+    'description' => __('seo.description.blogVlcSubtitleBoxes'),
+    'keywords' => __('seo.keywords.blogVlcSubtitleBoxes'),
+])
 
 @include('helpers.dont-connect-echo')
 

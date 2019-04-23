@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title', __('seo.title.changeColor'))
-@section('description', __('seo.description.changeColor'))
-@section('keywords', __('seo.keywords.changeColor'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.changeColor'),
+    'description' => __('seo.description.changeColor'),
+    'keywords' => __('seo.keywords.changeColor'),
+])
 
 @include('helpers.dont-connect-echo')
 

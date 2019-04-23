@@ -1,8 +1,6 @@
-@extends('layout.base-template')
-
-@section('title',       'Login | Subtitle Tools')
-@section('description', '')
-@section('keywords',    'login, yo')
+@extends('layout.guest.template', [
+    'title' => 'Login | Subtitle Tools',
+])
 
 @include('helpers.dont-connect-echo')
 
@@ -10,12 +8,12 @@
 
     <h1>Login</h1>
 
-    <form method="post" action="{{ route('login') }}">
+    <form method="post" action="{{ route('login.post') }}">
         {{ csrf_field() }}
 
         <label class="block my-2 font-bold">
-            Username
-            <input class="block field" type="text" name="username" value="{{ old('username') }}" required autofocus>
+            Email
+            <input class="block field" type="text" name="email" value="{{ old('email') }}" required autofocus>
         </label>
 
         <label class="block my-2 font-bold">

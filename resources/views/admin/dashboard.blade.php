@@ -1,4 +1,4 @@
-@extends('admin.layout.admin-template')
+@extends('layout.admin.template')
 
 @section('content')
     <div class="flex mb-4 p-4 border rounded shadow bg-white">

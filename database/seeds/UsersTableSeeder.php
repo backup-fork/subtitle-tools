@@ -7,6 +7,15 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(User::class)->create(['username' => 'admin']);
+        factory(User::class)->create([
+            'email' => 'admin@example.com',
+            'is_admin' => true,
+        ]);
+
+
+        factory(User::class)->create([
+            'email' => 'user@example.com',
+            'is_admin' => false,
+        ]);
     }
 }

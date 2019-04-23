@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.3.1",
+        "ext-zip": "*",
         "doctrine/dbal": "^2.6",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
@@ -13,11 +14,11 @@
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.0",
         "sjorso/configless-laravel-backup": "^0.0.1",
+        "sjorso/enum": "^1.0",
         "sjorso/pinyin": "^1.0",
         "sjorso/sup": "^0.0",
         "spatie/flysystem-dropbox": "^1.0",
-        "spatie/laravel-sitemap": "^5.0",
-        "ext-zip": "*"
+        "spatie/laravel-sitemap": "^5.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",

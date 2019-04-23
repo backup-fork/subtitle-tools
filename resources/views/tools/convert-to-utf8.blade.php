@@ -1,8 +1,8 @@
-@extends('layout.base-template')
-
-@section('title',       __('seo.title.convertToUtf8'))
-@section('description', __('seo.description.convertToUtf8'))
-@section('keywords',    __('seo.keywords.convertToUtf8'))
+@extends('layout.guest.template', [
+    'title' => __('seo.title.convertToUtf8'),
+    'description' => __('seo.description.convertToUtf8'),
+    'keywords' => __('seo.keywords.convertToUtf8'),
+])
 
 @include('helpers.dont-connect-echo')
 

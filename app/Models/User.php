@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    protected $guarded = [];
 
-    protected $fillable = [
-        'name', 'email', 'password',
+    public $incrementing = false;
+
+    protected $casts = [
+        'is_admin' => 'bool',
+        'email_verified_at' => 'datetime',
+        'last_seen_at' => 'datetime',
     ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
 }
