@@ -110,6 +110,12 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
+    function it_detects_encoding_for_ibm855()
+    {
+        $this->assertEncoding('IBM855', 'ibm855/ibm855-000.txt');
+    }
+
+    /** @test */
     function it_detects_encoding_for_ibm866()
     {
         $this->assertEncoding('IBM866', 'ibm866/ibm866-000.txt');
@@ -298,8 +304,6 @@ class TextEncodingTest extends TestCase
 
             return;
         }
-
-        $this->assertTrue(strlen($output) > 100);
     }
 
     public function settingUp()
