@@ -1,4 +1,6 @@
-@extends('layout.admin.template')
+@extends('layout.user.template', [
+    'title' => 'Dashboard'
+])
 
 @section('content')
     Hallo

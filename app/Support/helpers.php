@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\StoredFile;
+use App\Models\User;
 use App\Support\TextFile\Facades\TextFileIdentifier;
 use App\Support\TextFile\Facades\TextFileReader;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -138,4 +139,15 @@ function file_hash(...$files)
     }, $files);
 
     return count($hashes) === 1 ? $hashes[0] : $hashes;
+}
+
+function user(): User
+{
+    $user = Auth::user();
+
+    if (! $user) {
+        throw new RuntimeException('Not logged in');
+    }
+
+    return $user;
 }

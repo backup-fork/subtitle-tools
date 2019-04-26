@@ -15,4 +15,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_seen_at' => 'datetime',
     ];
+
+    public function subIdxBatches()
+    {
+        return $this->hasMany(SubIdxBatch::class);
+    }
 }
