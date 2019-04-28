@@ -2,11 +2,9 @@
 
 namespace App\Subtitles\PlainText;
 
-use App\Support\TextFile\Facades\TextFileReader;
 use App\Subtitles\TextFile;
 use App\Subtitles\TransformsToGenericSubtitle;
 use App\Subtitles\WithFileLines;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Mpl2 extends TextFile implements TransformsToGenericSubtitle
 {
@@ -21,9 +19,7 @@ class Mpl2 extends TextFile implements TransformsToGenericSubtitle
      */
     public static function isThisFormat($file)
     {
-        $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
-
-        $lines = TextFileReader::getLines($filePath);
+        $lines = read_lines($file);
 
         $validCues = 0;
 

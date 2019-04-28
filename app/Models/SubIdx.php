@@ -66,7 +66,7 @@ class SubIdx extends Model
         $languages = VobSub2Srt::path($destinationFilePathWithoutExtension)->languages();
 
         $subIdx = SubIdx::create([
-            'original_name' => pathinfo($subFile->getClientOriginalName(), PATHINFO_FILENAME),
+            'original_name' => name_without_extension($subFile),
             'store_directory' => $storagePath,
             'filename' => $baseFileName,
             'sub_hash' => $subHash,

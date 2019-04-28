@@ -4,7 +4,7 @@ namespace App\Subtitles\PlainText;
 
 class Ssa extends Ass
 {
-    protected $extension = "ssa";
+    protected $extension = 'ssa';
 
     protected $cueClass = SsaCue::class;
 

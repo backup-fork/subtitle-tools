@@ -3,7 +3,6 @@
 namespace App\Subtitles;
 
 use Illuminate\Http\UploadedFile;
-use App\Support\TextFile\Facades\TextFileReader;
 
 abstract class TextFile
 {
@@ -68,17 +67,15 @@ abstract class TextFile
 
     public function loadFile($file)
     {
-        $name = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file;
-
-        $this->originalFileNameWithoutExtension = pathinfo($name, PATHINFO_FILENAME);
+        $this->originalFileNameWithoutExtension = name_without_extension($file);
 
         $this->filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
 
         // These properties come from the WithFileContent/WithFileLines trait
         if (property_exists($this, 'lines')) {
-            $this->lines = array_map('trim', TextFileReader::getLines($this->filePath));
+            $this->lines = array_map('trim', read_lines($this->filePath));
         } else {
-            $this->content = TextFileReader::getContent($this->filePath);
+            $this->content = read_content($this->filePath);
         }
 
         return $this;

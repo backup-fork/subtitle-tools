@@ -40,11 +40,7 @@ class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, P
      */
     public function loadFile($file)
     {
-        $name = $file instanceof UploadedFile
-            ? $file->getClientOriginalName()
-            : $file;
-
-        $this->originalFileNameWithoutExtension = pathinfo($name, PATHINFO_FILENAME);
+        $this->originalFileNameWithoutExtension = name_without_extension($file);
 
         $this->filePath = $file instanceof UploadedFile
             ? $file->getRealPath()

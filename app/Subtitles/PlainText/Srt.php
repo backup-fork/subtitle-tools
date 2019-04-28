@@ -71,9 +71,7 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
 
     public static function isThisFormat($file)
     {
-        $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
-
-        $lines = read_lines($filePath);
+        $lines = read_lines($file);
 
         for ($i = 1; $i < count($lines); $i++) {
             if (SrtCue::isTimingString($lines[$i]) && preg_match('/^\d+$/', trim($lines[$i-1]))) {
@@ -90,9 +88,7 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
      */
     public function loadFile($file)
     {
-        $name = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file;
-
-        $this->originalFileNameWithoutExtension = pathinfo($name, PATHINFO_FILENAME);
+        $this->originalFileNameWithoutExtension = name_without_extension($file);
 
         $this->filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
 

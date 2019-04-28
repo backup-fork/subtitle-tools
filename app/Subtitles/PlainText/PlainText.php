@@ -4,18 +4,16 @@ namespace App\Subtitles\PlainText;
 
 use App\Subtitles\TextFile;
 use App\Subtitles\WithFileContent;
-use App\Support\TextFile\Facades\TextFileIdentifier;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PlainText extends TextFile
 {
     use WithFileContent;
 
-    protected $extension = "txt";
+    protected $extension = 'txt';
 
     public function __construct()
     {
-
+        //
     }
 
     public function setContent($string)
@@ -27,8 +25,6 @@ class PlainText extends TextFile
 
     public static function isThisFormat($file)
     {
-        $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
-
-        return TextFileIdentifier::isTextFile($filePath);
+        return is_text_file($file);
     }
 }

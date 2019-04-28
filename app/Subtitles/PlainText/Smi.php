@@ -2,12 +2,10 @@
 
 namespace App\Subtitles\PlainText;
 
-use App\Support\TextFile\Facades\TextFileReader;
 use App\Subtitles\ShiftsCues;
 use App\Subtitles\TextFile;
 use App\Subtitles\TransformsToGenericSubtitle;
 use App\Subtitles\WithFileLines;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 {
@@ -102,9 +100,7 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 
     public static function isThisFormat($file)
     {
-        $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
-
-        $content = TextFileReader::getContent($filePath);
+        $content = read_content($file);
 
         $hasSamiTag = stripos($content, '<sami>') !== false;
 

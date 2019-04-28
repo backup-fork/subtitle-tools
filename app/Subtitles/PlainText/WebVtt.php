@@ -5,12 +5,12 @@ namespace App\Subtitles\PlainText;
 use App\Subtitles\ChangesColor;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\LoadsGenericSubtitles;
-use App\Subtitles\WithGenericCues;
 use App\Subtitles\PartialShiftsCues;
 use App\Subtitles\ShiftsCues;
 use App\Subtitles\TextFile;
 use App\Subtitles\TransformsToGenericSubtitle;
 use App\Subtitles\WithFileLines;
+use App\Subtitles\WithGenericCues;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, TransformsToGenericSubtitle, LoadsGenericSubtitles, ContainsGenericCues, ChangesColor
@@ -32,11 +32,7 @@ class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, Transfor
 
     public function loadFile($file)
     {
-        $name = $file instanceof UploadedFile
-            ? $file->getClientOriginalName()
-            : $file;
-
-        $this->originalFileNameWithoutExtension = pathinfo($name, PATHINFO_FILENAME);
+        $this->originalFileNameWithoutExtension = name_without_extension($file);
 
         $this->filePath = $file instanceof UploadedFile
             ? $file->getRealPath()
@@ -95,9 +91,7 @@ class WebVtt extends TextFile implements ShiftsCues, PartialShiftsCues, Transfor
 
     public static function isThisFormat($file)
     {
-        $filePath = $file instanceof UploadedFile ? $file->getRealPath() : $file;
-
-        $lines = read_lines($filePath);
+        $lines = read_lines($file);
 
         if (count($lines) === 0) {
             return false;

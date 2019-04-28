@@ -4,7 +4,7 @@ namespace App\Subtitles;
 
 trait WithFileContent
 {
-    protected $content = "";
+    protected $content = '';
 
     public function getContent()
     {
