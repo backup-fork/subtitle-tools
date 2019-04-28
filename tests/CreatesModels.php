@@ -6,9 +6,12 @@ use App\Models\FileGroup;
 use App\Models\FileJob;
 use App\Models\StoredFile;
 use App\Models\SupJob;
+use App\Models\User;
 
 trait CreatesModels
 {
+    use CreatesSubIdxBatches;
+
     public function createStoredFile($attributes = []): StoredFile
     {
         return factory(StoredFile::class)->create($attributes);
@@ -34,5 +37,18 @@ trait CreatesModels
     public function makeFileJob($attributes = []): FileJob
     {
         return factory(FileJob::class)->make($attributes);
+    }
+
+    public function createUser($attributes = []): User
+    {
+        return factory(User::class)->create($attributes + [
+            'is_admin' => false,
+            'email_verified_at' => now(),
+        ]);
+    }
+
+    public function createAdmin($attributes = []): User
+    {
+        return $this->createUser(['is_admin' => true] + $attributes);
     }
 }

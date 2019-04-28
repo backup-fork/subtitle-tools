@@ -8,9 +8,7 @@ class IdxFile
 
     public function __construct($idxFilePath)
     {
-        $idxLines = read_lines($idxFilePath);
-
-        foreach ($idxLines as $line) {
+        foreach (read_lines($idxFilePath) as $line) {
             if (preg_match('/^id: (?<lang>[a-z]+), index: (?<id>\d+)$/', $line, $match)) {
                 $this->indexLanguageArray[$match['id']] = $match['lang'];
             }
@@ -21,5 +19,4 @@ class IdxFile
     {
         return $this->indexLanguageArray[$index] ?? 'unknown';
     }
-
 }

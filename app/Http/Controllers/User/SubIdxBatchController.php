@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\SubIdxBatch;
+use App\Models\SubIdxBatch\SubIdxBatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use function user;
 
 class SubIdxBatchController
 {
@@ -34,6 +33,8 @@ class SubIdxBatchController
 
     public function show(SubIdxBatch $subIdxBatch)
     {
-        dd($subIdxBatch);
+        return view('user.sub-idx-batch.show', [
+            'subIdxBatch' => $subIdxBatch,
+        ]);
     }
 }

@@ -10,11 +10,9 @@ class CreateStoredFilesTable extends Migration
     {
         Schema::create('stored_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('hash');
+            $table->string('hash')->unique();
             $table->string('storage_file_path');
             $table->timestamps();
-
-            $table->unique('hash');
         });
     }
 }

@@ -34,7 +34,7 @@ return [
      *   PruneStoredFiles command
      *
      */
-    'checked-migration' => '2019_04_23_185600_create_users_table',
+    'checked-migration' => '2019_04_26_094412_create_sub_idx_batches_table',
 
     'tesseract' => [
 

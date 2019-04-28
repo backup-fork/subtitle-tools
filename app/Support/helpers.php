@@ -151,3 +151,12 @@ function user(): User
 
     return $user;
 }
+
+function name_without_extension($file)
+{
+    if ($file instanceof UploadedFile) {
+        $file = $file->getClientOriginalName();
+    }
+
+    return pathinfo($file, PATHINFO_FILENAME);
+}

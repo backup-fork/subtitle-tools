@@ -3,19 +3,30 @@
 namespace Tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 trait CreatesUploadedFiles
 {
     public function createUploadedFile($filePath, $fileName = null)
     {
-        if (! starts_with($filePath, $this->testFilesStoragePath)) {
-            $filePath = str_finish($this->testFilesStoragePath, DIRECTORY_SEPARATOR).ltrim($filePath, DIRECTORY_SEPARATOR);
+        if (! Str::startsWith($filePath, $this->testFilesStoragePath)) {
+            $filePath = Str::finish($this->testFilesStoragePath, '/').ltrim($filePath, '/');
         }
 
         return new UploadedFile(
             $filePath,
             $fileName ?? base_path($filePath),
-            null, null, null, true
+            null,
+            null,
+            null,
+            true
         );
+    }
+
+    public function createUploadedFiles($files)
+    {
+        return array_map(function ($file) {
+            return $this->createUploadedFile($file);
+        }, $files);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SubIdxBatch\SubIdxBatch;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable

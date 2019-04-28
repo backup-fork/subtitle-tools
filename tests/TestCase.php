@@ -4,14 +4,13 @@ namespace Tests;
 
 use App\Models\FileGroup;
 use App\Models\StoredFile;
-use App\Models\User;
 use App\Support\Facades\TempFile;
 use Carbon\Carbon;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
 use Spatie\Snapshots\Drivers\JsonDriver;
 use Spatie\Snapshots\MatchesSnapshots;
-use Illuminate\Contracts\Console\Kernel;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -125,7 +124,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function adminLogin($user = null)
     {
-        $user = $user ?: factory(User::class)->create(['is_admin' => true]);
+        $user = $user ?: $this->createAdmin();
 
         return $this->actingAs($user);
     }
@@ -137,7 +136,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function userLogin($user = null)
     {
-        $user = $user ?: factory(User::class)->create(['is_admin' => false]);
+        $user = $user ?: $this->createUser();
 
         return $this->actingAs($user);
     }
