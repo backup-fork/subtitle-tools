@@ -90,7 +90,7 @@ class SubIdxBatchUpload
             'original_name' => name_without_extension($file),
             'hash' => file_hash($file),
             'is_sub' => $isSub,
-            'storage_file_path' => Storage::putFileAs($subIdxBatch->id, $file, $uuid),
+            'storage_file_path' => Storage::putFileAs($subIdxBatch->id, $file, $uuid.($isSub ? '.sub' : '.idx')),
         ]);
     }
 

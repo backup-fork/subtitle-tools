@@ -10,7 +10,9 @@
     </div>
 
     @forelse($subIdxBatches as $batch)
-        <div>{{ $batch->id }}</div>
+        <div>
+            <a href="{{ route('user.subIdxBatch.showUpload', $batch) }}">{{ $batch->id }}</a>
+        </div>
     @empty
         You do not have any sub/idx batches yet.
     @endforelse

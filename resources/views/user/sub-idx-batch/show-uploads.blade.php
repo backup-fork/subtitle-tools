@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h1>Sub/Idx Batch</h1>
+    @include('user.sub-idx-batch.partials.show-header')
 
     <div>
         Step 1: Upload sub/idx files

@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             SupTableSeeder::class,
             StoredFilesTableSeeder::class,
             DiskUsageTableSeeder::class,
+            SubIdxBatchTableSeeder::class,
         ]);
     }
 }

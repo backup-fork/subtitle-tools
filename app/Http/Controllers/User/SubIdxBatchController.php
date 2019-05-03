@@ -28,12 +28,32 @@ class SubIdxBatchController
 
         $subIdxBatch = user()->subIdxBatches()->create(['id' => Str::uuid()] + $values);
 
-        return redirect()->route('user.subIdxBatch.show', $subIdxBatch);
+        return redirect()->route('user.subIdxBatch.showUpload', $subIdxBatch);
     }
 
-    public function show(SubIdxBatch $subIdxBatch)
+    public function showUpload(SubIdxBatch $subIdxBatch)
     {
-        return view('user.sub-idx-batch.show', [
+        $subIdxBatch->load('files', 'unlinkedFiles');
+
+        return view('user.sub-idx-batch.show-uploads', [
+            'subIdxBatch' => $subIdxBatch,
+        ]);
+    }
+
+    public function showUnlinked(SubIdxBatch $subIdxBatch)
+    {
+        $subIdxBatch->load('files', 'unlinkedFiles');
+
+        return view('user.sub-idx-batch.show-unlinked', [
+            'subIdxBatch' => $subIdxBatch,
+        ]);
+    }
+
+    public function showLinked(SubIdxBatch $subIdxBatch)
+    {
+        $subIdxBatch->load('files', 'unlinkedFiles');
+
+        return view('user.sub-idx-batch.show-linked', [
             'subIdxBatch' => $subIdxBatch,
         ]);
     }

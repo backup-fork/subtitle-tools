@@ -11,3 +11,16 @@ namespace Illuminate\Http
         }
     }
 }
+
+namespace Illuminate\Support
+{
+    class Str
+    {
+        // Prevent "Method __toString() is not implemented" warnings.
+        public function uuid()
+        {
+            return '';
+        }
+    }
+
+}
