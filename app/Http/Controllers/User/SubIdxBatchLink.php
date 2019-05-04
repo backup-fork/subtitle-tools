@@ -16,8 +16,8 @@ class SubIdxBatchLink
 
         $uuid = Str::uuid();
 
-        Storage::move($unlinkedSub->storage_file_path, $subStoragePath = "$subIdxBatch->id/$uuid/a.sub");
-        Storage::move($unlinkedIdx->storage_file_path, $idxStoragePath = "$subIdxBatch->id/$uuid/a.idx");
+        Storage::move($unlinkedSub->storage_file_path, $subStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.sub");
+        Storage::move($unlinkedIdx->storage_file_path, $idxStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.idx");
 
         $subIdxBatch->files()->create([
             'id' => $uuid,

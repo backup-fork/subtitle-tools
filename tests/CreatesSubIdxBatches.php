@@ -6,6 +6,7 @@ use App\Models\SubIdxBatch\SubIdxBatch;
 use App\Models\SubIdxBatch\SubIdxBatchFile;
 use App\Models\SubIdxBatch\SubIdxUnlinkedBatchFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait CreatesSubIdxBatches
 {
@@ -28,8 +29,12 @@ trait CreatesSubIdxBatches
 
         $subIdxBatch = $subIdxBatch ?: $this->createSubIdxBatch();
 
+        $type = $isSub ? 'sub' : 'idx';
+
         /** @var SubIdxUnlinkedBatchFile $unlinkedFile */
-        $unlinkedFile = factory(SubIdxUnlinkedBatchFile::class)->state($isSub ? 'sub' : 'idx')->create([
+        $unlinkedFile = factory(SubIdxUnlinkedBatchFile::class)->state($type)->create([
+            'id' => $uuid = Str::uuid()->toString(),
+            'storage_file_path' => "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid.$type",
             'sub_idx_batch_id' => $subIdxBatch->id,
         ]);
 
@@ -65,9 +70,18 @@ trait CreatesSubIdxBatches
     {
         $subIdxBatch = $subIdxBatch ?: $this->createSubIdxBatch();
 
-        return factory(SubIdxBatchFile::class)->create([
+        /** @var SubIdxBatchFile $batchFile */
+        $batchFile = factory(SubIdxBatchFile::class)->create([
+            'id' => $uuid = Str::uuid()->toString(),
             'sub_idx_batch_id' => $subIdxBatch->id,
+            'sub_storage_file_path' => "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.sub",
+            'idx_storage_file_path' => "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.idx",
         ]);
+
+        Storage::put($batchFile->sub_storage_file_path, '');
+        Storage::put($batchFile->idx_storage_file_path, '');
+
+        return $batchFile;
     }
 
     public function createSubIdxBatchFiles($count, $subIdxBatch = null)

@@ -90,7 +90,7 @@ class SubIdxBatchUpload
             'original_name' => name_without_extension($file),
             'hash' => file_hash($file),
             'is_sub' => $isSub,
-            'storage_file_path' => Storage::putFileAs($subIdxBatch->id, $file, $uuid.($isSub ? '.sub' : '.idx')),
+            'storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id", $file, $uuid.($isSub ? '.sub' : '.idx')),
         ]);
     }
 
@@ -102,8 +102,8 @@ class SubIdxBatchUpload
             'idx_original_name' => name_without_extension($idx),
             'sub_hash' => file_hash($sub),
             'idx_hash' => file_hash($idx),
-            'sub_storage_file_path' => Storage::putFileAs("$subIdxBatch->id/$uuid", $sub, 'a.sub'),
-            'idx_storage_file_path' => Storage::putFileAs("$subIdxBatch->id/$uuid", $idx, 'a.idx'),
+            'sub_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $sub, 'a.sub'),
+            'idx_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $idx, 'a.idx'),
         ]);
     }
 }

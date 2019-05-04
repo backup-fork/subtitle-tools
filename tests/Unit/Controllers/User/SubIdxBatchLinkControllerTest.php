@@ -40,6 +40,7 @@ class SubIdxBatchLinkControllerTest extends TestCase
 
         $this->actingAs($this->subIdxBatch->user)
             ->postLink($this->subIdxBatch, $sub->id, $idx->id)
+            ->assertSessionHasNoErrors()
             ->assertStatus(422);
     }
 
@@ -51,6 +52,7 @@ class SubIdxBatchLinkControllerTest extends TestCase
 
         $this->actingAs($this->subIdxBatch->user)
             ->postLink($this->subIdxBatch, $sub1->id, $sub2->id)
+            ->assertSessionHasNoErrors()
             ->assertStatus(422);
     }
 
