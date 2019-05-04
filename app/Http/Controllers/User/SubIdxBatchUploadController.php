@@ -10,9 +10,18 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SubIdxBatchUpload
+class SubIdxBatchUploadController
 {
-    public function __invoke(Request $request, SubIdxBatch $subIdxBatch)
+    public function index(SubIdxBatch $subIdxBatch)
+    {
+        $subIdxBatch->load('files', 'unlinkedFiles');
+
+        return view('user.sub-idx-batch.show-uploads', [
+            'subIdxBatch' => $subIdxBatch,
+        ]);
+    }
+
+    public function post(Request $request, SubIdxBatch $subIdxBatch)
     {
         $files = $request->validate([
             'files' => ['required', 'array', 'max:100', new AreUploadedFilesRule],

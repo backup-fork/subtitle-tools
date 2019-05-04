@@ -8,9 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SubIdxBatchLink
+class SubIdxBatchUnlinkedFilesController
 {
-    public function __invoke(Request $request, SubIdxBatch $subIdxBatch)
+    public function index(SubIdxBatch $subIdxBatch)
+    {
+        $subIdxBatch->load('files', 'unlinkedFiles');
+
+        return view('user.sub-idx-batch.show-unlinked', [
+            'subIdxBatch' => $subIdxBatch,
+        ]);
+    }
+
+    public function link(Request $request, SubIdxBatch $subIdxBatch)
     {
         [$unlinkedSub, $unlinkedIdx] = $this->validate($request, $subIdxBatch);
 

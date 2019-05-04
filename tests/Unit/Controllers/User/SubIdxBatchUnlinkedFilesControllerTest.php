@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class SubIdxBatchLinkControllerTest extends TestCase
+class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,6 +18,30 @@ class SubIdxBatchLinkControllerTest extends TestCase
     public function settingUp()
     {
         $this->subIdxBatch = $this->createSubIdxBatch();
+    }
+
+    /** @test */
+    function it_will_only_show_your_own_batches()
+    {
+
+    }
+
+    /** @test */
+    function show_the_unlinked_page_for_an_empty_batch()
+    {
+
+    }
+
+    /** @test */
+    function show_the_unlinked_page_when_all_files_are_linked()
+    {
+
+    }
+
+    /** @test */
+    function show_the_unlinked_page_when_some_files_are_unlinked()
+    {
+
     }
 
     /** @test */
