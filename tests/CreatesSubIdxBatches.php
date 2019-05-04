@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\SubIdxBatch\SubIdxBatch;
 use App\Models\SubIdxBatch\SubIdxBatchFile;
 use App\Models\SubIdxBatch\SubIdxUnlinkedBatchFile;
+use Illuminate\Support\Facades\Storage;
 
 trait CreatesSubIdxBatches
 {
@@ -21,28 +22,30 @@ trait CreatesSubIdxBatches
         ]);
     }
 
-    public function createUnlinkedBatchFile($subIdxBatch = null, $attributes = []): SubIdxUnlinkedBatchFile
+    public function createUnlinkedBatchFile($subIdxBatch = null, $isSub = null): SubIdxUnlinkedBatchFile
     {
-        if (is_array($subIdxBatch)) {
-            [$subIdxBatch, $attributes] = [$attributes, $subIdxBatch];
-        }
+        $isSub = is_null($isSub) ? ((bool) mt_rand(0, 1)) : $isSub;
 
         $subIdxBatch = $subIdxBatch ?: $this->createSubIdxBatch();
 
-        return factory(SubIdxUnlinkedBatchFile::class)->create([
+        /** @var SubIdxUnlinkedBatchFile $unlinkedFile */
+        $unlinkedFile = factory(SubIdxUnlinkedBatchFile::class)->state($isSub ? 'sub' : 'idx')->create([
             'sub_idx_batch_id' => $subIdxBatch->id,
-        ] + $attributes);
-    }
+        ]);
 
+        Storage::put($unlinkedFile->storage_file_path, '');
+
+        return $unlinkedFile;
+    }
 
     public function createUnlinkedBatchFile_sub($subIdxBatch = null): SubIdxUnlinkedBatchFile
     {
-        return $this->createUnlinkedBatchFile($subIdxBatch, ['is_sub' => true]);
+        return $this->createUnlinkedBatchFile($subIdxBatch, true);
     }
 
     public function createUnlinkedBatchFile_idx($subIdxBatch = null): SubIdxUnlinkedBatchFile
     {
-        return $this->createUnlinkedBatchFile($subIdxBatch, ['is_sub' => false]);
+        return $this->createUnlinkedBatchFile($subIdxBatch, false);
     }
 
     public function createUnlinkedBatchFiles($count, $subIdxBatch = null)
@@ -52,7 +55,7 @@ trait CreatesSubIdxBatches
         $unlinkedSubFiles = [];
 
         for ($i = 0; $i < $count; $i++) {
-            $unlinkedSubFiles[] = $this->createUnlinkedBatchFile($subIdxBatch, ['is_sub' => (bool) ($toggle++ % 2)]);
+            $unlinkedSubFiles[] = $this->createUnlinkedBatchFile($subIdxBatch, (bool) ($toggle++ % 2));
         }
 
         return $unlinkedSubFiles;

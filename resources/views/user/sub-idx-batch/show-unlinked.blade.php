@@ -10,12 +10,45 @@
         Unlinked files
     </div>
 
-    @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
-        You haven't uploaded any files to this batch yet.
-    @elseif($subIdxBatch->unlinkedFiles->isEmpty())
-        All uploaded sub/idx files have been linked
-    @else
-        The sub and idx files listed below have not been linked yet.
-    @endif
+    <form method="post" action="{{ route('user.subIdxBatch.link', $subIdxBatch) }}" class="max-w-md">
+        {{ csrf_field() }}
+
+        @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
+            You haven't uploaded any files to this batch yet.
+        @elseif($subIdxBatch->unlinkedFiles->isEmpty())
+            All uploaded sub/idx files have been linked
+        @else
+            The sub and idx files listed below have not been linked yet.
+
+            <h2 class="mb-2">Unlinked sub files</h2>
+            @forelse($subIdxBatch->unlinkedFiles->where('is_sub', true) as $unlinkedSub)
+                <div class="mb-2 pb-2 border-b">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="sub" value="{{ $unlinkedSub->id }}" class="mr-2" required>
+                        {{ $unlinkedSub->original_name }}
+                    </label>
+                </div>
+            @empty
+                There are no unlinked sub files.
+            @endforelse
+
+
+            <h2 class="mt-8 mb-2">Unlinked idx files</h2>
+            @forelse($subIdxBatch->unlinkedFiles->where('is_sub', false) as $unlinkedIdx)
+                <div class="mb-2 pb-2 border-b">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="idx" value="{{ $unlinkedIdx->id }}" class="mr-2" required>
+                        {{ $unlinkedIdx->original_name }}
+                    </label>
+                </div>
+            @empty
+                There are no unlinked idx files.
+            @endforelse
+
+            <button class="btn mt-8">Link selected files</button>
+
+        @endif
+
+    </form>
 
 @endsection
