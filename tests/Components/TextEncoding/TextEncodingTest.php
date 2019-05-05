@@ -110,6 +110,12 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
+    function it_detects_encoding_for_ibm855()
+    {
+        $this->assertEncoding('IBM855', 'ibm855/ibm855-000.txt');
+    }
+
+    /** @test */
     function it_detects_encoding_for_ibm866()
     {
         $this->assertEncoding('IBM866', 'ibm866/ibm866-000.txt');
@@ -176,7 +182,11 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_windows_1252()
     {
-
+        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-000.txt');
+        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-001.txt');
+        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-002.txt');
+        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-003.txt');
+        $this->assertEncoding('windows-1252', 'windows-1252/windows-1252-004.txt');
     }
 
     /** @test */
@@ -203,12 +213,16 @@ class TextEncodingTest extends TestCase
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-004.txt');
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-005.txt');
         $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-006.txt');
+        $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-007.txt');
+        $this->assertEncoding('windows-1256', 'windows-1256/windows-1256-008.txt');
     }
 
     /** @test */
     function it_detects_encoding_for_mac_cyrillic()
     {
         $this->assertEncoding('MacCyrillic', 'mac-cyrillic/mac-cyrillic-000-rus.txt');
+        $this->assertEncoding('MacCyrillic', 'mac-cyrillic/mac-cyrillic-001.txt');
+        $this->assertEncoding('MacCyrillic', 'mac-cyrillic/mac-cyrillic-002.txt');
     }
 
     /** @test */
@@ -229,6 +243,9 @@ class TextEncodingTest extends TestCase
     function it_detects_encoding_for_viscii()
     {
         $this->assertEncoding('viscii', 'viscii/viscii-000.txt');
+        $this->assertEncoding('viscii', 'viscii/viscii-001.txt');
+        $this->assertEncoding('viscii', 'viscii/viscii-002.txt');
+        $this->assertEncoding('viscii', 'viscii/viscii-003.txt');
     }
 
     /** @test */
@@ -298,8 +315,6 @@ class TextEncodingTest extends TestCase
 
             return;
         }
-
-        $this->assertTrue(strlen($output) > 100);
     }
 
     public function settingUp()

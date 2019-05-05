@@ -231,6 +231,7 @@ return [
         'nor' => 'Norwegian',
         'pol' => 'Polish',
         'por' => 'Portuguese',
+        'ron' => 'Romanian',
         'rus' => 'Russian',
         'slv' => 'Slovenian',
         'spa' => 'Spanish',

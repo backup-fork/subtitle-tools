@@ -1,0 +1,175 @@
+WEBVTT
+
+00:00.660 --> 00:09.790
+Now moving on to some of the other important question which you might be having now is I would be starting
+
+00:09.920 --> 00:14.260
+with a random value of Ulfar be done Gummo.
+
+00:14.740 --> 00:17.640
+Now where do I start.
+
+00:17.860 --> 00:26.920
+How do I know that this is the right place to start my Alvah I can take a very bad guess and then would
+
+00:26.920 --> 00:32.510
+I be able to reach to the right conclusion and find do I need a tuning or learning.
+
+00:32.650 --> 00:33.390
+That is the first question.
+
+00:33.400 --> 00:45.490
+And then how much time it takes would it take for ever to really reach to final that or value of this
+
+00:45.490 --> 00:54.940
+learning parameters which basically gives me or completes my Martu and I'm able to guess the output
+
+00:56.220 --> 01:06.130
+to its utmost perfection and I'm able to guess the final output of utmost perfection.
+
+01:06.210 --> 01:11.300
+Now the answer is really trying to guess.
+
+01:11.310 --> 01:20.360
+And the baby trying to increment the value or we try to increase the value of this alphabet and Gama'a
+
+01:21.680 --> 01:25.510
+are pretty much under machine learning.
+
+01:25.580 --> 01:26.190
+So.
+
+01:26.480 --> 01:33.210
+So you know we're also following some steps or standards based on what algorithm you choose.
+
+01:33.200 --> 01:39.750
+For example in our metrics vectorization our collaborative filtering algorithm we would be starting
+
+01:40.000 --> 01:46.440
+that old for about zero point zero or two and the beat.
+
+01:46.610 --> 01:53.370
+Which is the regulation barometer would be also very small about range zero point zero zero zero or
+
+01:53.370 --> 01:54.160
+1.
+
+01:54.170 --> 02:02.630
+Now we don't have some of the problems which can come into where we don't want to reach to optimal value
+
+02:02.630 --> 02:08.900
+of our find beat up and we basically are forever tuning the machine.
+
+02:08.900 --> 02:17.840
+It can happen and all of those things can be covered up but adding some more regulation by a meter or
+
+02:17.840 --> 02:27.980
+trying to not have a higher Ulfar which will allow us to really oscillate For example if we would also
+
+02:27.980 --> 02:35.500
+run into some situation where we'd never leads to optimum value of Ulfar we don't other learning that
+
+02:35.540 --> 02:41.380
+ammeters which can give us done minimum at all.
+
+02:41.450 --> 02:49.720
+Now also some of the problems Fich can come why this Balamory detuning is leveraged to the minimum and
+
+02:50.040 --> 02:56.930
+we think that it is the minimum but it made me a local minimum not a general.
+
+02:56.930 --> 03:09.850
+For example if we have a core like this and I'll be the ABC you're talking about this point here.
+
+03:09.850 --> 03:16.570
+So if I did the Y value y one and this is why do.
+
+03:16.840 --> 03:26.670
+And here you can see that in this particular point he and this particular breed in the point to a why
+
+03:26.670 --> 03:38.170
+one is the y axis value and the point B and Y to the value of corresponding y axis and y one is bigger
+
+03:38.170 --> 03:42.650
+than Y to if y is our error.
+
+03:42.880 --> 03:55.930
+Then in the scenario of when are having a highly value of better and sometimes we will be fine tuning
+
+03:55.990 --> 03:58.330
+our monitor and we are stuck here.
+
+03:58.390 --> 04:04.180
+And we think that this is the minimum because we can see a biology nature of the curve.
+
+04:04.570 --> 04:10.830
+But you stop your machine learning algorithm because you see that this is a minimum error value.
+
+04:11.020 --> 04:21.540
+And I think that I mean us we gone are the optimum better images but point B with y to value of error
+
+04:21.700 --> 04:26.400
+is basically the realistic minimum value of error.
+
+04:26.710 --> 04:29.920
+Now this is called The problem of the local minima.
+
+04:29.950 --> 04:36.640
+So there are certain types of problem that you will be dealing when you go to the face of fine tuning
+
+04:36.970 --> 04:45.790
+your pedometer and your algorithm must be capable of from mathematical side to able to overcome those
+
+04:45.790 --> 04:46.870
+scenarios.
+
+04:46.900 --> 04:55.810
+So too broad example of the problem which can come into is the problem of local minima here and the
+
+04:55.870 --> 05:08.890
+other is you are oscillating and never finding the right values and you are always whenever you increment
+
+05:08.890 --> 05:10.420
+or decrement your floating better.
+
+05:10.420 --> 05:17.590
+Maîtresse sometimes you are going very higher going down in the error and certainly the high happens
+
+05:18.040 --> 05:28.880
+and you're basically oscillating and you are never coming to the optimum value of like fight which are
+
+05:28.890 --> 05:36.830
+which can give you in minimalistic editor and this type of oscillation and which is also reflects overfitting
+
+05:37.070 --> 05:46.710
+or under-15 and the locals meaning my problem are the main reason why from a mathematical angle we should
+
+05:46.710 --> 05:54.470
+be very concrete for our algorithm should be very concrete that it takes care of all those who are you
+
+05:55.130 --> 06:00.930
+know it's important to know about all these problems before going to the man's side.
+
+06:00.930 --> 06:07.920
+That is then you understand what are the complexity of the mathematical algorithm should be and why
+
+06:07.920 --> 06:14.530
+we need to go on a very deeper level of the map to be able to solve this kind of issues.
+
+06:14.550 --> 06:24.570
+So for a discussion let's move on to the math side of our metrics factorization algorithm which is using
+
+06:24.570 --> 06:30.090
+collaborative filtering and really understanding this with a recommendation system.
+
+06:30.090 --> 06:36.210
+So there are two main jargons we are just going to tell you how the collaborative to filter algorithm
+
+06:36.210 --> 06:37.710
+works.
+
+06:37.710 --> 06:41.130
+Considering the example of recommendation system.
+
+06:41.130 --> 06:42.820
+So let's go ahead and do that.

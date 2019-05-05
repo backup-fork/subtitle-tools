@@ -1,0 +1,2 @@
+LINK %Programs%\ќфис\Imagine,%CurDir%\Imagine.exe
+EXEC %TOOLS%\Imagine\Imagine.exe /regcontextmenu /assocext
