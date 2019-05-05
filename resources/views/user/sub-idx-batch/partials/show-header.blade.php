@@ -5,11 +5,15 @@
         Upload files
     </a>
 
-    <a href="{{ route('user.subIdxBatch.showUnlinked', $subIdxBatch) }}" class="mx-8 {{ Route::is('*.showUnlinked') ? 'font-bold' : '' }}">
+    <a href="{{ route('user.subIdxBatch.showUnlinked', $subIdxBatch) }}" class="ml-8 {{ Route::is('*.showUnlinked') ? 'font-bold' : '' }}">
         Unlinked files ({{ $subIdxBatch->unlinkedFiles->count() }})
     </a>
 
-    <a href="{{ route('user.subIdxBatch.showLinked', $subIdxBatch) }}" class="{{ Route::is('*.showLinked') ? 'font-bold' : '' }}">
+    <a href="{{ route('user.subIdxBatch.showLinked', $subIdxBatch) }}" class="ml-8 {{ Route::is('*.showLinked') ? 'font-bold' : '' }}">
         Linked files ({{ $subIdxBatch->files->count() }})
+    </a>
+
+    <a href="{{ route('user.subIdxBatch.showStart', $subIdxBatch) }}" class="ml-8 {{ Route::is('*.showStart') ? 'font-bold' : '' }}">
+        Start batch
     </a>
 </div>

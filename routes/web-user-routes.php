@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SubIdxBatchController;
 use App\Http\Controllers\User\SubIdxBatchLinkedFilesController;
+use App\Http\Controllers\User\SubIdxBatchStartController;
 use App\Http\Controllers\User\SubIdxBatchUnlinkedFilesController;
 use App\Http\Controllers\User\SubIdxBatchUploadController;
 
@@ -20,3 +21,6 @@ Route::post('/sub-idx-batches/{subIdxBatch}/link', [SubIdxBatchUnlinkedFilesCont
 
 Route::get('/sub-idx-batches/{subIdxBatch}/files', [SubIdxBatchLinkedFilesController::class, 'index'])->name('subIdxBatch.showLinked');
 Route::post('/sub-idx-batches/unlink/{subIdxBatchFile}', [SubIdxBatchLinkedFilesController::class, 'unlink'])->name('subIdxBatch.unlink');
+
+Route::get('/sub-idx-batches/{subIdxBatch}/start', [SubIdxBatchStartController::class, 'index'])->name('subIdxBatch.showStart');
+Route::post('/sub-idx-batches/{subIdxBatch}/start', [SubIdxBatchStartController::class, 'post'])->name('subIdxBatch.start');
