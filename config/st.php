@@ -113,7 +113,7 @@ return [
             'pol',
             'por',
 //            'pus',
-//            'ron',
+            'ron', // Romanian
             'rus',
 //            'san',
 //            'sin', // Sri Lanka
