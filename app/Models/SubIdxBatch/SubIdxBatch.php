@@ -4,6 +4,7 @@ namespace App\Models\SubIdxBatch;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class SubIdxBatch extends Model
 {
@@ -28,5 +29,16 @@ class SubIdxBatch extends Model
     public function unlinkedFiles()
     {
         return $this->hasMany(SubIdxUnlinkedBatchFile::class);
+    }
+
+    public function resolveRouteBinding($value)
+    {
+        $subIdxBatch = parent::resolveRouteBinding($value);
+
+        if ($subIdxBatch && $subIdxBatch->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return $subIdxBatch;
     }
 }

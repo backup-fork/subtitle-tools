@@ -21,7 +21,7 @@
             The sub and idx files listed below have not been linked yet.
 
             <h2 class="mb-2">Unlinked sub files</h2>
-            @forelse($subIdxBatch->unlinkedFiles->where('is_sub', true) as $unlinkedSub)
+            @forelse($unlinkedSubFiles as $unlinkedSub)
                 <div class="mb-2 pb-2 border-b">
                     <label class="flex items-center cursor-pointer">
                         <input type="radio" name="sub" value="{{ $unlinkedSub->id }}" class="mr-2" required>
@@ -34,7 +34,7 @@
 
 
             <h2 class="mt-8 mb-2">Unlinked idx files</h2>
-            @forelse($subIdxBatch->unlinkedFiles->where('is_sub', false) as $unlinkedIdx)
+            @forelse($unlinkedIdxFiles as $unlinkedIdx)
                 <div class="mb-2 pb-2 border-b">
                     <label class="flex items-center cursor-pointer">
                         <input type="radio" name="idx" value="{{ $unlinkedIdx->id }}" class="mr-2" required>
@@ -45,7 +45,12 @@
                 There are no unlinked idx files.
             @endforelse
 
+
+            @if($unlinkedSubFiles && $unlinkedIdxFiles)
             <button class="btn mt-8">Link selected files</button>
+            @else
+            <button class="btn bg-grey cursor-not-allowed mt-8" disabled title="You don't have both an unlinked sub file and an unlinked idx file.">Link selected files</button>
+            @endif
 
         @endif
 

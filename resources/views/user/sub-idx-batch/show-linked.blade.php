@@ -16,6 +16,19 @@
         No files have been linked yet.
     @else
         The sub and idx files below have been linked and will be processed when you start the batch.
+
+        @foreach($subIdxBatch->files as $batchFile)
+        <div class="my-4">
+            <div>Sub: {{ $batchFile->sub_original_name }}</div>
+            <div class="text-xs">Idx: {{ $batchFile->idx_original_name }}</div>
+            <form action="{{ route('user.subIdxBatch.unlink', $batchFile) }}" method="post">
+                {{ csrf_field() }}
+                <button>unlink</button>
+            </form>
+        </div>
+        @endforeach
+
+
     @endif
 
 @endsection

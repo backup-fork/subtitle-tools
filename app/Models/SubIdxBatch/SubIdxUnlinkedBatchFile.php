@@ -10,6 +10,10 @@ class SubIdxUnlinkedBatchFile extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_sub' => 'bool',
+    ];
+
     public function subIdxBatch()
     {
         return $this->belongsTo(SubIdxBatch::class);

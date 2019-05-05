@@ -16,6 +16,8 @@ class SubIdxBatchUnlinkedFilesController
 
         return view('user.sub-idx-batch.show-unlinked', [
             'subIdxBatch' => $subIdxBatch,
+            'unlinkedSubFiles' => $subIdxBatch->unlinkedFiles->where('is_sub', true)->all(),
+            'unlinkedIdxFiles' => $subIdxBatch->unlinkedFiles->where('is_sub', false)->all(),
         ]);
     }
 
@@ -23,7 +25,7 @@ class SubIdxBatchUnlinkedFilesController
     {
         [$unlinkedSub, $unlinkedIdx] = $this->validate($request, $subIdxBatch);
 
-        $uuid = Str::uuid();
+        $uuid = Str::uuid()->toString();
 
         Storage::move($unlinkedSub->storage_file_path, $subStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.sub");
         Storage::move($unlinkedIdx->storage_file_path, $idxStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.idx");

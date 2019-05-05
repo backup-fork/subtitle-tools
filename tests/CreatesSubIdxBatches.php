@@ -53,6 +53,7 @@ trait CreatesSubIdxBatches
         return $this->createUnlinkedBatchFile($subIdxBatch, false);
     }
 
+    /** @return SubIdxUnlinkedBatchFile[] */
     public function createUnlinkedBatchFiles($count, $subIdxBatch = null)
     {
         static $toggle = 0;
@@ -84,6 +85,7 @@ trait CreatesSubIdxBatches
         return $batchFile;
     }
 
+    /** @return SubIdxBatchFile[] */
     public function createSubIdxBatchFiles($count, $subIdxBatch = null)
     {
         $subIdxBatchFiles = [];
