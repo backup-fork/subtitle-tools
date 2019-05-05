@@ -3,7 +3,7 @@
     'description' => $description ?? null,
     'keywords' => $keywords ?? null,
     'bodyClasses' => 'bg-grey-lighter h-full',
-    'htmlClasses' => 'h-full',
+    'htmlClasses' => 'h-full rem-14',
 ])
 
 @section('body')
