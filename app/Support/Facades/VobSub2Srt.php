@@ -17,9 +17,7 @@ class VobSub2Srt extends Facade
         return VobSub2SrtInterface::class;
     }
 
-    /**
-     * @return VobSub2SrtFake
-     */
+    /** @return VobSub2SrtFake */
     public static function fake()
     {
         static::swap(
@@ -27,5 +25,11 @@ class VobSub2Srt extends Facade
         );
 
         return static::getFacadeRoot();
+    }
+
+    /** @return VobSub2SrtFake */
+    public static function fakeExtracting()
+    {
+        return static::fake()->onlyFakeExtracting();
     }
 }

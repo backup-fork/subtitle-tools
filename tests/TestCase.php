@@ -159,6 +159,15 @@ abstract class TestCase extends BaseTestCase
         return $this;
     }
 
+    protected function copyRealFileToStorage($realFilePath, $storageFilePath)
+    {
+        if (strpos($realFilePath, $this->testFilesStoragePath) !== 0) {
+            $realFilePath = $this->testFilesStoragePath.$realFilePath;
+        }
+
+        copy($realFilePath, storage_disk_file_path($storageFilePath));
+    }
+
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';

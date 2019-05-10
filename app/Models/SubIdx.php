@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Models\SubIdxBatch\SubIdxBatch;
+use App\Models\SubIdxBatch\SubIdxBatchFile;
 use App\Support\Facades\VobSub2Srt;
+use App\Support\Utils\FileName;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SubIdx extends Model
@@ -90,6 +93,34 @@ class SubIdx extends Model
         if (count($languages) === 1) {
             $subIdx->languages->first()->queueExtractJob();
         }
+
+        return $subIdx;
+    }
+
+    public static function createFromBatchFile(SubIdxBatchFile $batchFile, array $extractLanguages)
+    {
+        $storageDirectory = (new FileName)->getWithoutExtension($batchFile->sub_storage_file_path);
+
+        $destinationFilePathWithoutExtension = storage_disk_file_path($storageDirectory);
+
+        $subIdx = SubIdx::create([
+            'sub_idx_batch_id' => $batchFile->sub_idx_batch_id,
+            'original_name' => $batchFile->sub_original_name,
+            'store_directory' => rtrim($storageDirectory, 'a'),
+            'filename' => 'a',
+            'sub_hash' => sha1(Str::random()),
+            'idx_hash' => sha1(Str::random()),
+            'sub_file_size' => filesize($destinationFilePathWithoutExtension.'.sub'),
+            'idx_file_size' => filesize($destinationFilePathWithoutExtension.'.idx'),
+            'is_readable' => true,
+            'url_key' => null,
+        ]);
+
+        $languages = array_filter($batchFile->languages(), function ($array) use ($extractLanguages) {
+            return in_array($array['language'], $extractLanguages);
+        });
+
+        $subIdx->languages()->createMany($languages);
 
         return $subIdx;
     }

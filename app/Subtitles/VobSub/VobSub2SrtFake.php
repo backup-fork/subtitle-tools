@@ -10,14 +10,23 @@ class VobSub2SrtFake implements VobSub2SrtInterface
     private const OUTPUT_SRT = 200;
     private const OUTPUT_SRT_NO_DIALOGUE = 300;
     private const OUTPUT_EMPTY_FILE = 400;
-    private const OUTPIT_THROW_EXCEPTION = 500;
+    private const OUTPUT_THROW_EXCEPTION = 500;
 
     private $output = self::OUTPUT_SRT;
 
     private $filePathWithoutExtension;
 
+    private $fakeLanguages = true;
+
     public function get()
     {
+        return $this;
+    }
+
+    public function onlyFakeExtracting()
+    {
+        $this->fakeLanguages = false;
+
         return $this;
     }
 
@@ -38,6 +47,10 @@ class VobSub2SrtFake implements VobSub2SrtInterface
 
     public function languages()
     {
+        if (! $this->fakeLanguages) {
+            return (new VobSub2Srt)->path($this->filePathWithoutExtension)->languages();
+        }
+
         return [
             ['index' => 0, 'language' => 'en'],
             ['index' => 1, 'language' => 'unknown'],
@@ -64,7 +77,7 @@ class VobSub2SrtFake implements VobSub2SrtInterface
             case self::OUTPUT_EMPTY_FILE:
                 $this->writeSrtFileWithoutContent();
                 break;
-            case self::OUTPIT_THROW_EXCEPTION:
+            case self::OUTPUT_THROW_EXCEPTION:
                 throw new RuntimeException();
             case self::OUTPUT_NOTHING:
                 break;
@@ -103,7 +116,7 @@ class VobSub2SrtFake implements VobSub2SrtInterface
 
     public function outputThrowException()
     {
-        $this->output = self::OUTPIT_THROW_EXCEPTION;
+        $this->output = self::OUTPUT_THROW_EXCEPTION;
 
         return $this;
     }

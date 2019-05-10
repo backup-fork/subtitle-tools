@@ -22,17 +22,11 @@ class SubIdxBatchFile extends Model
     public function languages()
     {
         return Cache::rememberForever($this->id, function () {
-            $path = (new FileName)->getWithoutExtension($this->sub_storage_file_path);
+            $path = storage_disk_file_path(
+                (new FileName)->getWithoutExtension($this->sub_storage_file_path)
+            );
 
-            $languages = VobSub2Srt::path(storage_disk_file_path($path))->languages();
-
-            $languageCodes = [];
-
-            foreach ($languages as $language) {
-                $languageCodes[] = $language['language'];
-            }
-
-            return $languageCodes;
+            return VobSub2Srt::path($path)->languages();
         });
     }
 

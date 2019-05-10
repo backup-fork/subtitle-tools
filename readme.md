@@ -56,13 +56,13 @@ Subtitle Tools runs four separate queue workers. The supervisor config that keep
 
     [program:st-worker-1]
     process_name=%(program_name)s_%(process_num)02d
-    command=nice php /var/www/st/current/artisan queue:work --queue=A100,A200,A300,A400,A500 --sleep=2 --tries=1
+    command=nice php /var/www/st/current/artisan queue:work --queue=A100,A150,A200,A300,A400,A500 --sleep=2 --tries=1
     autorestart=true
     user=www-data
 
     [program:st-worker-2]
     process_name=%(program_name)s_%(process_num)02d
-    command=nice php /var/www/st/current/artisan queue:work --queue=B200,A100,A200,A300,A400,A500 --sleep=2 --tries=1
+    command=nice php /var/www/st/current/artisan queue:work --queue=A150,B200,A100,A200,A300,A400,A500 --sleep=2 --tries=1
     autorestart=true
     user=www-data
 </details>
@@ -70,7 +70,7 @@ Subtitle Tools runs four separate queue workers. The supervisor config that keep
 ### Processing all jobs
 While debugging, you can run the following command to process all jobs:
 ```bash
-artisan queue:work --queue=broadcast,default,B200,A100,A200,A300,A400,A500 --sleep=2 --tries=1
+artisan queue:work --queue=broadcast,default,B200,A150,A100,A200,A300,A400,A500 --sleep=2 --tries=1
 ```
 
 ### Jobs per queue
@@ -81,10 +81,13 @@ The list below shows which queue runs which jobs. The order in which the queues 
 
 - **default**
     - All `FileJobs`
+    - `StartSubIdxBatchJob`
 - **broadcast**
     - All events
 - **A100**
     - `BuildSupSrtJob`
+- **A150**
+    - `ExtractSubIdxLanguageJob` (for batches)
 - **A200**
     - `ExtractSupImagesJob`
 - **A300**

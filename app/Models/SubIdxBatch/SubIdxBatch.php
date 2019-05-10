@@ -2,6 +2,7 @@
 
 namespace App\Models\SubIdxBatch;
 
+use App\Models\SubIdx;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,8 @@ class SubIdxBatch extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime',
         'max_files' => 'int',
     ];
 
@@ -31,7 +34,12 @@ class SubIdxBatch extends Model
         return $this->hasMany(SubIdxUnlinkedBatchFile::class);
     }
 
-    public function batchFileLanguages()
+    public function subIdxes()
+    {
+        return $this->hasMany(SubIdx::class);
+    }
+
+    public function batchFileLanguageCount()
     {
         $languages = collect();
 
@@ -39,8 +47,13 @@ class SubIdxBatch extends Model
             $languages[] = $subIdxBatchFile->languages();
         };
 
-        return $languages->flatten()
-            ->countBy()
+        return $languages->flatten(1)
+            ->mapToGroups(function ($array) {
+                return [$array['language'] => 1];
+            })
+            ->map(function ($array) {
+                return count($array);
+            })
             ->mapWithKeys(function ($count, $langCode) {
                 return [__("languages.subIdx.$langCode") => [$langCode, $count]];
             })
