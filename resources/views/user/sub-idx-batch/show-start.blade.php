@@ -17,6 +17,15 @@
             You haven't added any files to this batch yet.
         @else
             Select languages
+
+            @foreach($languages as $language => [$languageCode, $count])
+                <label class="block">
+                    <input name="languages[]" type="checkbox" value="{{ $languageCode }}">
+                    {{ $language }} ({{ $count }}x)
+                </label>
+            @endforeach
+
+            <button class="btn">Start batch</button>
         @endif
 
     </form>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SubIdxBatch\SubIdxBatch;
 use App\Support\Facades\VobSub2Srt;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +23,11 @@ class SubIdx extends Model
     public function languages()
     {
         return $this->hasMany(SubIdxLanguage::class);
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(SubIdxBatch::class);
     }
 
     public function getFilePathWithoutExtensionAttribute()

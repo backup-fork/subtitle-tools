@@ -26,7 +26,7 @@ class FileName
     {
         $name = substr($fileName, 0, strlen($fileName) - strlen($this->getExtension($fileName)));
 
-        return rtrim($name, ". ");
+        return rtrim($name, '. ');
     }
 
     public function appendName($fileName, $append = '-st')

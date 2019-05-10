@@ -17,6 +17,12 @@ class CreateSubIdxBatchesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
+        Schema::table('sub_idxes', function (Blueprint $table) {
+            $table->uuid('sub_idx_batch_id')->after('id')->nullable();
+
+            $table->foreign('sub_idx_batch_id')->references('id')->on('sub_idx_batches')->onDelete('cascade');
+        });
+
         Schema::create('sub_idx_unlinked_batch_files', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('sub_idx_batch_id');

@@ -31,6 +31,25 @@ class SubIdxBatch extends Model
         return $this->hasMany(SubIdxUnlinkedBatchFile::class);
     }
 
+    public function batchFileLanguages()
+    {
+        $languages = collect();
+
+        foreach ($this->files as $subIdxBatchFile) {
+            $languages[] = $subIdxBatchFile->languages();
+        };
+
+        return $languages->flatten()
+            ->countBy()
+            ->mapWithKeys(function ($count, $langCode) {
+                return [__("languages.subIdx.$langCode") => [$langCode, $count]];
+            })
+            ->sortBy(function ($value, $key) {
+                return $key;
+            })
+            ->all();
+    }
+
     public function resolveRouteBinding($value)
     {
         $subIdxBatch = parent::resolveRouteBinding($value);
