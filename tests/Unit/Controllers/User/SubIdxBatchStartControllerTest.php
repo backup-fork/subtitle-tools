@@ -125,7 +125,7 @@ class SubIdxBatchStartControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->postStart($this->subIdxBatch, ['en', 'pl'])
             ->assertSessionHasNoErrors()
-            ->assertStatus(302);
+            ->assertRedirect(route('user.subIdxBatch.show', $this->subIdxBatch));
 
         $this->assertNotNull($this->subIdxBatch->refresh()->started_at);
         $this->assertCount(0, $this->subIdxBatch->files);

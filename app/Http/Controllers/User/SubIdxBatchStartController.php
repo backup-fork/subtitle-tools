@@ -37,6 +37,6 @@ class SubIdxBatchStartController
 
         StartSubIdxBatchJob::dispatch($subIdxBatch, $request->get('languages'));
 
-        return back();
+        return redirect()->route('user.subIdxBatch.show', $subIdxBatch);
     }
 }
