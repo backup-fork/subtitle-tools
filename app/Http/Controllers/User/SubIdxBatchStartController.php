@@ -10,6 +10,10 @@ class SubIdxBatchStartController
 {
     public function index(SubIdxBatch $subIdxBatch)
     {
+        if ($subIdxBatch->started_at) {
+            return redirect()->route('user.subIdxBatch.show', $subIdxBatch);
+        }
+
         $subIdxBatch->load('files', 'unlinkedFiles');
 
         return view('user.sub-idx-batch.show-start', [

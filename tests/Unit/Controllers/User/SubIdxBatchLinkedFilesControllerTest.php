@@ -41,6 +41,16 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
     }
 
     /** @test */
+    function it_redirects_if_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $this->actingAs($subIdxBatch->user)
+            ->showLinked($subIdxBatch)
+            ->assertRedirect(route('user.subIdxBatch.show', $subIdxBatch));
+    }
+
+    /** @test */
     function show_the_linked_page_for_an_empty_batch()
     {
 
@@ -56,6 +66,18 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
     function show_the_linked_page_when_some_files_are_unlinked()
     {
 
+    }
+
+    /** @test */
+    function you_cant_unlink_when_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $batchFile = $this->createSubIdxBatchFile($subIdxBatch);
+
+        $this->actingAs($subIdxBatch->user)
+            ->postUnlink($batchFile)
+            ->assertStatus(422);
     }
 
     /** @test */

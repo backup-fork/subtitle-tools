@@ -12,6 +12,10 @@ class SubIdxBatchUnlinkedFilesController
 {
     public function index(SubIdxBatch $subIdxBatch)
     {
+        if ($subIdxBatch->started_at) {
+            return redirect()->route('user.subIdxBatch.show', $subIdxBatch);
+        }
+
         $subIdxBatch->load('files', 'unlinkedFiles');
 
         return view('user.sub-idx-batch.show-unlinked', [
@@ -23,6 +27,10 @@ class SubIdxBatchUnlinkedFilesController
 
     public function link(Request $request, SubIdxBatch $subIdxBatch)
     {
+        if ($subIdxBatch->started_at) {
+            abort(422, 'This batch has already started');
+        }
+
         [$unlinkedSub, $unlinkedIdx] = $this->validate($request, $subIdxBatch);
 
         $uuid = Str::uuid()->toString();

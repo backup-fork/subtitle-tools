@@ -23,13 +23,29 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
     /** @test */
     function it_will_only_show_your_own_batches()
     {
+        $anotherBatch = $this->createSubIdxBatch();
 
+        $this->actingAs($this->subIdxBatch->user)
+            ->showUnlinked($anotherBatch)
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    function it_redirects_if_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $this->actingAs($subIdxBatch->user)
+            ->showUnlinked($subIdxBatch)
+            ->assertRedirect(route('user.subIdxBatch.show', $subIdxBatch));
     }
 
     /** @test */
     function show_the_unlinked_page_for_an_empty_batch()
     {
-
+        $this->actingAs($this->subIdxBatch->user)
+            ->showUnlinked($this->subIdxBatch)
+            ->assertStatus(200);
     }
 
     /** @test */
@@ -52,6 +68,19 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
         $this->actingAs($anotherUser)
             ->postLink($this->subIdxBatch, '', '')
             ->assertStatus(403);
+    }
+
+    /** @test */
+    function you_cant_link_when_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $sub = $this->createUnlinkedBatchFile_sub($subIdxBatch);
+        $idx = $this->createUnlinkedBatchFile_idx($subIdxBatch);
+
+        $this->actingAs($subIdxBatch->user)
+            ->postLink($subIdxBatch, $sub->id, $idx->id)
+            ->assertStatus(422);
     }
 
     /** @test */
@@ -107,6 +136,11 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
 
         Storage::assertExists($batchFile->sub_storage_file_path);
         Storage::assertExists($batchFile->idx_storage_file_path);
+    }
+
+    private function showUnlinked($subIdxBatch)
+    {
+        return $this->get(route('user.subIdxBatch.showUnlinked', $subIdxBatch));
     }
 
     private function postLink($subIdxBatch, $subId, $idxId)

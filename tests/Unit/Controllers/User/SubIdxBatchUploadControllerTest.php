@@ -30,6 +30,34 @@ class SubIdxBatchUploadControllerTest extends TestCase
     }
 
     /** @test */
+    function you_cant_upload_to_a_batch_that_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $this->actingAs($subIdxBatch->user)
+            ->postUpload($subIdxBatch, [])
+            ->assertStatus(422);
+    }
+
+    /** @test */
+    function it_redirects_if_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $this->actingAs($subIdxBatch->user)
+            ->showUpload($subIdxBatch)
+            ->assertRedirect(route('user.subIdxBatch.show', $subIdxBatch));
+    }
+
+    /** @test */
+    function it_shows_the_upload_page()
+    {
+        $this->actingAs($this->subIdxBatch->user)
+            ->showUpload($this->subIdxBatch)
+            ->assertStatus(200);
+    }
+
+    /** @test */
     function it_matches_sub_and_idx_based_on_file_name()
     {
         $this->actingAs($this->subIdxBatch->user)
@@ -96,6 +124,11 @@ class SubIdxBatchUploadControllerTest extends TestCase
     function it_wont_store_the_same_sub_file_twice()
     {
 
+    }
+
+    private function showUpload($subIdxBatch)
+    {
+        return $this->get(route('user.subIdxBatch.showUpload', $subIdxBatch));
     }
 
     private function postUpload($subIdxBatch, array $files)

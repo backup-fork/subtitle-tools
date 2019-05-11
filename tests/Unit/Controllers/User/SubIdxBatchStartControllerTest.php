@@ -33,6 +33,16 @@ class SubIdxBatchStartControllerTest extends TestCase
     }
 
     /** @test */
+    function it_redirects_if_the_batch_has_already_started()
+    {
+        $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);
+
+        $this->actingAs($subIdxBatch->user)
+            ->showStart($subIdxBatch)
+            ->assertRedirect(route('user.subIdxBatch.show', $subIdxBatch));
+    }
+
+    /** @test */
     function it_can_show_an_empty_batch()
     {
         $this->actingAs($this->subIdxBatch->user)

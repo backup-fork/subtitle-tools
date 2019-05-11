@@ -11,7 +11,7 @@
 
     @forelse($subIdxBatches as $batch)
         <div>
-            <a href="{{ route('user.subIdxBatch.showUpload', $batch) }}">{{ $batch->id }}</a>
+            <a href="{{ route($batch->started_at ? 'user.subIdxBatch.show' : 'user.subIdxBatch.showUpload', $batch) }}">{{ $batch->id }}</a>
         </div>
     @empty
         You do not have any sub/idx batches yet.

@@ -14,6 +14,10 @@ class SubIdxBatchUploadController
 {
     public function index(SubIdxBatch $subIdxBatch)
     {
+        if ($subIdxBatch->started_at) {
+            return redirect()->route('user.subIdxBatch.show', $subIdxBatch);
+        }
+
         $subIdxBatch->load('files', 'unlinkedFiles');
 
         return view('user.sub-idx-batch.show-uploads', [
@@ -23,6 +27,10 @@ class SubIdxBatchUploadController
 
     public function post(Request $request, SubIdxBatch $subIdxBatch)
     {
+        if ($subIdxBatch->started_at) {
+            abort(422, 'This batch has already started');
+        }
+
         $files = $request->validate([
             'files' => ['required', 'array', 'max:100', new AreUploadedFilesRule],
         ])['files'];
