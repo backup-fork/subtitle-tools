@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\FileGroup;
 use App\Models\FileJob;
 use App\Models\StoredFile;
+use App\Models\SubIdx;
 use App\Models\SupJob;
 use App\Models\User;
 
@@ -50,5 +51,16 @@ trait CreatesModels
     public function createAdmin($attributes = []): User
     {
         return $this->createUser(['is_admin' => true] + $attributes);
+    }
+
+    public function createSubIdx($attributes = []): SubIdx
+    {
+        return factory(SubIdx::class)->create($attributes);
+    }
+
+    /** @return SubIdx[] */
+    public function createSubIdxes($count, $attributes = [])
+    {
+        return factory(SubIdx::class, $count)->create($attributes);
     }
 }

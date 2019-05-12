@@ -8,9 +8,14 @@ use App\Models\SubIdxBatch\SubIdxUnlinkedBatchFile;
 use Faker\Generator as Faker;
 
 $factory->define(SubIdxBatch::class, function (Faker $faker) {
+    static $label = 1;
+
     return [
         'id' => $faker->uuid,
         'max_files' => $faker->numberBetween(1, 10) * 100,
+        'label' => (string) $label++,
+        'created_at' => now()->subHours(100 - $label),
+        'updated_at' => now(),
     ];
 });
 

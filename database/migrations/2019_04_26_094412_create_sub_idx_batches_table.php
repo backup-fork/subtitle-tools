@@ -11,10 +11,13 @@ class CreateSubIdxBatchesTable extends Migration
         Schema::create('sub_idx_batches', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
+            $table->string('label');
             $table->unsignedInteger('max_files');
             $table->dateTime('started_at')->nullable();
             $table->dateTime('finished_at')->nullable();
             $table->timestamps();
+
+            $table->unique(['user_id', 'label']);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

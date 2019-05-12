@@ -10,7 +10,7 @@ class SubIdxBatchController
     public function index()
     {
         return view('user.sub-idx-batch.index', [
-            'subIdxBatches' => user()->subIdxBatches
+            'subIdxBatches' => user()->subIdxBatches->sortByDesc('created_at')
         ]);
     }
 
@@ -25,7 +25,10 @@ class SubIdxBatchController
             'max_files' => 'required|numeric',
         ]);
 
-        $subIdxBatch = user()->subIdxBatches()->create(['id' => Str::uuid()] + $values);
+        $subIdxBatch = user()->subIdxBatches()->create([
+                'id' => Str::uuid(),
+                'label' => user()->subIdxBatches()->count() + 1,
+            ] + $values);
 
         return redirect()->route('user.subIdxBatch.showUpload', $subIdxBatch);
     }
