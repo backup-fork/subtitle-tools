@@ -6,6 +6,8 @@
 
     <h1>Batch</h1>
 
-
+    @foreach($subIdxBatch->subIdxes as $subIdx)
+        <div>{{ $subIdx->original_name }}</div>
+    @endforeach
 
 @endsection
