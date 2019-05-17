@@ -24,7 +24,7 @@ class DashboardController
 
     private function getSupervisorInfo()
     {
-        $lines = app()->environment('local') ? [
+        $lines = app()->environment(['local', 'testing']) ? [
             'st-worker-broadcast:st-worker-broadcast_00   RUNNING   pid 27243, uptime 0:04:20',
             'st-worker-default:st-worker-default_00       RUNNING   pid 27244, uptime 0:13:37',
             'st-worker-subidx:st-worker-subidx_00         RUNNING   pid 27245, uptime 2:22:22',
@@ -81,7 +81,7 @@ class DashboardController
 
         $dependencies['Tesseract binary'] = ! empty(shell_exec('command -v tesseract'));
 
-        $dependencies['Tesseract traineddata'] = file_exists('/usr/share/tesseract-ocr/tessdata/nld.traineddata') || file_exists('/usr/local/share/tessdata/nld.traineddata');
+        $dependencies['Tesseract traineddata'] = file_exists('/usr/share/tesseract-ocr/4.00/tessdata/nld.traineddata') || file_exists('/usr/local/share/tessdata/nld.traineddata');
 
         return collect($dependencies);
     }

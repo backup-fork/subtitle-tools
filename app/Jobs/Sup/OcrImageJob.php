@@ -76,7 +76,7 @@ class OcrImageJob extends BaseJob implements ShouldQueue
         $ocrStartedAt = microtime(true) * 1000;
 
         $text = (new Tesseract($filePath))
-            ->executable('/usr/bin/tesseract')
+            ->executable('/usr/bin/tesseract -c page_separator=""')
             ->quietMode()
             ->suppressErrors()
             ->lang($this->ocrLanguage)

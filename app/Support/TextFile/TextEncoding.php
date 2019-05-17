@@ -24,7 +24,6 @@ class TextEncoding
         'euc-tw' => 'EUC-TW',
         'gb18030' => 'gb18030', // Simplified Chinese
         'gb2312' => 'gb2312', // Simplified Chinese
-        'hz-gb-2312' => 'HZ', // Simplified Chinese
         'ibm855' => 'IBM855',
         'ibm866' => 'IBM866',
         'iso-2022-jp' => 'ISO-2022-JP',
