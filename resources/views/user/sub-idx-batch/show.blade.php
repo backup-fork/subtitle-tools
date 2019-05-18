@@ -4,10 +4,8 @@
 
 @section('content')
 
-    <h1>Batch</h1>
+    <h1 class="mb-4">Batch</h1>
 
-    @foreach($subIdxBatch->subIdxes as $subIdx)
-        <div>{{ $subIdx->original_name }}</div>
-    @endforeach
+    <div id="sub-idx-batch-result" data-batch-id="{{ $subIdxBatch->id }}"></div>
 
 @endsection

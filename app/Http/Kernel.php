@@ -14,6 +14,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 class Kernel extends HttpKernel
 {
@@ -43,6 +44,7 @@ class Kernel extends HttpKernel
             RecordUploadedFileMimes::class,
             CountUploadedFiles::class,
             EnhanceUploadedFiles::class,
+            CreateFreshApiToken::class,
         ],
 
         'api' => [

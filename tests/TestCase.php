@@ -117,11 +117,7 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @param null $user
-     *
-     * @return $this
-     */
+    /** @return $this|TestCase */
     protected function adminLogin($user = null)
     {
         $user = $user ?: $this->createAdmin();
@@ -129,16 +125,20 @@ abstract class TestCase extends BaseTestCase
         return $this->actingAs($user);
     }
 
-    /**
-     * @param null $user
-     *
-     * @return $this
-     */
+    /** @return $this|TestCase */
     protected function userLogin($user = null)
     {
         $user = $user ?: $this->createUser();
 
         return $this->actingAs($user);
+    }
+
+    /** @return $this|TestCase */
+    protected function apiUserLogin($user = null)
+    {
+        $user = $user ?: $this->createUser();
+
+        return $this->actingAs($user, 'api');
     }
 
     protected function progressTimeInDays($days)

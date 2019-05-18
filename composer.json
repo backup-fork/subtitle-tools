@@ -9,6 +9,7 @@
         "ext-zip": "*",
         "doctrine/dbal": "^2.6",
         "laravel/framework": "5.8.*",
+        "laravel/passport": "^7.2",
         "laravel/tinker": "^1.0",
         "patrickschur/language-detection": "^3.4",
         "predis/predis": "^1.1",
@@ -64,6 +65,9 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
+        ],
+        "ide": [
+            "@composer ide-helpers"
         ]
     },
     "config": {

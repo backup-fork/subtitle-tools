@@ -12,6 +12,7 @@ use App\Support\Utils\TempDir;
 use App\Support\Utils\TempFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use League\Flysystem\Filesystem;
 use Spatie\Dropbox\Client as DropboxClient;
 use Spatie\FlysystemDropbox\DropboxAdapter;
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        Passport::ignoreMigrations();
+
         $this->app->bind('TextFileFormat', function ($app, $args) {
             return new TextFileFormat();
         });

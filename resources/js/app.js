@@ -1,3 +1,9 @@
+import SubIdxLanguages from "./components/SubIdxLanguages";
+import FileGroupJobs from "./components/FileGroupJobs";
+import SupJob from "./components/SupJob";
+import FileGroupArchive from "./components/FileGroupArchive";
+import DownloadLink from "./components/helpers/DownloadLink";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -5,12 +11,14 @@ window.Vue = require('vue');
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
 
-Vue.component('sub-idx-languages', require('./components/SubIdxLanguages.vue').default);
-Vue.component('file-group-jobs', require('./components/FileGroupJobs.vue').default);
-Vue.component('sup-job', require('./components/SupJob.vue').default);
-Vue.component('file-group-archive', require('./components/FileGroupArchive.vue').default);
-Vue.component('download-link', require('./components/helpers/DownloadLink.vue').default);
+Vue.component('sub-idx-languages', SubIdxLanguages);
+Vue.component('file-group-jobs', FileGroupJobs);
+Vue.component('sup-job', SupJob);
+Vue.component('file-group-archive', FileGroupArchive);
+Vue.component('download-link', DownloadLink);
 
 const app = new Vue({
     el: '#app'
 });
+
+require('../react/sub-idx-batch-result');

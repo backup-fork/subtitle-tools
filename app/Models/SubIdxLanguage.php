@@ -31,7 +31,7 @@ class SubIdxLanguage extends Model
 
     public function getFileNameAttribute()
     {
-        return $this->subIdx->original_name.'-'.$this->language.'.srt';
+        return sprintf('%s-%s.srt', $this->subIdx->original_name, $this->language);
     }
 
     public function getIsQueuedAttribute()
