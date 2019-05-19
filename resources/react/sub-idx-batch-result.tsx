@@ -40,7 +40,7 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                             <div className="w-32 text-right">
                                 {language.isProcessing && 'Processing...'}
                                 {language.isQueued && 'Queued...'}
-                                {language.downloadUrl && <a href={language.downloadUrl}>Download</a>}
+                                {language.downloadUrl && <DownloadLink url={language.downloadUrl} text="Download"/>}
                             </div>
                         </div>
                     ))}
