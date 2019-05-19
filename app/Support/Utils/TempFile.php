@@ -3,6 +3,7 @@
 namespace App\Support\Utils;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TempFile
 {
@@ -29,12 +30,12 @@ class TempFile
     {
         $directory = storage_disk_file_path('temporary-files/');
 
-        if (!file_exists($directory)) {
+        if (! file_exists($directory)) {
             Storage::makeDirectory('temporary-files/');
         }
 
         // This name is used in the PruneTemporaryFiles command
-        return $directory . date('Y-z') . '-' . $identifier . '-' . str_random(16);
+        return sprintf('%s%s-%s-%s', $directory, date('Y-z'), $identifier, Str::random(16));
     }
 
     public function cleanUp()

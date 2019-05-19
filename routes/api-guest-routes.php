@@ -1,10 +1,16 @@
 <?php
 
-Route::get('sub-idx/{urlKey}/languages',               ['uses' => 'SubIdxController@languages',       'as' => 'subIdx.languages']);
-Route::post('sub-idx/{urlKey}/languages/{languageId}', ['uses' => 'SubIdxController@extractLanguage', 'as' => 'subIdx.post']);
+use App\Http\Controllers\Api\FileGroupArchiveController;
+use App\Http\Controllers\Api\FileGroupController;
+use App\Http\Controllers\Api\SubIdxController;
+use App\Http\Controllers\Api\SupJobController;
 
-Route::get('file-group/result/{urlKey}',           ['uses' => 'FileGroupController@result',         'as' => 'fileGroup.result']);
-Route::get('file-group/archive/{urlKey}',          ['uses' => 'FileGroupController@archive',        'as' => 'fileGroup.archive']);
-Route::post('file-group/archive/request/{urlKey}', ['uses' => 'FileGroupController@requestArchive', 'as' => 'fileGroup.requestArchive']);
+Route::get('sub-idx/{urlKey}/languages', [SubIdxController::class, 'languages'])->name('subIdx.languages');
+Route::post('sub-idx/{urlKey}/languages/{languageId}', [SubIdxController::class, 'extractLanguage'])->name('subIdx.post');
 
-Route::get('sup-job/{urlKey}', ['uses' => 'SupJobController@show', 'as' => 'supJob.show']);
+Route::get('file-group/result/{urlKey}', [FileGroupController::class, 'show'])->name('fileGroup.result');
+
+Route::get('file-group/archive/{urlKey}', [FileGroupArchiveController::class, 'show'])->name('fileGroupArchive.show');
+Route::post('file-group/archive/request/{urlKey}', [FileGroupArchiveController::class, 'request'])->name('fileGroupArchive.request');
+
+Route::get('sup-job/{urlKey}', [SupJobController::class, 'show'])->name('supJob.show');

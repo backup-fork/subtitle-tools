@@ -7,10 +7,9 @@ use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
 use App\Models\SubIdxLanguageStats;
 use App\Models\SubIdxStats;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubIdxControllerTest extends TestCase
 {
@@ -237,6 +236,38 @@ class SubIdxControllerTest extends TestCase
     }
 
     /** @test */
+    function it_can_download_zip_of_finished_languages()
+    {
+        $subIdx = $this->createSubIdx();
+
+        $subIdx->languages()->saveMany([
+            $language1 = factory(SubIdxLanguage::class)->states('finished')->make(),
+            $language2 = factory(SubIdxLanguage::class)->states('queued')->make(),
+            $language3 = factory(SubIdxLanguage::class)->states('finished')->make(),
+        ]);
+
+        $this->downloadSubIdxZip($subIdx)
+            ->assertStatus(200)
+            ->assertHeader('content-type', 'application/zip')
+            ->assertHeader('content-disposition', "attachment; filename=$subIdx->original_name.zip");
+    }
+
+    /** @test */
+    function it_wont_download_a_zip_when_no_languages_are_finished()
+    {
+        $subIdx = $this->createSubIdx();
+
+        $subIdx->languages()->saveMany([
+            factory(SubIdxLanguage::class)->states('failed')->make(),
+            factory(SubIdxLanguage::class)->states('queued')->make(),
+        ]);
+
+        $this->downloadSubIdxZip($subIdx)
+            ->assertStatus(422)
+            ->assertSee('no finished languages');
+    }
+
+    /** @test */
     function getting_the_download_post_url_redirects_to_the_show_page()
     {
         $subIdx = factory(SubIdx::class)->create();
@@ -263,5 +294,10 @@ class SubIdxControllerTest extends TestCase
     private function downloadSubIdxLanguage($language)
     {
         return $this->post($language->download_url);
+    }
+
+    private function downloadSubIdxZip($subIdx)
+    {
+        return $this->post(route('subIdx.downloadZip', $subIdx->url_key));
     }
 }

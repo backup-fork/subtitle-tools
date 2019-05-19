@@ -22,6 +22,7 @@ Route::post('convert-sub-idx-to-srt-online',                  ['uses' => 'SubIdx
 Route::get('convert-sub-idx-to-srt-online/{urlKey}',          ['uses' => 'SubIdxController@show',             'as' => 'subIdx.show']);
 Route::post('convert-sub-idx-to-srt-online/{urlKey}/{index}', ['uses' => 'SubIdxController@downloadSrt',      'as' => 'subIdx.download']);
 Route::get('convert-sub-idx-to-srt-online/{urlKey}/{index}',  ['uses' => 'SubIdxController@downloadRedirect', 'as' => 'subIdx.downloadRedirect']);
+Route::post('convert-sub-idx-to-srt-online/{urlKey}/zip/dl',  ['uses' => 'SubIdxController@downloadZip',      'as' => 'subIdx.downloadZip']);
 
 
 Route::get('/convert-sup-to-srt-online',                    ['uses' => 'SupController@index',            'as' => 'sup']);

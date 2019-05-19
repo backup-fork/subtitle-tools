@@ -2,89 +2,46 @@
 
 namespace App\Jobs;
 
-use App\Support\Facades\FileName;
-use App\Support\Facades\TempFile;
 use App\Models\FileGroup;
-use App\Models\StoredFile;
-use Exception;
+use App\Models\FileJob;
+use App\Support\Archive\StoredFileArchive;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use ZipArchive;
 
 class ZipFileGroupJob extends BaseJob implements ShouldQueue
 {
     public $timeout = 120;
 
-    protected $fileGroup;
+    public $fileGroup;
 
     public function __construct(FileGroup $fileGroup)
     {
         $this->fileGroup = $fileGroup;
-
-        $fileGroup->update(['archive_requested_at' => now()]);
     }
 
     public function handle()
     {
-        $newZip = new ZipArchive();
+        $archive = new StoredFileArchive();
 
-        $zipTempFilePath = TempFile::makeFilePath('zip');
-
-        if ($newZip->open($zipTempFilePath, ZipArchive::CREATE) !== true) {
-            return $this->abort('messages.zip-job.create_failed');
-        }
-
-        $fileJobs = $this->fileGroup->fileJobs->filter(function ($fileJob) {
-            return $fileJob->output_stored_file_id !== null;
-        })->all();
-
-        $alreadyAddedNames = [];
-
-        foreach ($fileJobs as $fileJob) {
-            $nameInZip = $fileJob->originalNameWithNewExtension;
-
-            while (in_array(strtolower($nameInZip), $alreadyAddedNames)) {
-                $nameInZip = FileName::appendName($nameInZip, '-st');
-            }
-
-            $alreadyAddedNames[] = strtolower($nameInZip);
-
-            $newZip->addFile($fileJob->outputStoredFile->file_path, $nameInZip);
-        }
-
-        if ($newZip->numFiles === 0) {
-            return $this->abort('messages.zip-job.no_files_added');
-        }
-
-        $newZip->setArchiveComment('Edited at https://subtitletools.com');
-
-        if ($newZip->close() !== true) {
-            return $this->abort('messages.zip-job.close_failed');
-        }
-
-        $storedFile = StoredFile::getOrCreate($zipTempFilePath);
+        $this->fileGroup
+            ->fileJobs
+            ->filter(function (FileJob $fileJob) {
+                return $fileJob->output_stored_file_id !== null;
+            })
+            ->each(function (FileJob $fileJob) use ($archive) {
+                $archive->add($fileJob->outputStoredFile, $fileJob->original_name_with_new_extension);
+            });
 
         $this->fileGroup->update([
-            'archive_stored_file_id' => $storedFile->id,
+            'archive_stored_file_id' => $archive->store()->id,
             'archive_finished_at' => now(),
         ]);
-
-        unlink($zipTempFilePath);
-
-        return $this->fileGroup;
     }
 
-    public function abort($errorMessage)
+    public function failed($exception)
     {
         $this->fileGroup->update([
-            'archive_error' => $errorMessage,
+            'archive_error' => 'messages.zip-job.unknown_error',
             'archive_finished_at' => now(),
         ]);
-
-        return $this->fileGroup;
-    }
-
-    public function failed(Exception $exception)
-    {
-        $this->abort('messages.zip-job.unknown_error');
     }
 }

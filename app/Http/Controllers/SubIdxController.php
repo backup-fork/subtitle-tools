@@ -7,6 +7,7 @@ use App\Http\Rules\SubMimeRule;
 use App\Http\Rules\TextFileRule;
 use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
+use App\Support\Archive\StoredFileArchive;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -53,14 +54,11 @@ class SubIdxController
             ->where('index', $index)
             ->whereNull('error_message')
             ->whereNotNull('finished_at')
+            ->whereNotNull('output_stored_file_id')
             ->whereHas('subIdx', function (Builder $query) use ($urlKey) {
                 $query->where('url_key', $urlKey);
             })
             ->firstOrFail();
-
-        if (! $language->outputStoredFile) {
-            abort(404);
-        }
 
         // Don't update the SubIdx "updated_at" column, that column is used in "RandomizeSubIdxUrlKeysJob".
         $language->setTouchedRelations([])->increment('times_downloaded');
@@ -68,6 +66,29 @@ class SubIdxController
         return response()->download($language->outputStoredFile->file_path, $language->file_name, [
             'Content-type' => 'application/octet-stream', // this stops Safari on MacOS from adding a .txt extension when downloading
         ]);
+    }
+
+    public function downloadZip($urlKey)
+    {
+        $subIdx = SubIdx::query()
+            ->with('languages', 'languages.outputStoredFile')
+            ->where('url_key', $urlKey)
+            ->firstOrFail();
+
+        $archive = new StoredFileArchive();
+
+        $subIdx->languages
+            ->where('output_stored_file_id')
+            ->whenEmpty(function () {
+                abort(422, 'This sub/idx has no finished languages');
+            })
+            ->each(function (SubIdxLanguage $language) use ($archive) {
+                $archive->add($language->outputStoredFile, $language->file_name);
+            });
+
+        $storedFile = $archive->store();
+
+        return response()->download($storedFile->file_path, "$subIdx->original_name.zip");
     }
 
     public function downloadRedirect($urlKey, $index)
