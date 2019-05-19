@@ -8,6 +8,10 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
 
     useEffect(() => {
         getSubIdxBatchResults(props.subIdxBatchId).then(setData);
+
+        setInterval(() => {
+            getSubIdxBatchResults(props.subIdxBatchId).then(setData);
+        }, 5000);
     }, []);
 
     if (! data) {
@@ -17,12 +21,12 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
     return (
         <div className="max-w-md">
             {data.map(subIdx => (
-                <div className="p-4 mb-6 bg-white border rounded">
+                <div className="p-4 mb-6 bg-white border rounded" key={subIdx.id}>
                     <div className="flex mb-4">
                         <input type="text" className="flex-grow mr-6" value={subIdx.originalName} readOnly={true} />
                         <div className="w-48 text-right">
                             {subIdx.languages.every(i => !!i.downloadUrl) ? (
-                                <a href="/">Download all as zip</a>
+                                <a href="/" target="_blank">Download all as zip</a>
                             ) : (
                                 <div className="text-grey cursor-not-allowed">Download all as zip</div>
                             )}
@@ -30,7 +34,7 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                     </div>
 
                     {subIdx.languages.map(language => (
-                        <div className="flex border-b py-2 ml-4 mb-2 hover:bg-grey-lightest">
+                        <div className="flex border-b py-2 ml-4 mb-2 hover:bg-grey-lightest" key={language.id}>
                             <div className="flex-grow">{language.language}</div>
                             <div className="w-32 text-right">
                                 {language.isProcessing && 'Processing...'}
