@@ -8,18 +8,10 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
-    protected $namespace = 'App\Http\Controllers';
-
     public function map()
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
             ->group(base_path('routes/web-guest-routes.php'));
-
-
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/redirects.php'));
 
 
         Route::middleware('api')
@@ -35,7 +27,6 @@ class RouteServiceProvider extends ServiceProvider
 
 
         Route::middleware(['web', 'auth', IsAdmin::class])
-            ->namespace($this->namespace.'\Admin')
             ->name('admin.')
             ->prefix('st-admin')
             ->group(base_path('routes/web-admin-routes.php'));
