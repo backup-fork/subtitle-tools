@@ -3,15 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Models\SubIdx;
-use Illuminate\Http\Resources\Json\Resource;
 
-class SubIdxResource extends Resource
+class SubIdxResource extends BaseResource
 {
-    public function toArray($request)
+    public function format(SubIdx $subIdx)
     {
-        /** @var SubIdx $subIdx */
-        $subIdx = $this->resource;
-
         return [
             'id' => $subIdx->id,
             'originalName' => $subIdx->original_name,

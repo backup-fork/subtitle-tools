@@ -3,15 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Models\SupJob;
-use Illuminate\Http\Resources\Json\Resource;
 
-class SupJobResource extends Resource
+class SupJobResource extends BaseResource
 {
-    public function toArray($request = null)
+    public function format(SupJob $supJob)
     {
-        /** @var SupJob $supJob */
-        $supJob = $this->resource;
-
         return [
             'id' => $supJob->id,
             'ocrLanguage' => $supJob->ocr_language,

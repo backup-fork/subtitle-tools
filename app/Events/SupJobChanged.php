@@ -23,6 +23,6 @@ class SupJobChanged extends BaseEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return SupJobResource::make($this->supJob)->toArray();
+        return SupJobResource::make($this->supJob)->toArray(null);
     }
 }

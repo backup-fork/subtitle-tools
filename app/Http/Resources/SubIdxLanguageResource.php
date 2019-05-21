@@ -3,15 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Models\SubIdxLanguage;
-use Illuminate\Http\Resources\Json\Resource;
 
-class SubIdxLanguageResource extends Resource
+class SubIdxLanguageResource extends BaseResource
 {
-    public function toArray($request = null)
+    public function format(SubIdxLanguage $language)
     {
-        /** @var SubIdxLanguage $language */
-        $language = $this->resource;
-
         return [
             'id' => $language->id,
             'index' => $language->index,
