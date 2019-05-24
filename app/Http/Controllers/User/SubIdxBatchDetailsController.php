@@ -12,7 +12,7 @@ class SubIdxBatchDetailsController
             return redirect()->route('user.subIdxBatch.showUpload', $subIdxBatch);
         }
 
-        return view('user.sub-idx-batch.show', [
+        return view('user.sub-idx-batch.show-result', [
             'subIdxBatch' => $subIdxBatch,
         ]);
     }

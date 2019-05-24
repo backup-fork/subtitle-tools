@@ -20,11 +20,11 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
     }
 
     return (
-        <div className="max-w-md">
+        <>
             {data.map(subIdx => (
-                <div className="p-4 mb-6 bg-white border rounded" key={subIdx.id}>
+                <div className="px-2 mb-8" key={subIdx.id}>
                     <div className="flex">
-                        <input type="text" className="flex-grow mr-6" value={subIdx.originalName} readOnly={true} />
+                        <strong className="flex-grow">{subIdx.originalName}</strong>
 
                         {subIdx.languages.length > 0 && (
                             <div className="w-48 text-right mb-4">
@@ -38,11 +38,11 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                     </div>
 
                     {subIdx.languages.length === 0 && (
-                        <div className="py-2">This sub/idx doesn't contain any of the languages you have selected.</div>
+                        <div className="py-1">This sub/idx doesn't contain any of the languages you have selected.</div>
                     )}
 
                     {subIdx.languages.map(language => (
-                        <div className="flex border-b py-2 ml-4 mb-2 hover:bg-grey-lightest" key={language.id}>
+                        <div className="flex py-1 ml-4 mb-2 border-b hover:bg-grey-lightest" key={language.id}>
                             <div className="flex-grow">{language.language}</div>
                             <div className="w-32 text-right">
                                 {language.isProcessing && 'Processing...'}
@@ -53,7 +53,7 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                     ))}
                 </div>
             ))}
-        </div>
+        </>
     );
 };
 
