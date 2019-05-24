@@ -68,7 +68,7 @@ class SubIdxBatchUploadControllerTest extends TestCase
                 'sub-idx/ara.sub',
             ])
             ->assertSessionHasNoErrors()
-            ->assertStatus(302);
+            ->assertStatus(200);
 
         $this->assertCount(0, $this->subIdxBatch->refresh()->unlinkedFiles);
 
@@ -90,8 +90,7 @@ class SubIdxBatchUploadControllerTest extends TestCase
                 'sub-idx/ara.idx',
                 'archives/zip/one-srt.zip',
             ])
-            ->assertSessionHasErrors('files', ['one-srt.zip'])
-            ->assertStatus(302);
+            ->assertStatus(200);
 
         $this->assertCount(0, $this->subIdxBatch->refresh()->files);
 
@@ -105,6 +104,20 @@ class SubIdxBatchUploadControllerTest extends TestCase
     }
 
     /** @test */
+    function it_does_not_store_invalid_files()
+    {
+        $this->actingAs($this->subIdxBatch->user)
+            ->postUpload($this->subIdxBatch, [
+                'archives/zip/one-srt.zip',
+            ])
+            ->assertStatus(200)
+            ->assertViewHas(['invalidNames' => ['one-srt.zip']]);
+
+        $this->assertCount(0, $this->subIdxBatch->refresh()->files);
+        $this->assertCount(0, $this->subIdxBatch->unlinkedFiles);
+    }
+
+    /** @test */
     function it_always_matches_if_you_upload_one_sub_and_one_idx()
     {
         $this->actingAs($this->subIdxBatch->user)
@@ -113,7 +126,7 @@ class SubIdxBatchUploadControllerTest extends TestCase
                 'sub-idx/ara.idx',
             ])
             ->assertSessionHasNoErrors()
-            ->assertStatus(302);
+            ->assertStatus(200);
 
         $this->assertCount(0, $this->subIdxBatch->refresh()->unlinkedFiles);
 

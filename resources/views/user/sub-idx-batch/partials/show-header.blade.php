@@ -1,4 +1,4 @@
-<h1>Sub/Idx Batch</h1>
+<h1>Sub/Idx Batch {{ $subIdxBatch->label }}</h1>
 
 <div class="flex my-4">
     <a href="{{ route('user.subIdxBatch.showUpload', $subIdxBatch) }}" class="{{ Route::is('*.showUpload') ? 'font-bold' : '' }}">

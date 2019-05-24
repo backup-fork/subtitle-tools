@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 class SubIdxBatchUploadController
 {
+    private $linkedNames = [];
+
+    private $unlinkedNames = [];
+
     public function index(SubIdxBatch $subIdxBatch)
     {
         if ($subIdxBatch->started_at) {
@@ -43,15 +47,16 @@ class SubIdxBatchUploadController
             $this->store($subIdxBatch, $subFiles, $idxFiles);
         }
 
-        if (! $invalidFiles) {
-            return back();
-        }
-
         $invalidFileNames = array_map(function (UploadedFile $file) {
             return $file->getClientOriginalName();
         }, $invalidFiles);
 
-        return back()->withErrors(['files' => $invalidFileNames]);
+        return view('user.sub-idx-batch.show-uploads', [
+            'subIdxBatch' => $subIdxBatch,
+            'linkedNames' => $this->linkedNames,
+            'unlinkedNames' => $this->unlinkedNames,
+            'invalidNames' => $invalidFileNames,
+        ]);
     }
 
     private function sort($files)
@@ -104,23 +109,27 @@ class SubIdxBatchUploadController
     {
         $subIdxBatch->unlinkedFiles()->create([
             'id' => $uuid = Str::uuid(),
-            'original_name' => name_without_extension($file),
+            'original_name' => $name = name_without_extension($file),
             'hash' => file_hash($file),
             'is_sub' => $isSub,
             'storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id", $file, $uuid.($isSub ? '.sub' : '.idx')),
         ]);
+
+        $this->unlinkedNames[] = $name;
     }
 
     private function storeSubIdx(SubIdxBatch $subIdxBatch, UploadedFile $sub, UploadedFile $idx)
     {
         $subIdxBatch->files()->create([
             'id' => $uuid = Str::uuid(),
-            'sub_original_name' => name_without_extension($sub),
+            'sub_original_name' => $name = name_without_extension($sub),
             'idx_original_name' => name_without_extension($idx),
             'sub_hash' => file_hash($sub),
             'idx_hash' => file_hash($idx),
             'sub_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $sub, 'a.sub'),
             'idx_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $idx, 'a.idx'),
         ]);
+
+        $this->linkedNames[] = $name;
     }
 }
