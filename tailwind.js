@@ -14,7 +14,7 @@ module.exports = {
         '2': '0.5rem',
         '3': '0.75rem',
         '4': '1rem',
-        '5':  '1.25rem',
+        '5': '1.25rem',
         '6': '1.5rem',
         '7': '1.75rem',
         '8': '2rem',
@@ -53,6 +53,10 @@ module.exports = {
         '9/12': '75%',
         '10/12': '83.33333%',
         '11/12': '91.66667%',
+    }),
+
+    height: Object.assign(defaultConfig.height, {
+        '5': '1.25rem',
     }),
 
     minWidth: Object.assign(defaultConfig.minWidth, {

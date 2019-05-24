@@ -31,7 +31,7 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                                 {subIdx.languages.every(i => !!i.downloadUrl) ? (
                                     <DownloadLink url={subIdx.downloadZipUrl} text="Download all as zip"/>
                                 ) : (
-                                    <div className="text-grey cursor-not-allowed">Download all as zip</div>
+                                    <div>&nbsp;</div>
                                 )}
                             </div>
                         )}
@@ -45,8 +45,8 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                         <div className="flex py-1 ml-4 mb-2 border-b hover:bg-grey-lightest" key={language.id}>
                             <div className="flex-grow">{language.language}</div>
                             <div className="w-32 text-right">
-                                {language.isProcessing && 'Processing...'}
-                                {language.isQueued && 'Queued...'}
+                                {language.isProcessing && <LabelWithSvg svg="#processing-spinner" text="Processing"/>}
+                                {language.isQueued && <LabelWithSvg svg="#loading-spinner" text="Queued"/>}
                                 {language.downloadUrl && <DownloadLink url={language.downloadUrl} text="Download"/>}
                             </div>
                         </div>
@@ -56,6 +56,17 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
         </>
     );
 };
+
+
+const LabelWithSvg = (props: {svg: '#loading-spinner' | '#processing-spinner', text: string}) => (
+    <div className="flex items-center">
+        <div className="flex-grow mr-2">{props.text}</div>
+
+        <svg className={(props.svg === '#loading-spinner' ? 'spin-steps-8' : 'spin')+' h-5 w-5'}>
+            <use xlinkHref={props.svg}/>
+        </svg>
+    </div>
+);
 
 
 document.querySelectorAll<HTMLElement>('#sub-idx-batch-result').forEach(el => {
