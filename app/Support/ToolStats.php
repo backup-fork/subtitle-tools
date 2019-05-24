@@ -6,10 +6,13 @@ class ToolStats
 {
     public $toolRoute;
 
-    public $timesUsed    = 0;
-    public $totalFiles   = 0;
+    public $timesUsed = 0;
+
+    public $totalFiles = 0;
+
     public $amountFailed = 0;
-    public $totalSize    = 0;
+
+    public $totalSize = 0;
 
     public function __construct($toolRoute)
     {

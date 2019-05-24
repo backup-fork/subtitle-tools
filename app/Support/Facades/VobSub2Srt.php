@@ -2,8 +2,8 @@
 
 namespace App\Support\Facades;
 
-use App\Subtitles\VobSub\VobSub2SrtInterface;
 use App\Subtitles\VobSub\VobSub2SrtFake;
+use App\Subtitles\VobSub\VobSub2SrtInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**

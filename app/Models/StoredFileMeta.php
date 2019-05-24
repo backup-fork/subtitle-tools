@@ -10,7 +10,7 @@ class StoredFileMeta extends Model
 
     protected $casts = [
         'is_text_file' => 'boolean',
-        'line_count'   => 'integer',
-        'size'         => 'integer',
+        'line_count' => 'integer',
+        'size' => 'integer',
     ];
 }

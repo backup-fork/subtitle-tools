@@ -136,7 +136,7 @@ class GenericSubtitleTest extends TestCase
         $genericSubtitle->stripCurlyBracketsFromCues();
 
         $this->assertSame(
-            ['wow'], 
+            ['wow'],
             $genericSubtitle->getCues()[0]->getLines()
         );
     }
@@ -155,7 +155,7 @@ class GenericSubtitleTest extends TestCase
 
         $this->assertSame(3, count($cues));
 
-        $this->assertSame(100,  $cues[0]->getStartMs());
+        $this->assertSame(100, $cues[0]->getStartMs());
         $this->assertSame(1200, $cues[0]->getEndMs());
         $this->assertSame(['Summer of George'], $cues[0]->getLines());
 
@@ -163,7 +163,7 @@ class GenericSubtitleTest extends TestCase
         $this->assertSame(600, $cues[1]->getEndMs());
         $this->assertSame(['Summer of George'], $cues[1]->getLines());
 
-        $this->assertSame(100,  $cues[2]->getStartMs());
+        $this->assertSame(100, $cues[2]->getStartMs());
         $this->assertSame(1200, $cues[2]->getEndMs());
         $this->assertSame(['Jerry!'], $cues[2]->getLines());
     }

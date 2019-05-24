@@ -2,10 +2,10 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Subtitles\PlainText\WebVtt;
-use App\Support\Facades\TextFileFormat;
 use App\Models\StoredFile;
+use App\Subtitles\PlainText\WebVtt;
 use App\Subtitles\TransformsToGenericSubtitle;
+use App\Support\Facades\TextFileFormat;
 
 class ConvertToVttJob extends FileJob
 {

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Rules\FileNotEmptyRule;
 use App\Http\Rules\SupRule;
 use App\Jobs\Sup\ExtractSupImagesJob;
-use App\Support\Facades\FileName;
 use App\Models\StoredFile;
 use App\Models\SupJob;
+use App\Support\Facades\FileName;
 use Illuminate\Http\Request;
 
 class SupController

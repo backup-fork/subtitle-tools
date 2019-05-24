@@ -31,6 +31,5 @@ class PruneStoredFilesJobTest extends TestCase
     /** @test */
     function it_deletes_directories_that_become_empty_after_deleting_files()
     {
-
     }
 }

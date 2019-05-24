@@ -34,12 +34,12 @@ class ContactControllerTest extends TestCase
     {
         $this->post(route('contact.post'), [
             'message' => 'Message Text',
-            'email'   => 'Email Text',
+            'email' => 'Email Text',
             'captcha' => '5',
         ])
-        ->assertStatus(200)
-        ->assertSessionHasNoErrors()
-        ->assertSee('Thank you for your message');
+            ->assertStatus(200)
+            ->assertSessionHasNoErrors()
+            ->assertSee('Thank you for your message');
 
         $feedbackLines = read_lines($this->feedbackLogFilePath);
 
@@ -52,11 +52,11 @@ class ContactControllerTest extends TestCase
     function message_is_required()
     {
         $this->post(route('contact.post'), [
-            'email'   => 'Email Text',
+            'email' => 'Email Text',
             'captcha' => '5',
         ])
-        ->assertStatus(302)
-        ->assertSessionHasErrors('message');
+            ->assertStatus(302)
+            ->assertSessionHasErrors('message');
     }
 
     /** @test */
@@ -66,8 +66,8 @@ class ContactControllerTest extends TestCase
             'message' => 'content',
             'captcha' => '6',
         ])
-        ->assertStatus(302)
-        ->assertSessionHasErrors('captcha');
+            ->assertStatus(302)
+            ->assertSessionHasErrors('captcha');
     }
 
     /** @test */
@@ -77,14 +77,14 @@ class ContactControllerTest extends TestCase
             'message' => 'Message Text',
             'captcha' => '5',
         ])
-        ->assertStatus(200)
-        ->assertSessionHasNoErrors()
-        ->assertSee('Thank you for your message');
+            ->assertStatus(200)
+            ->assertSessionHasNoErrors()
+            ->assertSee('Thank you for your message');
 
         $feedbackLines = read_lines($this->feedbackLogFilePath);
 
         $this->assertSame([
-            '<strong>Saturday, the 14th of July at 12:30</strong><br>127.0.0.1<br><p>email: (none)<br><br>Message Text</p><br><br>'
+            '<strong>Saturday, the 14th of July at 12:30</strong><br>127.0.0.1<br><p>email: (none)<br><br>Message Text</p><br><br>',
         ], $feedbackLines);
     }
 

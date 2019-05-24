@@ -19,16 +19,16 @@ class Mpl2CueTest extends TestCase
     /** @test */
     function it_rejects_invalid_timing_strings()
     {
-        $this->assertFalse(Mpl2Cue::isTimingString(""));
-        $this->assertFalse(Mpl2Cue::isTimingString(" "));
-        $this->assertFalse(Mpl2Cue::isTimingString("{123}{456}not curly brackets|man"));
-        $this->assertFalse(Mpl2Cue::isTimingString("[1164][1237]")); // it needs at least 1 character of dialogue
+        $this->assertFalse(Mpl2Cue::isTimingString(''));
+        $this->assertFalse(Mpl2Cue::isTimingString(' '));
+        $this->assertFalse(Mpl2Cue::isTimingString('{123}{456}not curly brackets|man'));
+        $this->assertFalse(Mpl2Cue::isTimingString('[1164][1237]')); // it needs at least 1 character of dialogue
     }
 
     /** @test */
     function it_rejects_timing_strings_that_end_before_they_start()
     {
-        $this->assertFalse(Mpl2Cue::isTimingString("[100][50]好啊  朋友"));
+        $this->assertFalse(Mpl2Cue::isTimingString('[100][50]好啊  朋友'));
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class Mpl2CueTest extends TestCase
     {
         $cue = new Mpl2Cue();
 
-        $cue->loadString("[521][551]- Based on whose information?|/- Varys: Ser Jorah Mormont.");
+        $cue->loadString('[521][551]- Based on whose information?|/- Varys: Ser Jorah Mormont.');
 
         $this->assertSame(52100, $cue->getStartMs());
         $this->assertSame(55100, $cue->getEndMs());
@@ -58,7 +58,7 @@ class Mpl2CueTest extends TestCase
             '[11544][11683]trzej adwokaci i kilku urzêdników.|Bêd¹ chcieli mieæ to na piœmie.',
         ];
 
-        foreach($valuesShouldNotChange as $value) {
+        foreach ($valuesShouldNotChange as $value) {
             $this->assertSame($value, (new Mpl2Cue())->loadString($value)->toString());
         }
     }
@@ -68,7 +68,7 @@ class Mpl2CueTest extends TestCase
     {
         $mpl2Cue = new Mpl2Cue();
 
-        $mpl2Cue->loadString("[20170][20256]/Nigdy wczeœniej nie widzieli|czarnego na koniu.");
+        $mpl2Cue->loadString('[20170][20256]/Nigdy wczeœniej nie widzieli|czarnego na koniu.');
 
         $genericCue = $mpl2Cue->toGenericCue();
 

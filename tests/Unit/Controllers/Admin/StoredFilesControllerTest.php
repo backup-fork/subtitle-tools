@@ -13,13 +13,11 @@ class StoredFilesControllerTest extends TestCase
     /** @test */
     function it_can_show_a_stored_file()
     {
-
     }
 
     /** @test */
     function it_can_download_stored_files()
     {
-
     }
 
     /** @test */

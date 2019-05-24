@@ -2,9 +2,9 @@
 
 namespace App\Support\Archive\Read;
 
+use App\Support\Archive\CompressedFile;
 use Exception;
 use RarArchive;
-use App\Support\Archive\CompressedFile;
 
 class RarArchiveRead extends ArchiveRead
 {

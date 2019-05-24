@@ -4,8 +4,8 @@ namespace Tests\Unit\Jobs\FileJobs;
 
 use App\Jobs\FileJobs\ConvertToUtf8Job;
 use App\Models\FileGroup;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Support\TextFile\Facades\TextEncoding;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ConvertToUtf8JobTest extends TestCase

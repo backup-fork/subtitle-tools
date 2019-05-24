@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use App\Support\Facades\TextFileFormat;
 use App\Models\StoredFile;
 use App\Subtitles\PlainText\Srt;
+use App\Support\Facades\TextFileFormat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

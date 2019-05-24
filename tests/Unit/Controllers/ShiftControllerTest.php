@@ -3,10 +3,10 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\FileGroup;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\PostsFileJobs;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShiftControllerTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ShiftControllerTest extends TestCase
         $this->post(route('shift'))
             ->assertStatus(302)
             ->assertSessionHasErrors([
-                'subtitles'    => __('validation.required', ['attribute' => 'subtitles']),
+                'subtitles' => __('validation.required', ['attribute' => 'subtitles']),
                 'milliseconds' => __('validation.required', ['attribute' => 'milliseconds']),
             ]);
     }

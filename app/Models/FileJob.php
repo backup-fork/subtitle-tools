@@ -58,9 +58,9 @@ class FileJob extends Model
     public function getApiValues()
     {
         return [
-            'id'           => $this->id,
+            'id' => $this->id,
             'originalName' => $this->originalNameWithNewExtension,
-            'isFinished'   => $this->has_finished,
+            'isFinished' => $this->has_finished,
             'errorMessage' => $this->has_error ? __($this->error_message) : false,
         ];
     }

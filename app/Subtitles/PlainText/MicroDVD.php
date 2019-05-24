@@ -10,7 +10,7 @@ class MicroDVD extends TextFile implements TransformsToGenericSubtitle
 {
     use WithFileLines;
 
-    protected $extension = "sub";
+    protected $extension = 'sub';
 
     protected $frameRate = 23.976;
 
@@ -21,7 +21,7 @@ class MicroDVD extends TextFile implements TransformsToGenericSubtitle
         if (count($this->lines) > 0 && MicroDVDCue::isTimingString($this->lines[0])) {
             $firstCue = new MicroDVDCue($this->lines[0]);
 
-            $maybeFpsHint = $firstCue->getLines()[0] ?? "NO HINT";
+            $maybeFpsHint = $firstCue->getLines()[0] ?? 'NO HINT';
 
             if (preg_match('/^(?<fps>\d\d(\.|,)\d+)$/', $maybeFpsHint, $matches)) {
                 $hintedFps = str_replace(',', '.', $matches['fps']);
@@ -35,11 +35,11 @@ class MicroDVD extends TextFile implements TransformsToGenericSubtitle
 
     public function setFps($fps)
     {
-        if (!is_float($fps) && !preg_match('/\d\d\.\d+/', $fps)) {
+        if (! is_float($fps) && ! preg_match('/\d\d\.\d+/', $fps)) {
             throw new \Exception("Invalid framerate ({$fps})");
         }
 
-        $this->frameRate = (float)$fps;
+        $this->frameRate = (float) $fps;
     }
 
     public function getFps()

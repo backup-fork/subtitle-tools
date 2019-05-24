@@ -52,7 +52,7 @@ class SrtTest extends TestCase
     {
         $srt = new Srt($this->testFilesStoragePath.'text/srt/empty.srt');
 
-        $this->assertSame("", $srt->getContent());
+        $this->assertSame('', $srt->getContent());
 
         $this->assertSame([], $srt->getContentLines());
     }
@@ -74,23 +74,23 @@ class SrtTest extends TestCase
         $srt = new Srt($this->testFilesStoragePath.'text/srt/parse-edge-case-3.srt');
         $cues = $srt->getCues();
         $this->assertEquals(1, count($cues));
-        $this->assertEquals($cues[0]->getLines()[0], "One of them,");
-        $this->assertEquals($cues[0]->getLines()[1], "her total was $8.00.");
+        $this->assertEquals($cues[0]->getLines()[0], 'One of them,');
+        $this->assertEquals($cues[0]->getLines()[1], 'her total was $8.00.');
         $this->assertEquals(false, isset($cues[0]->getLines()[2]));
 
         // doesn't have a trailing empty line
         $srt = new Srt($this->testFilesStoragePath.'text/srt/parse-edge-case-4.srt');
         $cues = $srt->getCues();
         $this->assertEquals(5, count($cues));
-        $this->assertEquals($cues[4]->getLines()[0], "They both, of course,");
-        $this->assertEquals($cues[4]->getLines()[1], "choose to pay");
+        $this->assertEquals($cues[4]->getLines()[0], 'They both, of course,');
+        $this->assertEquals($cues[4]->getLines()[1], 'choose to pay');
         $this->assertEquals(false, isset($cues[4]->getLines()[2]));
 
         // doesn't have a trailing empty line
         $srt = new Srt($this->testFilesStoragePath.'text/srt/parse-edge-case-5.srt');
         $cues = $srt->getCues();
         $this->assertEquals(5, count($cues));
-        $this->assertEquals($cues[4]->getLines()[0], "They both, of course,");
+        $this->assertEquals($cues[4]->getLines()[0], 'They both, of course,');
         $this->assertEquals(false, isset($cues[4]->getLines()[1]));
     }
 
@@ -121,7 +121,7 @@ class SrtTest extends TestCase
         $this->assertSame(7400, $srt->getCues()[2]->getStartMs());
         $this->assertSame(9233, $srt->getCues()[2]->getEndMs());
 
-        $srt->shift("-1000");
+        $srt->shift('-1000');
 
         $this->assertSame(1266, $srt->getCues()[0]->getStartMs());
         $this->assertSame(3366, $srt->getCues()[0]->getEndMs());
@@ -160,7 +160,7 @@ class SrtTest extends TestCase
         $this->assertSame(6400, $srt->getCues()[2]->getStartMs());
         $this->assertSame(8233, $srt->getCues()[2]->getEndMs());
 
-        $srt->shiftPartial(4400, 6500, "-1000");
+        $srt->shiftPartial(4400, 6500, '-1000');
 
         $this->assertSame(2266, $srt->getCues()[0]->getStartMs());
         $this->assertSame(4366, $srt->getCues()[0]->getEndMs());
@@ -274,5 +274,4 @@ class SrtTest extends TestCase
             '',
         ], $cues[2]->toArray());
     }
-
 }

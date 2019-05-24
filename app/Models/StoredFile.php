@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Support\Facades\TempFile;
 use App\Subtitles\TextFile;
+use App\Support\Facades\TempFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;

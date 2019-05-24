@@ -6,8 +6,8 @@ use App\Models\StoredFile;
 use App\Models\SupJob;
 use App\Models\SupStats;
 use Carbon\Carbon;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SupControllerTest extends TestCase
 {
@@ -20,8 +20,8 @@ class SupControllerTest extends TestCase
             'subtitle' => $this->createUploadedFile('text/ass/three-cues.ass'),
             'ocrLanguage' => 'eng',
         ])
-        ->assertStatus(302)
-        ->assertSessionHasErrors(['subtitle' => __('validation.not_a_valid_sup_file')]);
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['subtitle' => __('validation.not_a_valid_sup_file')]);
     }
 
     /** @test */
@@ -33,8 +33,8 @@ class SupControllerTest extends TestCase
             'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
             'ocrLanguage' => 'eng',
         ])
-        ->assertSessionHasNoErrors()
-        ->assertStatus(302);
+            ->assertSessionHasNoErrors()
+            ->assertStatus(302);
 
         $supJob = SupJob::findOrFail(1);
 
@@ -73,8 +73,8 @@ class SupControllerTest extends TestCase
             'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
             'ocrLanguage' => 'eng',
         ])
-        ->assertSessionHasNoErrors()
-        ->assertStatus(302);
+            ->assertSessionHasNoErrors()
+            ->assertStatus(302);
 
         $this->assertSame(1, SupStats::count());
 
@@ -93,7 +93,6 @@ class SupControllerTest extends TestCase
     /** @test */
     function it_redirects_get_method_downloads_to_the_result_route()
     {
-
     }
 
     private function postSup(array $data)

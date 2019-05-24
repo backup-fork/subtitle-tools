@@ -2,16 +2,16 @@
 
 namespace App\Jobs\FileJobs;
 
+use App\Events\FileJobChanged;
 use App\Exceptions\FileJobException;
 use App\Jobs\BaseJob;
+use App\Models\FileJob as FileJobModel;
+use App\Models\StoredFile;
 use App\Subtitles\TextFile;
 use App\Subtitles\TextFileFormat;
 use App\Subtitles\Tools\Options\NoOptions;
 use App\Support\Facades\TempFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Events\FileJobChanged;
-use App\Models\FileJob as FileJobModel;
-use App\Models\StoredFile;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 

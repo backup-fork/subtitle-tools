@@ -12,6 +12,5 @@ class SubIdxBatchControllerTest extends TestCase
     /** @test */
     function it_will_only_show_your_own_batches()
     {
-
     }
 }

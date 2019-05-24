@@ -20,7 +20,7 @@ class TextFileFormatTest extends TestCase
     {
         $textFileFormat = new TextFileFormat();
 
-        if(! file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             $this->fail("File does not exist ({$filePath})");
         }
 
@@ -28,10 +28,10 @@ class TextFileFormatTest extends TestCase
 
         $format = $textFileFormat->getMatchingFormat($filePath, false);
 
-        $this->assertTrue($format instanceof $expectedClass, "'{$fileName}' is not an instance of " . class_basename($expectedClass));
+        $this->assertTrue($format instanceof $expectedClass, "'{$fileName}' is not an instance of ".class_basename($expectedClass));
 
-        foreach(array_wrap($notThisClass) as $notThis) {
-            $this->assertFalse($format instanceof $notThis, "'{$fileName}' should not be an instanceof " . class_basename($notThis));
+        foreach (array_wrap($notThisClass) as $notThis) {
+            $this->assertFalse($format instanceof $notThis, "'{$fileName}' should not be an instanceof ".class_basename($notThis));
         }
     }
 
@@ -133,7 +133,7 @@ class TextFileFormatTest extends TestCase
 
         $subtitle = $textFileFormat->getMatchingFormat($this->testFilesStoragePath.'text/srt/normal-01.srt', false);
 
-        $this->assertTrue($subtitle instanceof Srt, "Not an instance of Srt");
+        $this->assertTrue($subtitle instanceof Srt, 'Not an instance of Srt');
 
         $this->assertTrue($subtitle->getCues() === []);
     }

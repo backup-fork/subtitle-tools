@@ -53,19 +53,16 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
     /** @test */
     function show_the_linked_page_for_an_empty_batch()
     {
-
     }
 
     /** @test */
     function show_the_linked_page_when_all_files_are_unlinked()
     {
-
     }
 
     /** @test */
     function show_the_linked_page_when_some_files_are_unlinked()
     {
-
     }
 
     /** @test */

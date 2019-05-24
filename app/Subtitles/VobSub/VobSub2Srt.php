@@ -46,7 +46,7 @@ class VobSub2Srt implements VobSub2SrtInterface
         foreach ($outputLines as $line) {
             if (preg_match('/^(?<index>\d+): ([a-z]+|\(no id\))$/', $line, $match)) {
                 $languages[] = [
-                    'index'    => $match['index'],
+                    'index' => $match['index'],
                     'language' => $this->idxFile->getLanguageForIndex($match['index']),
                 ];
             }

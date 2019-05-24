@@ -13,6 +13,5 @@ class VueTest extends TestCase
             'http://st.test/api/v1/sub-idx/URL_KEY/languages',
             route('api.subIdx.languages', 'URL_KEY')
         );
-
     }
 }

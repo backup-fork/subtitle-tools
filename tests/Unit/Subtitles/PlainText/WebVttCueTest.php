@@ -95,7 +95,7 @@ class WebVttCueTest extends TestCase
 
         $cue->setTiming(0, 1000);
 
-        $this->assertSame("00:00:00.000 --> 00:00:01.000", $cue->getTimingString());
+        $this->assertSame('00:00:00.000 --> 00:00:01.000', $cue->getTimingString());
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class WebVttCueTest extends TestCase
             '324:01:14.815 --> 9645:01:18.114',
         ];
 
-        foreach($valuesShouldNotChange as $val) {
+        foreach ($valuesShouldNotChange as $val) {
             $this->assertSame($val, (new WebVttCue)->setTimingFromString($val)->getTimingString());
         }
     }
@@ -125,9 +125,9 @@ class WebVttCueTest extends TestCase
     {
         $cue = new WebVttCue();
 
-        $cue->shift("-9999999999999999999999999");
+        $cue->shift('-9999999999999999999999999');
 
-        $this->assertSame("00:00:00.000 --> 00:00:00.000", $cue->getTimingString());
+        $this->assertSame('00:00:00.000 --> 00:00:00.000', $cue->getTimingString());
     }
 
     /** @test */

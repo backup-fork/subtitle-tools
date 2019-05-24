@@ -17,18 +17,18 @@ class SsaCue extends AssCue
             return false;
         }
 
-        $parts =  explode(',', $string, 10);
+        $parts = explode(',', $string, 10);
 
         if (count($parts) !== 10) {
             return false;
         }
 
-        if (!preg_match("/^Dialogue: Marked=\d,\d:[0-5]\d:[0-5]\d\.\d{2},\d:[0-5]\d:[0-5]\d\.\d{2},/i", $string)) {
+        if (! preg_match("/^Dialogue: Marked=\d,\d:[0-5]\d:[0-5]\d\.\d{2},\d:[0-5]\d:[0-5]\d\.\d{2},/i", $string)) {
             return false;
         }
 
         $startInt = str_replace([':', '.'], '', $parts[1]);
-        $endInt   = str_replace([':', '.'], '', $parts[2]);
+        $endInt = str_replace([':', '.'], '', $parts[2]);
 
         if ($startInt > $endInt) {
             return false;

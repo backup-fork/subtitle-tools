@@ -36,7 +36,7 @@ class BuildSupSrtJob extends BaseJob implements ShouldQueue
             $textArray = $cuesText[$cue['index']];
 
             $startMs = $cue['startTime'];
-            $endMs   = $cue['endTime'];
+            $endMs = $cue['endTime'];
 
             if ($endMs < $startMs) {
                 $endMs = $startMs;
@@ -69,7 +69,7 @@ class BuildSupSrtJob extends BaseJob implements ShouldQueue
             ->keyBy(function ($filePath) {
                 preg_match('/\[(\d+)-\d+\]/', $filePath, $match);
 
-                return (int)$match[1];
+                return (int) $match[1];
             })
             ->map(function ($fileName) use ($directory) {
                 return file(str_finish($directory, '/').$fileName);

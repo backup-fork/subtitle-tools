@@ -19,9 +19,9 @@ class ShiftPartialController extends FileJobController
     protected function rules(): array
     {
         return [
-            'shifts'                => 'required|array',
-            'shifts.*.from'         => 'required|regex:/\d\d:\d\d:\d\d/',
-            'shifts.*.to'           => 'required|regex:/\d\d:\d\d:\d\d/',
+            'shifts' => 'required|array',
+            'shifts.*.from' => 'required|regex:/\d\d:\d\d:\d\d/',
+            'shifts.*.to' => 'required|regex:/\d\d:\d\d:\d\d/',
             'shifts.*.milliseconds' => 'required|numeric|not_in:0|regex:/^(-?\d+)$/',
         ];
     }
@@ -32,7 +32,7 @@ class ShiftPartialController extends FileJobController
 
         foreach ($shifts as $shift) {
             $fromInt = str_replace(':', '', $shift['from']);
-            $toInt   = str_replace(':', '', $shift['to']);
+            $toInt = str_replace(':', '', $shift['to']);
 
             if ($fromInt >= $toInt) {
                 return back()

@@ -11,13 +11,12 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 {
     use WithFileLines;
 
-    protected $extension = "smi";
+    protected $extension = 'smi';
 
     protected $cues = [];
 
     public function __construct()
     {
-
     }
 
     /**
@@ -34,15 +33,14 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
         // Smi files ignore new lines, the easiest way to parse the file is by removing new lines.
         $cleanContent = implode('', $this->lines);
 
-        if (stripos($cleanContent, "<sync ") === false) {
+        if (stripos($cleanContent, '<sync ') === false) {
             return $genericSubtitle;
         }
 
-        $fromIndex = stripos($cleanContent, "<sync ");
+        $fromIndex = stripos($cleanContent, '<sync ');
 
-        while ($fromIndex !== false && $fromIndex < strlen($cleanContent))
-        {
-            $toIndex = stripos($cleanContent, "<sync ", $fromIndex + 1);
+        while ($fromIndex !== false && $fromIndex < strlen($cleanContent)) {
+            $toIndex = stripos($cleanContent, '<sync ', $fromIndex + 1);
 
             if ($toIndex === false) {
                 $toIndex = strlen($cleanContent);
@@ -50,10 +48,9 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 
             $maybeCueText = substr($cleanContent, $fromIndex, $toIndex - $fromIndex);
 
-            if (preg_match('/^<sync .*?start=(?:"?|\'?)(?<startMs>\d+).*?>/i', $maybeCueText, $startTag))
-            {
+            if (preg_match('/^<sync .*?start=(?:"?|\'?)(?<startMs>\d+).*?>/i', $maybeCueText, $startTag)) {
                 $startMs = $startTag['startMs'];
-                $endMs   = $startTag['startMs'];
+                $endMs = $startTag['startMs'];
 
                 if (preg_match('/^<sync .*?end=(?:"?|\'?)(?<endMs>\d+).*?>/i', $maybeCueText, $endTag)) {
                     $endMs = $endTag['endMs'];
@@ -75,7 +72,7 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 
                     $genericCue->setTiming($startMs, $endMs);
 
-                    $genericCue->setLines(preg_split("~<br>|<br/>|<br />~i", $maybeCueText));
+                    $genericCue->setLines(preg_split('~<br>|<br/>|<br />~i', $maybeCueText));
 
                     $genericSubtitle->addCue($genericCue);
                 }
@@ -123,12 +120,12 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
 
         // a line can contain multiple sync tags
         $this->lines = array_map(function ($line) use ($ms) {
-            if (stripos($line, "<sync ") === false) {
+            if (stripos($line, '<sync ') === false) {
                 return $line;
             }
 
             $parts = array_map(function ($part) use ($ms) {
-                if (!preg_match('/<sync .*?start=.*$/i', $part)) {
+                if (! preg_match('/<sync .*?start=.*$/i', $part)) {
                     return $part;
                 }
 
@@ -138,11 +135,10 @@ class Smi extends TextFile implements TransformsToGenericSubtitle, ShiftsCues
                     }
 
                     return preg_replace_callback('/\d+/', function ($matches) use ($ms) {
-                        $newNumber = (int)$matches[0] + $ms;
+                        $newNumber = (int) $matches[0] + $ms;
 
-                        return ($newNumber < 0) ? "0" : (string)$newNumber;
+                        return ($newNumber < 0) ? '0' : (string) $newNumber;
                     }, $syncTag);
-
                 }, explode('<', $part));
 
                 return implode('<', $syncTags);

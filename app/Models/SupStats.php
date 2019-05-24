@@ -25,7 +25,7 @@ class SupStats extends Model
     public static function today()
     {
         return static::firstOrCreate([
-            'date' => now()->format('Y-m-d')
+            'date' => now()->format('Y-m-d'),
         ], [
             'bluray_sup_count' => 0,
             'hddvd_sup_count' => 0,

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Controllers;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\PostsFileJobs;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConvertToVttControllerTest extends TestCase
 {

@@ -18,7 +18,7 @@ class GenericSubtitleCueTest extends TestCase
 
         $this->assertSame(['First line', 'Second line'], $cue->getLines());
 
-        $this->assertSame(0,   $cue->getStartMs());
+        $this->assertSame(0, $cue->getStartMs());
         $this->assertSame(100, $cue->getEndMs());
     }
 
@@ -157,8 +157,8 @@ class GenericSubtitleCueTest extends TestCase
 
         $cue->setLines(['Line #', 'Line #']);
 
-        $cue->alterLines(function($line, $index) {
-           return $line . $index;
+        $cue->alterLines(function ($line, $index) {
+            return $line.$index;
         });
 
         $this->assertSame(['Line #0', 'Line #1'], $cue->getLines());
@@ -173,8 +173,8 @@ class GenericSubtitleCueTest extends TestCase
 
         $cue->setLines(['Line 1', 'Line 2']);
 
-        $cue->alterLines(function($line, $index) {
-            return $line . "\n" . strtoupper($line);
+        $cue->alterLines(function ($line, $index) {
+            return $line."\n".strtoupper($line);
         });
 
         $this->assertSame(['Line 1', 'LINE 1', 'Line 2', 'LINE 2'], $cue->getLines());

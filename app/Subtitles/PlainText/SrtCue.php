@@ -17,7 +17,7 @@ class SrtCue extends GenericSubtitleCue implements TimingStrings, LoadsGenericCu
         } elseif ($source instanceof GenericSubtitleCue) {
             $this->loadGenericCue($source);
         } else {
-            throw new \InvalidArgumentException("Invalid SrtCue source");
+            throw new \InvalidArgumentException('Invalid SrtCue source');
         }
     }
 
@@ -90,7 +90,7 @@ class SrtCue extends GenericSubtitleCue implements TimingStrings, LoadsGenericCu
             $lines[] = $line;
         }
 
-        $lines[] = "";
+        $lines[] = '';
 
         return $lines;
     }

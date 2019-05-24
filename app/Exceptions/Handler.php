@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Support\TextFile\Exceptions\TextEncodingException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use App\Support\TextFile\Exceptions\TextEncodingException;
 
 class Handler extends ExceptionHandler
 {

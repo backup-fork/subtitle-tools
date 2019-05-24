@@ -34,8 +34,7 @@ class CollectSupMetaJob extends BaseJob implements ShouldQueue
             if ($sup !== false) {
                 $cueCount = count($sup->getCues());
             }
-        }
-        catch(Exception $exception) {
+        } catch (Exception $exception) {
             $failedToOpen = true;
         }
 

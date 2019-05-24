@@ -12,6 +12,5 @@ class PruneTemporaryFilesJobTest extends TestCase
     /** @test */
     function it_()
     {
-
     }
 }

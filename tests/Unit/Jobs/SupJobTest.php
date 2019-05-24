@@ -14,7 +14,7 @@ class SupJobTest extends TestCase
 
     private function makeSupJob($inputFilePath, $ocrLanguage = 'eng')
     {
-        $inputFilePath = $this->testFilesStoragePath . ltrim($inputFilePath, '/');
+        $inputFilePath = $this->testFilesStoragePath.ltrim($inputFilePath, '/');
 
         if (! file_exists($inputFilePath)) {
             $this->fail('File does not exist: '.$inputFilePath);
@@ -23,11 +23,11 @@ class SupJobTest extends TestCase
         $storedFile = StoredFile::getOrCreate($inputFilePath);
 
         return SupJob::create([
-            'url_key'              => generate_url_key(),
-            'input_file_hash'      => '123',
-            'ocr_language'         => $ocrLanguage,
+            'url_key' => generate_url_key(),
+            'input_file_hash' => '123',
+            'ocr_language' => $ocrLanguage,
             'input_stored_file_id' => $storedFile->id,
-            'original_name'        => basename($inputFilePath),
+            'original_name' => basename($inputFilePath),
         ]);
     }
 

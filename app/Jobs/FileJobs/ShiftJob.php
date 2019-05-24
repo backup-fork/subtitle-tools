@@ -2,10 +2,10 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Support\Facades\TextFileFormat;
 use App\Models\StoredFile;
 use App\Subtitles\ShiftsCues;
 use App\Subtitles\TextFile;
+use App\Support\Facades\TextFileFormat;
 use App\Support\TextFile\Facades\TextFileIdentifier;
 
 class ShiftJob extends FileJob
@@ -23,7 +23,7 @@ class ShiftJob extends FileJob
         /** @var $subtitle TextFile */
         $subtitle = TextFileFormat::getMatchingFormat($this->inputStoredFile->filePath);
 
-        if (!$subtitle instanceof ShiftsCues) {
+        if (! $subtitle instanceof ShiftsCues) {
             return $this->abortFileJob('messages.file_can_not_be_shifted');
         }
 

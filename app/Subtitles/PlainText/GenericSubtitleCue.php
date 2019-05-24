@@ -115,7 +115,7 @@ class GenericSubtitleCue
             $lines[] = $line;
         }
 
-        $lines[] = "";
+        $lines[] = '';
 
         return $lines;
     }
@@ -174,6 +174,6 @@ class GenericSubtitleCue
      */
     public function __toString()
     {
-        return "{{$this->startMs}}{{$this->endMs}}" . json_encode($this->lines);
+        return "{{$this->startMs}}{{$this->endMs}}".json_encode($this->lines);
     }
 }

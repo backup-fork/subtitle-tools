@@ -2,10 +2,10 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Subtitles\Tools\ToPlainText;
-use App\Support\Facades\TextFileFormat;
 use App\Models\StoredFile;
+use App\Subtitles\Tools\ToPlainText;
 use App\Subtitles\TransformsToGenericSubtitle;
+use App\Support\Facades\TextFileFormat;
 use App\Support\TextFile\Facades\TextFileIdentifier;
 
 class ConvertToPlainTextJob extends FileJob

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Middleware;
 
 use App\Models\UploadedFileMime;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RecordUploadedFileMimesTest extends TestCase
 {

@@ -6,7 +6,7 @@ use RuntimeException;
 
 class ChangeColorOptions extends ToolOptions
 {
-    public $newColor = null;
+    public $newColor;
 
     public function rules(): array
     {

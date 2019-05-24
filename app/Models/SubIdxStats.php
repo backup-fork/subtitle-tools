@@ -21,7 +21,7 @@ class SubIdxStats extends Model
     public static function today()
     {
         return static::firstOrCreate([
-            'date' => now()->format('Y-m-d')
+            'date' => now()->format('Y-m-d'),
         ], [
             'cache_hits' => 0,
             'cache_misses' => 0,

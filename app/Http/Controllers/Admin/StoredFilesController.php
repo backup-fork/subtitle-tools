@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\FileJob;
-use App\Support\Facades\TempFile;
 use App\Models\StoredFile;
+use App\Support\Facades\TempFile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -12,13 +12,13 @@ class StoredFilesController
 {
     public function show(StoredFile $storedFile)
     {
-         $relatedFileJobs = FileJob::query()
-             ->whereNotNull('input_stored_file_id')
-             ->whereNotNull('output_stored_file_id')
-             ->where(function (Builder $query) use ($storedFile) {
-                 $query->where('input_stored_file_id', $storedFile->id)->orWhere('output_stored_file_id', $storedFile->id);
-             })
-             ->get();
+        $relatedFileJobs = FileJob::query()
+            ->whereNotNull('input_stored_file_id')
+            ->whereNotNull('output_stored_file_id')
+            ->where(function (Builder $query) use ($storedFile) {
+                $query->where('input_stored_file_id', $storedFile->id)->orWhere('output_stored_file_id', $storedFile->id);
+            })
+            ->get();
 
         $lines = is_text_file($storedFile)
             ? read_lines($storedFile)
@@ -96,14 +96,14 @@ class StoredFilesController
 
         return collect(explode(',', $idsString))
             ->map(function ($str) {
-                if (!str_contains($str, '-')) {
+                if (! str_contains($str, '-')) {
                     return $str;
                 }
 
                 $ids = explode('-', $str);
 
                 $from = min($ids[0], $ids[1]);
-                $to   = max($ids[0], $ids[1]);
+                $to = max($ids[0], $ids[1]);
 
                 return range($from, $to);
             })

@@ -4,7 +4,7 @@ namespace App\Support\Archive;
 
 class CompressedFile
 {
-    protected $index = null;
+    protected $index;
 
     protected $name = '';
 

@@ -37,7 +37,7 @@ class SmiTest extends TestCase
 
         $this->assertSame($this->testFilesStoragePath.'text/smi/three-cues.smi', $genericSub->getFilePath());
 
-        $this->assertSame("three-cues", $genericSub->getFileNameWithoutExtension());
+        $this->assertSame('three-cues', $genericSub->getFileNameWithoutExtension());
 
         $genericCues = $genericSub->getCues();
 
@@ -71,15 +71,15 @@ class SmiTest extends TestCase
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
     }
 
     /** @test */
@@ -97,15 +97,15 @@ class SmiTest extends TestCase
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
     }
 
     /** @test */
@@ -157,7 +157,7 @@ class SmiTest extends TestCase
         $this->assertSame(76617, $genericCues[2]->getStartMs());
         $this->assertSame(78076, $genericCues[2]->getEndMs());
 
-        $smi->shift("-1000");
+        $smi->shift('-1000');
         $genericCues = $smi->toGenericSubtitle()->getCues();
         $this->assertSame(3, count($genericCues));
 
@@ -203,15 +203,15 @@ class SmiTest extends TestCase
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
 
         $smi->shift(1000);
         $genericSub = $smi->toGenericSubtitle();
@@ -220,32 +220,32 @@ class SmiTest extends TestCase
 
         $this->assertEquals(76260, $genericCues[0]->getStartMs());
         $this->assertEquals(79092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(129413, $genericCues[1]->getStartMs());
         $this->assertEquals(130936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(160077, $genericCues[2]->getStartMs());
         $this->assertEquals(165343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
 
-        $smi->shift("-1000");
+        $smi->shift('-1000');
         $genericSub = $smi->toGenericSubtitle();
         $genericCues = $genericSub->getCues();
         $this->assertSame(3, count($genericCues));
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
     }
 
     /** @test */
@@ -261,15 +261,15 @@ class SmiTest extends TestCase
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
 
         $smi->shift(1000);
         $genericSub = $smi->toGenericSubtitle();
@@ -278,32 +278,32 @@ class SmiTest extends TestCase
 
         $this->assertEquals(76260, $genericCues[0]->getStartMs());
         $this->assertEquals(79092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(129413, $genericCues[1]->getStartMs());
         $this->assertEquals(130936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(160077, $genericCues[2]->getStartMs());
         $this->assertEquals(165343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
 
-        $smi->shift("-1000");
+        $smi->shift('-1000');
         $genericSub = $smi->toGenericSubtitle();
         $genericCues = $genericSub->getCues();
         $this->assertSame(3, count($genericCues));
 
         $this->assertEquals(75260, $genericCues[0]->getStartMs());
         $this->assertEquals(78092, $genericCues[0]->getEndMs());
-        $this->assertEquals(["Your 100 parents are waiting."], $genericCues[0]->getLines());
+        $this->assertEquals(['Your 100 parents are waiting.'], $genericCues[0]->getLines());
 
         $this->assertEquals(128413, $genericCues[1]->getStartMs());
         $this->assertEquals(129936, $genericCues[1]->getEndMs());
-        $this->assertEquals(["200 Ryotaro Sakashiro"], $genericCues[1]->getLines());
+        $this->assertEquals(['200 Ryotaro Sakashiro'], $genericCues[1]->getLines());
 
         $this->assertEquals(159077, $genericCues[2]->getStartMs());
         $this->assertEquals(164343, $genericCues[2]->getEndMs());
-        $this->assertEquals(["Misa Amane 300, your life", "has been extended."], $genericCues[2]->getLines());
+        $this->assertEquals(['Misa Amane 300, your life', 'has been extended.'], $genericCues[2]->getLines());
     }
 
     /** @test */

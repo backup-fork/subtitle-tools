@@ -22,5 +22,4 @@ namespace Illuminate\Support
             return '';
         }
     }
-
 }

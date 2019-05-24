@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Jobs\FileJobs;
 
-use App\Models\FileGroup;
-use App\Support\Facades\TextFileFormat;
 use App\Jobs\FileJobs\ShiftJob;
+use App\Models\FileGroup;
 use App\Subtitles\ContainsGenericCues;
 use App\Subtitles\PlainText\Srt;
+use App\Support\Facades\TextFileFormat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

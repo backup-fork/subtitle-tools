@@ -3,9 +3,8 @@
 namespace Tests\Unit\Middleware;
 
 use App\Models\StoredFile;
-use Tests\CreatesUploadedFiles;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CountUploadedFilesTest extends TestCase
 {

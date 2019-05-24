@@ -123,7 +123,6 @@ class SubIdxBatchUploadControllerTest extends TestCase
     /** @test */
     function it_wont_store_the_same_sub_file_twice()
     {
-
     }
 
     private function showUpload($subIdxBatch)

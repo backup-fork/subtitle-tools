@@ -74,7 +74,7 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
         $lines = read_lines($file);
 
         for ($i = 1; $i < count($lines); $i++) {
-            if (SrtCue::isTimingString($lines[$i]) && preg_match('/^\d+$/', trim($lines[$i-1]))) {
+            if (SrtCue::isTimingString($lines[$i]) && preg_match('/^\d+$/', trim($lines[$i - 1]))) {
                 return true;
             }
         }
@@ -97,7 +97,7 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
         $this->cues = [];
 
         // ensure parsing works properly on files missing the required trailing empty line
-        $lines[] = "";
+        $lines[] = '';
 
         $timingIndexes = [];
 
@@ -114,7 +114,7 @@ class Srt extends TextFile implements LoadsGenericSubtitles, ShiftsCues, Partial
 
             $newCue->setTimingFromString($lines[$timingIndexes[$timingIndex]]);
 
-            for ($lineIndex = $timingIndexes[$timingIndex] + 1; $lineIndex < $timingIndexes[$timingIndex+1] - 1; $lineIndex++) {
+            for ($lineIndex = $timingIndexes[$timingIndex] + 1; $lineIndex < $timingIndexes[$timingIndex + 1] - 1; $lineIndex++) {
                 $newCue->addLine($lines[$lineIndex]);
             }
 

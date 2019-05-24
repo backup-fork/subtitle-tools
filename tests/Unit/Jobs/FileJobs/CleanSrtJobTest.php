@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Jobs\FileJobs;
 
-use App\Models\FileGroup;
-use App\Support\Facades\TextFileFormat;
 use App\Jobs\FileJobs\CleanSrtJob;
+use App\Models\FileGroup;
 use App\Models\FileJob;
 use App\Models\StoredFile;
 use App\Subtitles\PlainText\Srt;
+use App\Support\Facades\TextFileFormat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

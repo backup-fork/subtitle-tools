@@ -8,7 +8,7 @@ use App\Subtitles\Tools\Options\ChangeColorOptions;
 
 class ChangeColorJob extends FileJob
 {
-    protected $newExtension = null;
+    protected $newExtension;
 
     public function process(TextFile $subtitle, $options)
     {

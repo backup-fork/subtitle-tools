@@ -30,7 +30,7 @@ class Ssa extends Ass
         }
 
         if ($maybeSsaFile) {
-            if (preg_grep("/^\[v4 styles\]/i" , $lines)) {
+            if (preg_grep("/^\[v4 styles\]/i", $lines)) {
                 return true;
             }
         }

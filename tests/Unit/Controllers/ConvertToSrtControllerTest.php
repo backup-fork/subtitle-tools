@@ -6,10 +6,10 @@ use App\Jobs\FileJobs\ConvertToSrtJob;
 use App\Models\FileGroup;
 use App\Models\FileJob;
 use App\Models\StoredFile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\PostsFileJobs;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConvertToSrtControllerTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace App\Support\Archive\Read;
 
-use RunTimeException;
 use App\Support\Archive\CompressedFile;
+use RunTimeException;
 
 abstract class ArchiveRead
 {

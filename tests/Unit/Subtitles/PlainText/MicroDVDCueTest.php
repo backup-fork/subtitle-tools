@@ -19,16 +19,16 @@ class MicroDVDCueTest extends TestCase
     /** @test */
     function it_rejects_invalid_timing_strings()
     {
-        $this->assertFalse(MicroDVDCue::isTimingString(""));
-        $this->assertFalse(MicroDVDCue::isTimingString(" "));
-        $this->assertFalse(MicroDVDCue::isTimingString("[123][456]not curly brackets|man"));
-        $this->assertFalse(MicroDVDCue::isTimingString("{1164}{1237}")); // it needs at least 1 character of dialogue
+        $this->assertFalse(MicroDVDCue::isTimingString(''));
+        $this->assertFalse(MicroDVDCue::isTimingString(' '));
+        $this->assertFalse(MicroDVDCue::isTimingString('[123][456]not curly brackets|man'));
+        $this->assertFalse(MicroDVDCue::isTimingString('{1164}{1237}')); // it needs at least 1 character of dialogue
     }
 
     /** @test */
     function it_rejects_timing_strings_that_end_before_they_start()
     {
-        $this->assertFalse(MicroDVDCue::isTimingString("{100}{50}好啊  朋友"));
+        $this->assertFalse(MicroDVDCue::isTimingString('{100}{50}好啊  朋友'));
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class MicroDVDCueTest extends TestCase
     {
         $cue = new MicroDVDCue();
 
-        $cue->loadString("{521}{551}- Based on whose information?|- Varys: <i>Ser Jorah Mormont.</i>");
+        $cue->loadString('{521}{551}- Based on whose information?|- Varys: <i>Ser Jorah Mormont.</i>');
 
         $this->assertSame(21730, $cue->getStartMs());
         $this->assertSame(22981, $cue->getEndMs());
@@ -58,7 +58,7 @@ class MicroDVDCueTest extends TestCase
             '{11544}{11683}trzej adwokaci i kilku urzêdników.|Bêd¹ chcieli mieæ to na piœmie.',
         ];
 
-        foreach($valuesShouldNotChange as $value) {
+        foreach ($valuesShouldNotChange as $value) {
             $this->assertSame($value, (new MicroDVDCue())->loadString($value)->toString());
         }
     }
@@ -68,7 +68,7 @@ class MicroDVDCueTest extends TestCase
     {
         $microDvdCue = new MicroDVDCue();
 
-        $microDvdCue->loadString("{20170}{20256}Nigdy wczeœniej nie widzieli|/czarnego na koniu.");
+        $microDvdCue->loadString('{20170}{20256}Nigdy wczeœniej nie widzieli|/czarnego na koniu.');
 
         $this->assertSame(23.976, $microDvdCue->getFps());
 
@@ -89,14 +89,14 @@ class MicroDVDCueTest extends TestCase
     {
         $microDvdCue = new MicroDVDCue();
 
-        $microDvdCue->loadString("{1050}{1250}Nigdy wczeœniej nie widzieli|czarnego na koniu.");
+        $microDvdCue->loadString('{1050}{1250}Nigdy wczeœniej nie widzieli|czarnego na koniu.');
 
         $this->assertSame(23.976, $microDvdCue->getFps());
 
         $this->assertSame(43794, $microDvdCue->getStartMs());
         $this->assertSame(52135, $microDvdCue->getEndMs());
 
-        $microDvdCue->setFps("25.0");
+        $microDvdCue->setFps('25.0');
 
         $this->assertSame(25.0, $microDvdCue->getFps());
 

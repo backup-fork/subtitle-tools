@@ -3,7 +3,6 @@
 namespace Tests\Unit\Subtitles\PlainText\Otranscribe;
 
 use App\Subtitles\PlainText\GenericSubtitleCue;
-
 use App\Subtitles\PlainText\Otranscribe\OtranscribeCue;
 use Tests\TestCase;
 

@@ -34,15 +34,15 @@ class DashboardController
         return collect($lines)->filter(function ($line) {
             return ! empty($line);
         })->map(function ($line) {
-           return preg_split('/ {3,}|, /', $line);
+            return preg_split('/ {3,}|, /', $line);
         })->map(function ($parts) {
-            return (object)[
-                'worker'    => str_before($parts[0], ':'),
-                'name'      => str_after($parts[0], ':'),
-                'status'    => strtolower($parts[1] ?? 'UNKNOWN'),
+            return (object) [
+                'worker' => str_before($parts[0], ':'),
+                'name' => str_after($parts[0], ':'),
+                'status' => strtolower($parts[1] ?? 'UNKNOWN'),
                 'isRunning' => $parts[1] ?? 'UNKNOWN' === 'RUNNING',
-                'pid'       => str_after($parts[2] ?? '?', 'pid '),
-                'uptime'    => str_after($parts[3] ?? '?:??:??', 'uptime '),
+                'pid' => str_after($parts[2] ?? '?', 'pid '),
+                'uptime' => str_after($parts[3] ?? '?:??:??', 'uptime '),
             ];
         })->filter(function ($object) {
             return starts_with($object->worker, 'st-');
@@ -57,9 +57,9 @@ class DashboardController
         $uploadMaxFileSize = ini_get('upload_max_filesize');
         $maxFileUploads = ini_get('max_file_uploads');
 
-        $dependencies['post_max_size: '.$postMaxSize]             = (int) $postMaxSize >= 100;
+        $dependencies['post_max_size: '.$postMaxSize] = (int) $postMaxSize >= 100;
         $dependencies['upload_max_filesize: '.$uploadMaxFileSize] = (int) $uploadMaxFileSize >= 100;
-        $dependencies['max_file_uploads: '.$maxFileUploads]       = (int) $maxFileUploads >= 100;
+        $dependencies['max_file_uploads: '.$maxFileUploads] = (int) $maxFileUploads >= 100;
 
         $dependencies['Opcache'] = function_exists('opcache_get_status') && (opcache_get_status()['opcache_enabled'] ?? false);
 

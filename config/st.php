@@ -1,18 +1,17 @@
 <?php
 
 use App\Http\Controllers\ChangeColorController;
-use App\Http\Controllers\ConvertToSrtController;
-use App\Http\Controllers\ConvertToVttController;
 use App\Http\Controllers\CleanSrtController;
+use App\Http\Controllers\ConvertToPlainTextController;
+use App\Http\Controllers\ConvertToSrtController;
+use App\Http\Controllers\ConvertToUtf8Controller;
+use App\Http\Controllers\ConvertToVttController;
+use App\Http\Controllers\MergeController;
+use App\Http\Controllers\PinyinController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ShiftPartialController;
-use App\Http\Controllers\ConvertToUtf8Controller;
-use App\Http\Controllers\PinyinController;
-use App\Http\Controllers\ConvertToPlainTextController;
-use App\Http\Controllers\MergeController;
 
 return [
-
     /**
      * These tool routes are use for FileJobStats.
      */
@@ -142,5 +141,3 @@ return [
     ],
 
 ];
-
-

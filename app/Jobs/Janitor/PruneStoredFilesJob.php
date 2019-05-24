@@ -5,10 +5,10 @@ namespace App\Jobs\Janitor;
 use App\Jobs\BaseJob;
 use App\Jobs\Diagnostic\CalculateDiskUsageJob;
 use App\Models\StoredFile;
-use RuntimeException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 class PruneStoredFilesJob extends BaseJob implements ShouldQueue
 {

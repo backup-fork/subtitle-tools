@@ -12,6 +12,5 @@ class CollectFileJobStatsJobTest extends TestCase
     /** @test */
     function it_counts_files_in_the_merge_tool_double()
     {
-
     }
 }

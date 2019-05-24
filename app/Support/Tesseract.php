@@ -195,7 +195,7 @@ class Tesseract
     public function whitelist()
     {
         $concatenate = function ($carry, $item) {
-            return $carry . join('', (array)$item);
+            return $carry.join('', (array) $item);
         };
         $whitelist = array_reduce(func_get_args(), $concatenate, '');
         $this->config('tessedit_char_whitelist', $whitelist);

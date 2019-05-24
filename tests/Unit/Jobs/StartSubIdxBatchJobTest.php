@@ -5,7 +5,6 @@ namespace Tests\Unit\Jobs;
 use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Jobs\StartSubIdxBatchJob;
 use App\Models\SubIdxBatch\SubIdxBatch;
-use App\Models\SubIdxLanguage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Queue;

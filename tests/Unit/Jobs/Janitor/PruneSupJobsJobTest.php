@@ -12,6 +12,5 @@ class PruneSupJobsJobTest extends TestCase
     /** @test */
     function it_()
     {
-
     }
 }

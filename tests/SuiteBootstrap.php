@@ -21,7 +21,7 @@ class SuiteBootstrap implements BeforeFirstTestHook, AfterLastTestHook
 
     public function executeBeforeFirstTest(): void
     {
-        foreach($this->testingStorageDirectories as $dirName) {
+        foreach ($this->testingStorageDirectories as $dirName) {
             $directory = $this->storageDirectory.$dirName;
 
             if (! file_exists($directory)) {
@@ -32,7 +32,7 @@ class SuiteBootstrap implements BeforeFirstTestHook, AfterLastTestHook
 
     public function executeAfterLastTest(): void
     {
-        foreach($this->testingStorageDirectories as $dirName) {
+        foreach ($this->testingStorageDirectories as $dirName) {
             $this->deleteDirectory($this->storageDirectory.$dirName);
         }
     }
@@ -43,7 +43,7 @@ class SuiteBootstrap implements BeforeFirstTestHook, AfterLastTestHook
 
         $fileIterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
 
-        foreach($fileIterator as $file) {
+        foreach ($fileIterator as $file) {
             $file->isDir()
                 ? rmdir($file->getRealPath())
                 : unlink($file->getRealPath());

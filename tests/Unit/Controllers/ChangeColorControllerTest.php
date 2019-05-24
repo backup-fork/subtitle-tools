@@ -5,8 +5,8 @@ namespace Tests\Unit\Controllers;
 use App\Models\FileJob;
 use App\Subtitles\Tools\Options\ChangeColorOptions;
 use App\Subtitles\Tools\Options\ToolOptions;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ChangeColorControllerTest extends TestCase
 {

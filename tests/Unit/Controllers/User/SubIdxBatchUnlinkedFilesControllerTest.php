@@ -51,13 +51,11 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
     /** @test */
     function show_the_unlinked_page_when_all_files_are_linked()
     {
-
     }
 
     /** @test */
     function show_the_unlinked_page_when_some_files_are_unlinked()
     {
-
     }
 
     /** @test */

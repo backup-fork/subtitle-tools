@@ -60,7 +60,7 @@ class OcrImageJob extends BaseJob implements ShouldQueue
             $this->ocrImage($filePath);
         }
 
-        list($index, $total) = $this->parseFileName();
+        [$index, $total] = $this->parseFileName();
 
         SupJobProgressChanged::dispatch($this->supJobId, "Reading image $index / $total");
 
@@ -122,8 +122,8 @@ class OcrImageJob extends BaseJob implements ShouldQueue
         preg_match('/\[(\d+)-(\d+)\]/', $lastFilePath, $match);
 
         return [
-            (int)$match[1],
-            (int)$match[2],
+            (int) $match[1],
+            (int) $match[2],
         ];
     }
 

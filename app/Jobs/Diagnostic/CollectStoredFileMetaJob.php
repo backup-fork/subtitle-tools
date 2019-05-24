@@ -3,13 +3,13 @@
 namespace App\Jobs\Diagnostic;
 
 use App\Jobs\BaseJob;
+use App\Models\StoredFile;
+use App\Models\StoredFileMeta;
 use App\Subtitles\Tools\Options\ToPlainTextOptions;
 use App\Subtitles\Tools\ToPlainText;
 use App\Subtitles\TransformsToGenericSubtitle;
 use App\Support\Facades\TextFileFormat;
 use App\Support\TextFile\Facades\TextEncoding;
-use App\Models\StoredFile;
-use App\Models\StoredFileMeta;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +37,7 @@ class CollectStoredFileMetaJob extends BaseJob implements ShouldQueue
             return;
         }
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             Log::error("CollectStoredFileMetaJob: file does not exist (stored file id: {$this->storedFile->id})");
             return;
         }

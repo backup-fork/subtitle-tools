@@ -6,9 +6,9 @@ use App\Jobs\ExtractSubIdxLanguageJob;
 use App\Models\SubIdx;
 use App\Models\SubIdxLanguage;
 use App\Models\SubIdxLanguageStats;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubIdxControllerTest extends TestCase
 {

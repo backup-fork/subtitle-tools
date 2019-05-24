@@ -3,10 +3,9 @@
 namespace Tests\Unit\Controllers;
 
 use App\Subtitles\Tools\Options\SrtCleanerOptions;
-use Tests\CreatesUploadedFiles;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\PostsFileJobs;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CleanSrtControllerTest extends TestCase
 {

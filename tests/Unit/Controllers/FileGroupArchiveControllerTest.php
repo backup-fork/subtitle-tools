@@ -3,8 +3,8 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\FileGroup;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class FileGroupArchiveControllerTest extends TestCase
 {

@@ -19,7 +19,7 @@ class FileName
             return $this->getWithoutExtension($fileName);
         }
 
-        return $this->getWithoutExtension($fileName) . '.' . $newExtension;
+        return $this->getWithoutExtension($fileName).'.'.$newExtension;
     }
 
     public function getWithoutExtension($fileName)
@@ -35,7 +35,7 @@ class FileName
 
         $withoutExtension = $this->getWithoutExtension($fileName);
 
-        return rtrim($withoutExtension . $append . '.' . $extension, ' .');
+        return rtrim($withoutExtension.$append.'.'.$extension, ' .');
     }
 
     public function watermark($fileName)

@@ -151,7 +151,7 @@ class Ass extends TextFile implements TransformsToGenericSubtitle, ShiftsCues, P
         }
 
         if ($maybeAssFile) {
-            if (preg_grep("/^\[v4\+ styles\]/i" , $lines)) {
+            if (preg_grep("/^\[v4\+ styles\]/i", $lines)) {
                 return true;
             }
         }

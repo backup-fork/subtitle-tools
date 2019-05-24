@@ -2,9 +2,9 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Support\Facades\FileName;
 use App\Models\StoredFile;
 use App\Subtitles\PlainText\PlainText;
+use App\Support\Facades\FileName;
 
 class ConvertToUtf8Job extends FileJob
 {

@@ -10,7 +10,7 @@ class SubIdxBatchController
     public function index()
     {
         return view('user.sub-idx-batch.index', [
-            'subIdxBatches' => user()->subIdxBatches->sortByDesc('created_at')
+            'subIdxBatches' => user()->subIdxBatches->sortByDesc('created_at'),
         ]);
     }
 

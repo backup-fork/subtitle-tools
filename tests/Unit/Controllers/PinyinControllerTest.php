@@ -4,9 +4,9 @@ namespace Tests\Unit\Controllers;
 
 use App\Jobs\FileJobs\PinyinSubtitlesJob;
 use App\Models\FileGroup;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PinyinControllerTest extends TestCase
 {

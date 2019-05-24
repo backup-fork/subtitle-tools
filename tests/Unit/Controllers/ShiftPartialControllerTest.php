@@ -3,9 +3,9 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\FileGroup;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\PostsFileJobs;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShiftPartialControllerTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ShiftPartialControllerTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHasErrors([
                 'subtitles' => __('validation.required', ['attribute' => 'subtitles']),
-                'shifts'    => __('validation.required', ['attribute' => 'shifts']),
+                'shifts' => __('validation.required', ['attribute' => 'shifts']),
             ]);
     }
 
@@ -63,7 +63,7 @@ class ShiftPartialControllerTest extends TestCase
         $response = $this->post(route('shiftPartial'), [
             'subtitles' => [
                 $this->createUploadedFile("{$this->testFilesStoragePath}text/ass/normal01.ass"),
-                $this->createUploadedFile("{$this->testFilesStoragePath}text/ass/normal01.ass")
+                $this->createUploadedFile("{$this->testFilesStoragePath}text/ass/normal01.ass"),
             ],
             'shifts' => [['from' => '00:00:00', 'to' => '00:00:03', 'milliseconds' => -1000]],
         ]);

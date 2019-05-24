@@ -33,11 +33,11 @@ class ToolOptionsTest extends TestCase
         ];
 
         $class = new class($options) extends ToolOptions {
-            public $a = null;
+            public $a;
 
-            public $b = null;
+            public $b;
 
-            protected $c = null;
+            protected $c;
         };
 
         $this->assertSame(123, $class->a);

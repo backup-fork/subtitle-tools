@@ -15,7 +15,7 @@ class TempFile
 
         file_put_contents($tempFilePath, $content);
 
-        register_shutdown_function (function () use ($tempFilePath) {
+        register_shutdown_function(function () use ($tempFilePath) {
             if (file_exists($tempFilePath)) {
                 unlink($tempFilePath);
             }

@@ -59,7 +59,7 @@ class SrtCueTest extends TestCase
             '00:00:00,001 --> 00:00:00,000',
 
             // This cue ends before it begins, after fixing the two digit ms timestamp
-            '00:07:42,87 --> 00:07:42,796'
+            '00:07:42,87 --> 00:07:42,796',
         ]);
     }
 
@@ -190,7 +190,7 @@ class SrtCueTest extends TestCase
         foreach (Arr::wrap($timingStrings) as $timingString) {
             $isValid = SrtCue::isTimingString($timingString);
 
-            $this->assertFalse($isValid, 'Unexpected valid timing string: ' . $timingString);
+            $this->assertFalse($isValid, 'Unexpected valid timing string: '.$timingString);
         }
     }
 

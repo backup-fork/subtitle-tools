@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Archive\Archive;
 use Closure;
 use Illuminate\Http\UploadedFile;
-use App\Support\Archive\Archive;
 
 class CheckFileSize
 {
@@ -15,7 +15,6 @@ class CheckFileSize
         foreach ($request->files->keys() as $key) {
             foreach (array_wrap($request->file($key)) as $file) {
                 if ($file instanceof UploadedFile && $file->isValid()) {
-
                     if (Archive::isReadable($file->getRealPath())) {
                         $compressedFiles = Archive::open($file->getRealPath())->getCompressedFiles();
 
@@ -29,7 +28,6 @@ class CheckFileSize
                             return back()->withErrors(['subtitles' => __('validation.a_file_is_too_big')]);
                         }
                     }
-
                 }
             }
         }

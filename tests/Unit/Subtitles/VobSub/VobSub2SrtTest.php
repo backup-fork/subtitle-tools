@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Subtitles\VobSub;
 
-
 use App\Support\Facades\VobSub2Srt;
 use Tests\TestCase;
 

@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Subtitles\PlainText;
 
-use App\Support\TextFile\Facades\TextFileReader;
 use App\Subtitles\PartialShiftsCues;
 use App\Subtitles\PlainText\WebVtt;
 use App\Subtitles\PlainText\WebVttCue;
 use App\Subtitles\ShiftsCues;
+use App\Support\TextFile\Facades\TextFileReader;
 use Tests\TestCase;
 
 class WebVttTest extends TestCase

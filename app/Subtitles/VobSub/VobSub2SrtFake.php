@@ -7,9 +7,13 @@ use RuntimeException;
 class VobSub2SrtFake implements VobSub2SrtInterface
 {
     private const OUTPUT_NOTHING = 100;
+
     private const OUTPUT_SRT = 200;
+
     private const OUTPUT_SRT_NO_DIALOGUE = 300;
+
     private const OUTPUT_EMPTY_FILE = 400;
+
     private const OUTPUT_THROW_EXCEPTION = 500;
 
     private $output = self::OUTPUT_SRT;
@@ -67,7 +71,7 @@ class VobSub2SrtFake implements VobSub2SrtInterface
             unlink($outputFilePath);
         }
 
-        switch($this->output) {
+        switch ($this->output) {
             case self::OUTPUT_SRT:
                 $this->writeSrtFile();
                 break;

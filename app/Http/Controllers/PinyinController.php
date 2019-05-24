@@ -21,7 +21,7 @@ class PinyinController extends FileJobController
     protected function rules(): array
     {
         return [
-            'mode' => 'required|in:1,2,3'
+            'mode' => 'required|in:1,2,3',
         ];
     }
 

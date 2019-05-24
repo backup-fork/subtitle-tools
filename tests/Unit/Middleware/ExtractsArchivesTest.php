@@ -4,9 +4,9 @@ namespace Tests\Unit\Middleware;
 
 use App\Models\FileJob;
 use App\Models\StoredFile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExtractsArchivesTest extends TestCase
 {
@@ -25,7 +25,7 @@ class ExtractsArchivesTest extends TestCase
         $this->assertSame(5, StoredFile::count());
     }
 
-// Disabled because rar-pecl does nto support php7.3
+    // Disabled because rar-pecl does nto support php7.3
 //    /** @test */
 //    function it_extracts_rars_in_request()
 //    {
@@ -79,7 +79,7 @@ class ExtractsArchivesTest extends TestCase
         $this->assertSame(0, StoredFile::count());
     }
 
-// Disabled because rar-pecl does nto support php7.3
+    // Disabled because rar-pecl does nto support php7.3
 //    /** @test */
 //    function it_gracefully_handles_broken_rar_entries()
 //    {

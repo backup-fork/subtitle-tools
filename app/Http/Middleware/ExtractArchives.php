@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Support\Archive\Archive;
+use Closure;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ExtractArchives extends TransformsRequestFiles
@@ -47,7 +47,7 @@ class ExtractArchives extends TransformsRequestFiles
 
             $newUploadedFiles[] = $newUploadedFile;
 
-            register_shutdown_function (function () use ($filePath) {
+            register_shutdown_function(function () use ($filePath) {
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }

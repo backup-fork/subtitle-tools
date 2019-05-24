@@ -9,9 +9,9 @@ class GenericSubtitle implements ContainsGenericCues
 {
     use WithGenericCues;
 
-    protected $originalFileNameWithoutExtension = "";
+    protected $originalFileNameWithoutExtension = '';
 
-    protected $filePath = "";
+    protected $filePath = '';
 
     public function setFilePath($filePath)
     {

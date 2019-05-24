@@ -2,9 +2,9 @@
 
 namespace Tests\Components\TextFile;
 
-use Exception;
 use App\Support\TextFile\Exceptions\TextEncodingException;
 use App\Support\TextFile\TextEncoding;
+use Exception;
 use Tests\TestCase;
 
 class TextEncodingTest extends TestCase

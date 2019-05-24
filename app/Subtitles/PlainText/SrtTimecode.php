@@ -29,7 +29,7 @@ class SrtTimecode
 
     protected function timecodeToMs($timecode)
     {
-        $timecode = str_replace([' ', '-'], '',  $timecode);
+        $timecode = str_replace([' ', '-'], '', $timecode);
 
         $timecode = str_replace('.', ',', $timecode);
 
@@ -61,9 +61,9 @@ class SrtTimecode
         $SS = $SS % 60;
         $MM = $MM % 60;
 
-        $HH  = str_pad($HH,  2, '0', STR_PAD_LEFT);
-        $MM  = str_pad($MM,  2, '0', STR_PAD_LEFT);
-        $SS  = str_pad($SS,  2, '0', STR_PAD_LEFT);
+        $HH = str_pad($HH, 2, '0', STR_PAD_LEFT);
+        $MM = str_pad($MM, 2, '0', STR_PAD_LEFT);
+        $SS = str_pad($SS, 2, '0', STR_PAD_LEFT);
         $MIL = str_pad($MIL, 3, '0', STR_PAD_LEFT);
 
         return "{$HH}:{$MM}:{$SS},{$MIL}";

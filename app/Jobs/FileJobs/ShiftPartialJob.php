@@ -2,10 +2,10 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Support\Facades\TextFileFormat;
 use App\Models\StoredFile;
 use App\Subtitles\PartialShiftsCues;
 use App\Subtitles\TextFile;
+use App\Support\Facades\TextFileFormat;
 use App\Support\TextFile\Facades\TextFileIdentifier;
 
 class ShiftPartialJob extends FileJob
@@ -23,7 +23,7 @@ class ShiftPartialJob extends FileJob
         /** @var $subtitle TextFile */
         $subtitle = TextFileFormat::getMatchingFormat($this->inputStoredFile->filePath);
 
-        if (!$subtitle instanceof PartialShiftsCues) {
+        if (! $subtitle instanceof PartialShiftsCues) {
             return $this->abortFileJob('messages.file_can_not_be_partial_shifted');
         }
 
@@ -51,10 +51,10 @@ class ShiftPartialJob extends FileJob
 
     private function timestampToMilliseconds($timestamp)
     {
-        list($hours, $minutes, $seconds) = explode(':', $timestamp);
+        [$hours, $minutes, $seconds] = explode(':', $timestamp);
 
         return ($hours * 60 * 60 * 1000) +
-               ($minutes    * 60 * 1000) +
-               ($seconds         * 1000);
+               ($minutes * 60 * 1000) +
+               ($seconds * 1000);
     }
 }

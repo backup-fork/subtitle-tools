@@ -4,9 +4,9 @@ namespace App\Jobs\Sup;
 
 use App\Events\SupJobProgressChanged;
 use App\Jobs\BaseJob;
+use App\Models\SupJob;
 use App\Models\SupStats;
 use App\Support\Facades\TempDir;
-use App\Models\SupJob;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;

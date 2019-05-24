@@ -2,12 +2,12 @@
 
 namespace App\Support\TextFile;
 
-use RuntimeException;
 use App\Support\TextFile\Exceptions\TextEncodingException;
+use RuntimeException;
 
 class TextEncoding
 {
-    protected $fallbackEncoding = null;
+    protected $fallbackEncoding;
 
     /**
      * "uchardet encoding name" => "php encoding name"

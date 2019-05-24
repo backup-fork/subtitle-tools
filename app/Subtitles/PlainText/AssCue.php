@@ -113,13 +113,13 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
 
     private function timecodeToMs($timecode)
     {
-        list($H, $MM, $SS, $MS) = preg_split("/(:|\.)/", $timecode);
+        [$H, $MM, $SS, $MS] = preg_split("/(:|\.)/", $timecode);
 
         // The milliseconds are only two digits long, so a zero needs to be added
         return ($H * 60 * 60 * 1000) +
-               ($MM     * 60 * 1000) +
-               ($SS          * 1000) +
-               ($MS * 10           );
+               ($MM * 60 * 1000) +
+               ($SS * 1000) +
+               ($MS * 10);
     }
 
     public function toString()
@@ -146,7 +146,7 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
             return false;
         }
 
-        $parts =  explode(',', $string, 10);
+        $parts = explode(',', $string, 10);
 
         if (count($parts) !== 10) {
             return false;
@@ -157,7 +157,7 @@ class AssCue extends GenericSubtitleCue implements TimingStrings, TransformsToGe
         }
 
         $startInt = str_replace([':', '.'], '', $parts[1]);
-        $endInt   = str_replace([':', '.'], '', $parts[2]);
+        $endInt = str_replace([':', '.'], '', $parts[2]);
 
         if ($startInt > $endInt) {
             return false;

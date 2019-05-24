@@ -3,9 +3,9 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\FileGroup;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConvertToUtf8ControllerTest extends TestCase
 {

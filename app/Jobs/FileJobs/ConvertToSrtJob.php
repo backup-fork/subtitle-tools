@@ -2,8 +2,8 @@
 
 namespace App\Jobs\FileJobs;
 
-use App\Subtitles\TextFile;
 use App\Subtitles\PlainText\Srt;
+use App\Subtitles\TextFile;
 use App\Subtitles\TransformsToGenericSubtitle;
 
 class ConvertToSrtJob extends FileJob

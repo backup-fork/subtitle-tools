@@ -2,10 +2,10 @@
 
 namespace App\Jobs\FileJobs;
 
+use App\Subtitles\PlainText\Srt;
 use App\Subtitles\TextFile;
 use App\Subtitles\Tools\Options\SrtCleanerOptions;
 use App\Subtitles\Tools\SrtCleaner;
-use App\Subtitles\PlainText\Srt;
 
 class CleanSrtJob extends FileJob
 {
