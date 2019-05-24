@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="max-w-sm flex justify-between items-center">
+    <div class="flex justify-between items-center">
         <h1>Sub/Idx Batches</h1>
 
         <a href="{{ route('user.subIdxBatch.create') }}" class="btn">Create</a>

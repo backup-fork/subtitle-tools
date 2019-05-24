@@ -1,15 +1,14 @@
-<div class="flex justify-between items-center bg-white p-4 border-b">
+<div class="flex justify-between items-center p-4 border-b">
 
-    <div class="breadcrumbs-container">
-        @yield('breadcrumbs')
-    </div>
+    <h2 class="m-0 text-xl font-normal text-center">Subtitle Tools</h2>
+
 
     <div class="flex">
         <div class="mr-6">
             My Account
         </div>
 
-        <form class="" method="post" action="{{ route('logout') }}">
+        <form method="post" action="{{ route('logout') }}">
             {{ csrf_field() }}
 
             <button type="submit">Log out</button>

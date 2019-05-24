@@ -8,18 +8,22 @@
 
 @section('body')
 
-<div id="app" class="flex flex-grow">
+<div class="mx-8">
 
-    <div class="relative w-64">
-        @include('layout.user.sidebar')
-    </div>
+    @include('layout.user.header')
 
-    <div class="flex-grow">
-        @include('layout.user.header')
+    <div class="flex">
 
-        <div class="p-6">
-            @yield('content')
+        <div class="w-64">
+            @include('layout.user.sidebar')
         </div>
+
+        <div class="flex-grow">
+            <div class="mt-8 p-4 max-w-xl rounded shadow bg-white">
+                @yield('content')
+            </div>
+        </div>
+
     </div>
 
 </div>

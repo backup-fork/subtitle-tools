@@ -1,9 +1,7 @@
-<div class="fixed bg-white h-full w-64 border-r">
+<div class="fixed flex flex-col h-full w-48 mr-16 pt-8 text-lg">
 
-    <h2 class="px-8 my-8 text-lg text-center">Subtitle Tools</h2>
+    <a href="{{ route('user.dashboard.index') }}" class="text-black pl-6 border-l-4 w-full py-4 {{ Route::is('user.dashboard*') ? 'border-red-light font-bold' : '' }}">Dashboard</a>
 
-    <div class="flex flex-col">
-        <a href="{{ route('user.subIdxBatch.index') }}" class="text-black pl-6 hover:bg-grey-light w-full py-4 {{ Route::is('user.subIdxBatch*') ? 'bg-grey-light' : '' }}">Sub/Idx Batch</a>
-    </div>
+    <a href="{{ route('user.subIdxBatch.index') }}" class="text-black pl-6 border-l-4 w-full py-4 {{ Route::is('user.subIdxBatch*') ? 'border-red-light font-bold' : '' }}">Sub/Idx Batches</a>
 
 </div>
