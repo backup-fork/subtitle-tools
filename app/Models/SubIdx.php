@@ -113,7 +113,7 @@ class SubIdx extends Model
             'sub_file_size' => filesize($destinationFilePathWithoutExtension.'.sub'),
             'idx_file_size' => filesize($destinationFilePathWithoutExtension.'.idx'),
             'is_readable' => true,
-            'url_key' => null,
+            'url_key' => generate_url_key(),
         ]);
 
         $languages = array_filter($batchFile->languages(), function ($array) use ($extractLanguages) {

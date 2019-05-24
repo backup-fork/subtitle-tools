@@ -16,23 +16,30 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
     }, []);
 
     if (! data) {
-        return <div/>;
+        return <div>Loading...</div>;
     }
 
     return (
         <div className="max-w-md">
             {data.map(subIdx => (
                 <div className="p-4 mb-6 bg-white border rounded" key={subIdx.id}>
-                    <div className="flex mb-4">
+                    <div className="flex">
                         <input type="text" className="flex-grow mr-6" value={subIdx.originalName} readOnly={true} />
-                        <div className="w-48 text-right">
-                            {subIdx.languages.every(i => !!i.downloadUrl) ? (
-                                <DownloadLink url={subIdx.downloadZipUrl} text="Download all as zip"/>
-                            ) : (
-                                <div className="text-grey cursor-not-allowed">Download all as zip</div>
-                            )}
-                        </div>
+
+                        {subIdx.languages.length > 0 && (
+                            <div className="w-48 text-right mb-4">
+                                {subIdx.languages.every(i => !!i.downloadUrl) ? (
+                                    <DownloadLink url={subIdx.downloadZipUrl} text="Download all as zip"/>
+                                ) : (
+                                    <div className="text-grey cursor-not-allowed">Download all as zip</div>
+                                )}
+                            </div>
+                        )}
                     </div>
+
+                    {subIdx.languages.length === 0 && (
+                        <div className="py-2">This sub/idx doesn't contain any of the languages you have selected.</div>
+                    )}
 
                     {subIdx.languages.map(language => (
                         <div className="flex border-b py-2 ml-4 mb-2 hover:bg-grey-lightest" key={language.id}>

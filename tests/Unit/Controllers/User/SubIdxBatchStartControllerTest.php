@@ -150,7 +150,7 @@ class SubIdxBatchStartControllerTest extends TestCase
 
         $this->assertSame($batchFile->sub_original_name, $subIdx->original_name);
         $this->assertSame('a', $subIdx->filename);
-        $this->assertNull($subIdx->url_key);
+        $this->assertNotNull($subIdx->url_key);
 
         $this->assertFileExists($subIdx->file_path_without_extension.'.sub');
         $this->assertFileExists($subIdx->file_path_without_extension.'.idx');
