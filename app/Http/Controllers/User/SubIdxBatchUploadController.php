@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Rules\AreUploadedFilesRule;
 use App\Http\Rules\SubMimeRule;
 use App\Models\SubIdxBatch\SubIdxBatch;
+use App\Models\SubIdxBatch\SubIdxBatchFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,10 @@ class SubIdxBatchUploadController
     private $linkedNames = [];
 
     private $unlinkedNames = [];
+
+    private $duplicateUnlinkedNames = [];
+
+    private $duplicateLinkedNames = [];
 
     public function index(SubIdxBatch $subIdxBatch)
     {
@@ -56,6 +61,8 @@ class SubIdxBatchUploadController
             'linkedNames' => $this->linkedNames,
             'unlinkedNames' => $this->unlinkedNames,
             'invalidNames' => $invalidFileNames,
+            'duplicateUnlinkedNames' => $this->duplicateUnlinkedNames,
+            'duplicateLinkedNames' => $this->duplicateLinkedNames,
         ]);
     }
 
@@ -107,25 +114,68 @@ class SubIdxBatchUploadController
 
     private function storeUnlinked(SubIdxBatch $subIdxBatch, UploadedFile $file, bool $isSub)
     {
+        $extension = $isSub ? '.sub' : '.idx';
+
+        $existingHashes = null;
+
+        if ($existingHashes === null) {
+            $existingHashes = $subIdxBatch->unlinkedFiles()->pluck('hash')->all();
+        }
+
+        $newHash = file_hash($file);
+
+        $name = name_without_extension($file);
+
+        if (in_array($newHash, $existingHashes)) {
+            $this->duplicateUnlinkedNames[] = $name.$extension;
+
+            return;
+        }
+
         $subIdxBatch->unlinkedFiles()->create([
             'id' => $uuid = Str::uuid(),
-            'original_name' => $name = name_without_extension($file),
-            'hash' => file_hash($file),
+            'original_name' => $name,
+            'hash' => $newHash,
             'is_sub' => $isSub,
-            'storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id", $file, $uuid.($isSub ? '.sub' : '.idx')),
+            'storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id", $file, $uuid.$extension),
         ]);
+
+        $existingHashes[] = $newHash;
 
         $this->unlinkedNames[] = $name;
     }
 
     private function storeSubIdx(SubIdxBatch $subIdxBatch, UploadedFile $sub, UploadedFile $idx)
     {
+        $name = name_without_extension($sub);
+
+        $subHash = file_hash($sub);
+        $idxHash = file_hash($idx);
+
+        $existingHashes = null;
+
+        if ($existingHashes === null) {
+            $existingHashes = $subIdxBatch->files()
+                ->select('sub_hash', 'idx_hash')
+                ->get()
+                ->map(function (SubIdxBatchFile $batchFile) {
+                    return $batchFile->sub_hash.$batchFile->idx_hash;
+                })
+                ->all();
+        }
+
+        if (in_array($subHash.$idxHash, $existingHashes)) {
+            $this->duplicateLinkedNames[] = $name;
+
+            return;
+        }
+
         $subIdxBatch->files()->create([
             'id' => $uuid = Str::uuid(),
-            'sub_original_name' => $name = name_without_extension($sub),
+            'sub_original_name' => $name,
             'idx_original_name' => name_without_extension($idx),
-            'sub_hash' => file_hash($sub),
-            'idx_hash' => file_hash($idx),
+            'sub_hash' => $subHash,
+            'idx_hash' => $idxHash,
             'sub_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $sub, 'a.sub'),
             'idx_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $idx, 'a.idx'),
         ]);

@@ -46,6 +46,30 @@
     </div>
     @endif
 
+    @if($duplicateUnlinkedNames ?? false)
+    <div class="border-l-4 border-red pl-4 mt-8">
+        <strong>The following files were not added because they are already exist as an unlinked file in this batch</strong>
+
+        <ul class="mt-2">
+            @foreach($duplicateUnlinkedNames as $name)
+            <li>{{ $name }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    @if($duplicateLinkedNames ?? false)
+    <div class="border-l-4 border-red pl-4 mt-8">
+        <strong>The following files were not added because they are already exist as a linked file in this batch</strong>
+
+        <ul class="mt-2">
+            @foreach($duplicateLinkedNames as $name)
+            <li>{{ $name }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     @if($invalidNames ?? false)
     <div class="border-l-4 border-red pl-4 mt-8">
         <strong>Could not add the following files because they are not valid sub or idx files</strong>

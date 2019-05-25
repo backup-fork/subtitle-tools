@@ -37,6 +37,8 @@ class CreateSubIdxBatchesTable extends Migration
             $table->string('storage_file_path');
             $table->timestamps();
 
+            $table->unique(['sub_idx_batch_id', 'hash']);
+
             $table->foreign('sub_idx_batch_id')->references('id')->on('sub_idx_batches')->onDelete('cascade');
         });
 

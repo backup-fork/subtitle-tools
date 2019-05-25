@@ -96,11 +96,43 @@ class SubIdxBatchUploadControllerTest extends TestCase
 
         $this->assertCount(2, $unlinkedFiles = $this->subIdxBatch->unlinkedFiles);
 
-        $this->assertSame('only-danish', $unlinkedFiles[0]->original_name);
-        $this->assertSame('ara', $unlinkedFiles[1]->original_name);
+        $this->assertSame('ara', $unlinkedFiles[0]->original_name);
+        $this->assertSame('only-danish', $unlinkedFiles[1]->original_name);
 
         Storage::assertExists($unlinkedFiles[0]->storage_file_path);
         Storage::assertExists($unlinkedFiles[1]->storage_file_path);
+    }
+
+    /** @test */
+    function it_wont_upload_duplicate_unlinked_files_to_a_batch()
+    {
+        $this->actingAs($this->subIdxBatch->user)
+            ->postUpload($this->subIdxBatch, [
+                'sub-idx/ara.idx',
+                'sub-idx/ara.idx',
+            ])
+            ->assertStatus(200)
+            ->assertViewHas('duplicateUnlinkedNames', ['ara.idx']);
+
+        $this->assertCount(1, $this->subIdxBatch->unlinkedFiles);
+    }
+
+    /** @test */
+    function it_wont_upload_duplicate_linked_files_to_a_batch()
+    {
+        $this->actingAs($this->subIdxBatch->user)
+            ->postUpload($this->subIdxBatch, [
+                'sub-idx/ara.sub',
+                'sub-idx/ara.idx',
+                'sub-idx/ara-dupe.sub',
+                'sub-idx/ara-dupe.idx',
+            ])
+            ->assertStatus(200)
+            ->assertViewHas('duplicateLinkedNames', ['ara-dupe']);
+
+        $this->assertCount(0, $this->subIdxBatch->unlinkedFiles);
+
+        $this->assertCount(1, $this->subIdxBatch->refresh()->files);
     }
 
     /** @test */
