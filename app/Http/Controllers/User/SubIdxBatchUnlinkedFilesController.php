@@ -7,6 +7,7 @@ use App\Models\SubIdxBatch\SubIdxUnlinkedBatchFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class SubIdxBatchUnlinkedFilesController
 {
@@ -74,6 +75,15 @@ class SubIdxBatchUnlinkedFilesController
 
         if (! $sub || ! $idx) {
             abort(422);
+        }
+
+        $alreadyExists = $subIdxBatch->files()
+            ->where('sub_hash', $sub->hash)
+            ->where('idx_hash', $idx->hash)
+            ->exists();
+
+        if ($alreadyExists) {
+            throw ValidationException::withMessages(['alreadyLinked' => '1']);
         }
 
         return [$sub, $idx];

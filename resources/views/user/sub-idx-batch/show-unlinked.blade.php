@@ -6,11 +6,7 @@
 
     @include('user.sub-idx-batch.partials.show-header')
 
-    <div>
-        Unlinked files
-    </div>
-
-    <form method="post" action="{{ route('user.subIdxBatch.link', $subIdxBatch) }}" class="max-w-md">
+    <form method="post" action="{{ route('user.subIdxBatch.link', $subIdxBatch) }}">
         {{ csrf_field() }}
 
         @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
@@ -55,5 +51,11 @@
         @endif
 
     </form>
+
+    @error('alreadyLinked')
+    <div class="border-l-4 border-red pl-4 mt-8 py-2">
+        These two files can't be linked because the exact same files are already linked in this batch.
+    </div>
+    @enderror
 
 @endsection

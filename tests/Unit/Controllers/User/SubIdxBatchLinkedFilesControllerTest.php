@@ -66,6 +66,12 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
     }
 
     /** @test */
+    function it_removes_files_when_unlinking_files_that_already_exist_as_unlinked_files()
+    {
+        $this->fail();
+    }
+
+    /** @test */
     function you_cant_unlink_when_the_batch_has_already_started()
     {
         $subIdxBatch = $this->createSubIdxBatch(['started_at' => now()]);

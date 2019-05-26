@@ -67,12 +67,16 @@ trait CreatesSubIdxBatches
         return $unlinkedSubFiles;
     }
 
-    public function createSubIdxBatchFile($subIdxBatch = null): SubIdxBatchFile
+    public function createSubIdxBatchFile($subIdxBatch = null, $attributes = []): SubIdxBatchFile
     {
+        if (is_array($subIdxBatch)) {
+            [$subIdxBatch, $attributes] = [$attributes, $subIdxBatch];
+        }
+
         $subIdxBatch = $subIdxBatch ?: $this->createSubIdxBatch();
 
         /** @var SubIdxBatchFile $batchFile */
-        $batchFile = factory(SubIdxBatchFile::class)->create([
+        $batchFile = factory(SubIdxBatchFile::class)->create($attributes + [
             'id' => $uuid = Str::uuid()->toString(),
             'sub_idx_batch_id' => $subIdxBatch->id,
             'sub_storage_file_path' => "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.sub",

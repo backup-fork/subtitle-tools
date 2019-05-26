@@ -136,6 +136,23 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
         Storage::assertExists($batchFile->idx_storage_file_path);
     }
 
+    /** @test */
+    function it_wont_link_two_files_that_are_already_exist_as_linked_files()
+    {
+        $sub = $this->createUnlinkedBatchFile_sub($this->subIdxBatch);
+        $idx = $this->createUnlinkedBatchFile_idx($this->subIdxBatch);
+
+        $sub->update(['hash' => 'abc123']);
+        $idx->update(['hash' => 'def456']);
+
+        $this->createSubIdxBatchFile($this->subIdxBatch, ['sub_hash' => 'abc123', 'idx_hash' => 'def456']);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postLink($this->subIdxBatch, $sub->id, $idx->id)
+            ->assertSessionHasErrors('alreadyLinked')
+            ->assertStatus(302);
+    }
+
     private function showUnlinked($subIdxBatch)
     {
         return $this->get(route('user.subIdxBatch.showUnlinked', $subIdxBatch));
