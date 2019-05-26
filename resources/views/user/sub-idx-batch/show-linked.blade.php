@@ -6,16 +6,16 @@
 
     @include('user.sub-idx-batch.partials.show-header')
 
-    <div>
-        Linked files
-    </div>
 
     @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
         You haven't uploaded any files to this batch yet.
     @elseif($subIdxBatch->files->isEmpty())
         No files have been linked yet.
     @else
-        The sub and idx files below have been linked and will be processed when you start the batch.
+        <div class="max-w-lg">
+            The sub and idx files below have been linked and will be processed when you start the batch.
+            You can select the languages you want to extract from the files below on the "start batch" page.
+        </div>
 
         @foreach($subIdxBatch->files as $batchFile)
         <div class="my-4">
