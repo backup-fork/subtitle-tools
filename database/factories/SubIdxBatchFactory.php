@@ -29,22 +29,22 @@ $factory->define(SubIdxUnlinkedBatchFile::class, function (Faker $faker) {
 $factory->state(SubIdxUnlinkedBatchFile::class, 'idx', function (Faker $faker) {
     return [
         'is_sub' => false,
-        'original_name' => Str::snake($faker->sentence).'idx',
+        'original_name' => $faker->fileName.'.idx',
     ];
 });
 
 $factory->state(SubIdxUnlinkedBatchFile::class, 'sub', function (Faker $faker) {
     return [
         'is_sub' => true,
-        'original_name' => Str::snake($faker->sentence).'sub',
+        'original_name' => $faker->fileName.'.sub',
     ];
 });
 
 
 $factory->define(SubIdxBatchFile::class, function (Faker $faker) {
     return [
-        'sub_original_name' => Str::snake($faker->sentence).'sub',
-        'idx_original_name' => Str::snake($faker->sentence).'idx',
+        'sub_original_name' => $faker->fileName.'.sub',
+        'idx_original_name' => $faker->fileName.'.idx',
         'sub_hash' => $faker->sha1,
         'idx_hash' => $faker->sha1,
     ];

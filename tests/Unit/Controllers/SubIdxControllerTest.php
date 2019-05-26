@@ -238,7 +238,7 @@ class SubIdxControllerTest extends TestCase
     /** @test */
     function it_can_download_zip_of_finished_languages()
     {
-        $subIdx = $this->createSubIdx();
+        $subIdx = $this->createSubIdx(['original_name' => 'GameOfThrones']);
 
         $subIdx->languages()->saveMany([
             $language1 = factory(SubIdxLanguage::class)->states('finished')->make(),

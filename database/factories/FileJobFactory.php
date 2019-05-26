@@ -5,11 +5,10 @@
 use App\Models\FileJob;
 use App\Models\StoredFile;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 $factory->define(FileJob::class, function (Faker $faker) {
     return [
-        'original_name' => Str::slug($faker->words(mt_rand(1, 6), true)).'.srt',
+        'original_name' => $faker->fileName.'.srt',
         'new_extension' => 'srt',
         'error_message' => null,
         'input_stored_file_id' => factory(StoredFile::class)->create()->id,

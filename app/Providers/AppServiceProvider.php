@@ -10,6 +10,8 @@ use App\Subtitles\VobSub\VobSub2SrtInterface;
 use App\Support\Utils\FileName;
 use App\Support\Utils\TempDir;
 use App\Support\Utils\TempFile;
+use Faker\Generator as Faker;
+use FileNameSeeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -44,6 +46,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if ($this->app->environment('local', 'testing')) {
+            $faker = app(Faker::class);
+
+            $faker->addProvider(new FileNameSeeder($faker));
+        }
+
         FileGroup::updated(function ($fileGroup) {
             FileGroupChanged::dispatch($fileGroup);
         });

@@ -11,7 +11,7 @@ $factory->define(SupJob::class, function (Faker $faker) {
 
     return [
         'url_key' => generate_url_key(),
-        'original_name' => snake_case($faker->words(3, true)).'.sup',
+        'original_name' => $faker->fileName.'.sup',
         'ocr_language' => $faker->randomElement(config('st.tesseract.languages')),
         'input_stored_file_id' => $inputStoredFile->id,
         'input_file_hash' => $inputStoredFile->hash,
