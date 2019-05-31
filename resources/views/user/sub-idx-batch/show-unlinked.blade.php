@@ -16,9 +16,9 @@
         @else
             The sub and idx files listed below have not been linked yet.
 
-            <h2 class="mb-2">Unlinked sub files</h2>
+            <h2 class="mb-4">Unlinked sub files</h2>
             @forelse($unlinkedSubFiles as $unlinkedSub)
-                <div class="mb-2 pb-2 border-b">
+                <div class="mb-2 pb-2">
                     <label class="flex items-center cursor-pointer">
                         <input type="radio" name="sub" value="{{ $unlinkedSub->id }}" class="mr-2" required>
                         {{ $unlinkedSub->original_name }}
@@ -29,9 +29,9 @@
             @endforelse
 
 
-            <h2 class="mt-8 mb-2">Unlinked idx files</h2>
+            <h2 class="mt-8 mb-4">Unlinked idx files</h2>
             @forelse($unlinkedIdxFiles as $unlinkedIdx)
-                <div class="mb-2 pb-2 border-b">
+                <div class="mb-2 pb-2">
                     <label class="flex items-center cursor-pointer">
                         <input type="radio" name="idx" value="{{ $unlinkedIdx->id }}" class="mr-2" required>
                         {{ $unlinkedIdx->original_name }}
@@ -43,7 +43,13 @@
 
 
             @if($unlinkedSubFiles && $unlinkedIdxFiles)
-            <button class="btn mt-8">Link selected files</button>
+            <button class="btn flex items-center mt-8">
+                <svg class="h-5 w-5 mr-2 fill-current text-white">
+                    <use xlink:href="#link"></use>
+                </svg>
+
+                Link selected files
+            </button>
             @else
             <button class="btn bg-grey cursor-not-allowed mt-8" disabled title="You don't have both an unlinked sub file and an unlinked idx file.">Link selected files</button>
             @endif
