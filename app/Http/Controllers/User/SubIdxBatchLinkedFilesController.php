@@ -30,28 +30,53 @@ class SubIdxBatchLinkedFilesController
             abort(422, 'This batch has already started');
         }
 
-        $subUuid = Str::uuid()->toString();
-        $idxUuid = Str::uuid()->toString();
 
-        Storage::move($subIdxBatchFile->sub_storage_file_path, $subStoragePath = "sub-idx-batches/$batch->user_id/$batch->id/$subUuid/a.sub");
-        Storage::move($subIdxBatchFile->idx_storage_file_path, $idxStoragePath = "sub-idx-batches/$batch->user_id/$batch->id/$idxUuid/a.idx");
+        $subAlreadyExistsAsUnlinked = $batch->unlinkedFiles()
+            ->where('hash', $subIdxBatchFile->sub_hash)
+            ->exists();
 
-        $batch->unlinkedFiles()->createMany([[
+        if (! $subAlreadyExistsAsUnlinked) {
+            $subUuid = Str::uuid()->toString();
+
+            Storage::move($subIdxBatchFile->sub_storage_file_path, $subStoragePath = "sub-idx-batches/$batch->user_id/$batch->id/$subUuid.sub");
+
+            $batch->unlinkedFiles()->create([
                 'id' => $subUuid,
                 'original_name' => $subIdxBatchFile->sub_original_name,
                 'hash' => $subIdxBatchFile->sub_hash,
                 'is_sub' => true,
                 'storage_file_path' => $subStoragePath,
-            ], [
+            ]);
+        } else {
+            Storage::delete($subIdxBatchFile->sub_storage_file_path);
+        }
+
+        $idxAlreadyExistsAsUnlinked = $batch->unlinkedFiles()
+            ->where('hash', $subIdxBatchFile->idx_hash)
+            ->exists();
+
+        if (! $idxAlreadyExistsAsUnlinked) {
+            $idxUuid = Str::uuid()->toString();
+
+            Storage::move($subIdxBatchFile->idx_storage_file_path, $idxStoragePath = "sub-idx-batches/$batch->user_id/$batch->id/$idxUuid.idx");
+
+            $batch->unlinkedFiles()->create([
                 'id' => $idxUuid,
                 'original_name' => $subIdxBatchFile->idx_original_name,
                 'hash' => $subIdxBatchFile->idx_hash,
                 'is_sub' => false,
                 'storage_file_path' => $idxStoragePath,
-        ]]);
+            ]);
+        } else {
+            Storage::delete($subIdxBatchFile->idx_storage_file_path);
+        }
 
         $subIdxBatchFile->delete();
 
-        return back();
+        return view('user.sub-idx-batch.show-linked', [
+            'subIdxBatch' => $batch,
+            'subAlreadyExistsAsUnlinked' => $subAlreadyExistsAsUnlinked,
+            'idxAlreadyExistsAsUnlinked' => $idxAlreadyExistsAsUnlinked,
+        ]);
     }
 }

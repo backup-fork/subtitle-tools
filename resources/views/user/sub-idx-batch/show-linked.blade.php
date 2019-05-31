@@ -7,6 +7,19 @@
     @include('user.sub-idx-batch.partials.show-header')
 
 
+    @if($subAlreadyExistsAsUnlinked ?? false)
+        <div class="border-l-4 border-red pl-4 my-4">
+            The .sub file was deleted because the exact same file is already added as an unlinked file.
+        </div>
+    @endif
+
+    @if($idxAlreadyExistsAsUnlinked ?? false)
+        <div class="border-l-4 border-red pl-4 my-4">
+            The .idx file was deleted because the exact same file is already added as an unlinked file.
+        </div>
+    @endif
+
+
     @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
         You haven't uploaded any files to this batch yet.
     @elseif($subIdxBatch->files->isEmpty())

@@ -53,22 +53,96 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
     /** @test */
     function show_the_linked_page_for_an_empty_batch()
     {
+        $this->actingAs($this->subIdxBatch->user)
+            ->showLinked($this->subIdxBatch)
+            ->assertStatus(200)
+            ->assertDontSee('xlink:href="#unlink"');
     }
 
     /** @test */
     function show_the_linked_page_when_all_files_are_unlinked()
     {
+        $this->createUnlinkedBatchFile_sub($this->subIdxBatch);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->showLinked($this->subIdxBatch)
+            ->assertStatus(200)
+            ->assertDontSee('xlink:href="#unlink"');
     }
 
     /** @test */
     function show_the_linked_page_when_some_files_are_unlinked()
     {
+        $this->createUnlinkedBatchFile_sub($this->subIdxBatch);
+
+        $this->createSubIdxBatchFile($this->subIdxBatch);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->showLinked($this->subIdxBatch)
+            ->assertStatus(200)
+            ->assertSee('xlink:href="#unlink"');
     }
 
     /** @test */
-    function it_removes_files_when_unlinking_files_that_already_exist_as_unlinked_files()
+    function it_removes_sub_files_when_unlinking_files_that_already_exist_as_unlinked_file()
     {
-        $this->fail();
+        $batchFile = $this->createSubIdxBatchFile($this->subIdxBatch);
+
+        $batchFile->update(['sub_hash' => 'abcdef123']);
+
+        $this->createUnlinkedBatchFile_sub($this->subIdxBatch)->update(['hash' => 'abcdef123']);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postUnlink($batchFile)
+            ->assertSessionHasNoErrors()
+            ->assertStatus(200)
+            ->assertDontSee($batchFile->sub_original_name)
+            ->assertViewHas('subAlreadyExistsAsUnlinked', true)
+            ->assertViewHas('idxAlreadyExistsAsUnlinked', false);
+
+        $this->assertModelDoesntExist($batchFile);
+
+        $this->subIdxBatch->refresh();
+
+        $this->assertCount(2, $this->subIdxBatch->unlinkedFiles);
+
+        $unlinkedIdx = $this->subIdxBatch->unlinkedFiles->where('original_name', $batchFile->idx_original_name)->first();
+
+        Storage::assertExists($unlinkedIdx->storage_file_path);
+
+        Storage::assertMissing($batchFile->sub_storage_file_path);
+        Storage::assertMissing($batchFile->idx_storage_file_path);
+    }
+
+    /** @test */
+    function it_removes_idx_files_when_unlinking_files_that_already_exist_as_unlinked_file()
+    {
+        $batchFile = $this->createSubIdxBatchFile($this->subIdxBatch);
+
+        $batchFile->update(['idx_hash' => 'abcdef123']);
+
+        $this->createUnlinkedBatchFile_idx($this->subIdxBatch)->update(['hash' => 'abcdef123']);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postUnlink($batchFile)
+            ->assertSessionHasNoErrors()
+            ->assertStatus(200)
+            ->assertDontSee($batchFile->sub_original_name)
+            ->assertViewHas('subAlreadyExistsAsUnlinked', false)
+            ->assertViewHas('idxAlreadyExistsAsUnlinked', true);
+
+        $this->assertModelDoesntExist($batchFile);
+
+        $this->subIdxBatch->refresh();
+
+        $this->assertCount(2, $this->subIdxBatch->unlinkedFiles);
+
+        $unlinkedIdx = $this->subIdxBatch->unlinkedFiles->where('original_name', $batchFile->sub_original_name)->first();
+
+        Storage::assertExists($unlinkedIdx->storage_file_path);
+
+        Storage::assertMissing($batchFile->sub_storage_file_path);
+        Storage::assertMissing($batchFile->idx_storage_file_path);
     }
 
     /** @test */
@@ -93,7 +167,7 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->postUnlink($batchFile)
             ->assertSessionHasNoErrors()
-            ->assertStatus(302)
+            ->assertStatus(200)
             ->assertDontSee($batchFile->sub_original_name);
 
         $this->assertModelDoesntExist($batchFile);
