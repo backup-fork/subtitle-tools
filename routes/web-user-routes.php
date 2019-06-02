@@ -18,6 +18,7 @@ Route::get('/sub-idx-batches/{subIdxBatch}/upload', [SubIdxBatchUploadController
 Route::post('/sub-idx-batches/{subIdxBatch}/upload', [SubIdxBatchUploadController::class, 'post'])->name('subIdxBatch.upload');
 
 Route::get('/sub-idx-batches/{subIdxBatch}/unlinked', [SubIdxBatchUnlinkedFilesController::class, 'index'])->name('subIdxBatch.showUnlinked');
+Route::post('/sub-idx-batches/{subIdxBatch}/link/delete', [SubIdxBatchUnlinkedFilesController::class, 'delete'])->name('subIdxBatch.deleteUnlinked');
 Route::post('/sub-idx-batches/{subIdxBatch}/link', [SubIdxBatchUnlinkedFilesController::class, 'link'])->name('subIdxBatch.link');
 
 Route::get('/sub-idx-batches/{subIdxBatch}/files', [SubIdxBatchLinkedFilesController::class, 'index'])->name('subIdxBatch.showLinked');

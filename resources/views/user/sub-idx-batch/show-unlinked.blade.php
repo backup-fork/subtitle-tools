@@ -6,7 +6,7 @@
 
     @include('user.sub-idx-batch.partials.show-header')
 
-    <form method="post" action="{{ route('user.subIdxBatch.link', $subIdxBatch) }}">
+    <form method="post">
         {{ csrf_field() }}
 
         @if($subIdxBatch->files->isEmpty() && $subIdxBatch->unlinkedFiles->isEmpty())
@@ -42,17 +42,27 @@
             @endforelse
 
 
+        <div class="flex justify-between">
             @if($unlinkedSubFiles && $unlinkedIdxFiles)
-            <button class="btn flex items-center mt-8">
-                <svg class="h-5 w-5 mr-2 fill-current text-white">
-                    <use xlink:href="#link"></use>
+                <button class="btn flex items-center mt-8" formaction="{{ route('user.subIdxBatch.link', $subIdxBatch) }}">
+                    <svg class="h-5 w-5 mr-2 fill-current text-white">
+                        <use xlink:href="#link"></use>
+                    </svg>
+
+                    Link selected files
+                </button>
+            @else
+                <button class="btn bg-grey cursor-not-allowed mt-8" disabled title="You don't have both an unlinked sub file and an unlinked idx file.">Link selected files</button>
+            @endif
+
+            <button class="btn text-black hover:text-white bg-white hover:bg-red flex items-center mt-8" formaction="{{ route('user.subIdxBatch.deleteUnlinked', $subIdxBatch) }}" formnovalidate>
+                <svg class="h-5 w-5 mr-2 fill-current">
+                    <use xlink:href="#svg-remove"></use>
                 </svg>
 
-                Link selected files
+                Remove selected files
             </button>
-            @else
-            <button class="btn bg-grey cursor-not-allowed mt-8" disabled title="You don't have both an unlinked sub file and an unlinked idx file.">Link selected files</button>
-            @endif
+        </div>
 
         @endif
 

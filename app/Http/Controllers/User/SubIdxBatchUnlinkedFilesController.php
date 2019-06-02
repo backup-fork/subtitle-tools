@@ -26,6 +26,28 @@ class SubIdxBatchUnlinkedFilesController
         ]);
     }
 
+    public function delete(Request $request, SubIdxBatch $subIdxBatch)
+    {
+        if ($subIdxBatch->started_at) {
+            abort(422, 'This batch has already started');
+        }
+
+        $ids = array_filter([
+            $request->get('sub'),
+            $request->get('idx'),
+        ]);
+
+        $subIdxBatch->unlinkedFiles()
+            ->whereIn('id', $ids)
+            ->each(function (SubIdxUnlinkedBatchFile $unlinkedBatchFile) {
+                Storage::delete($unlinkedBatchFile->storage_file_path);
+
+                $unlinkedBatchFile->delete();
+            });
+
+        return back();
+    }
+
     public function link(Request $request, SubIdxBatch $subIdxBatch)
     {
         if ($subIdxBatch->started_at) {

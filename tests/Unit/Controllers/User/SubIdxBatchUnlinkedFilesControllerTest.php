@@ -153,6 +153,74 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
             ->assertStatus(302);
     }
 
+    /** @test */
+    function it_can_delete_files()
+    {
+        $sub = $this->createUnlinkedBatchFile_sub($this->subIdxBatch);
+        $idx = $this->createUnlinkedBatchFile_idx($this->subIdxBatch);
+
+        Storage::assertExists([$sub->storage_file_path, $idx->storage_file_path]);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postDelete($this->subIdxBatch, [
+                'sub' => $sub->id,
+                'idx' => $idx->id,
+            ])
+            ->assertStatus(302);
+
+        Storage::assertMissing([$sub->storage_file_path, $idx->storage_file_path]);
+
+        $this->assertModelDoesntExist($sub);
+        $this->assertModelDoesntExist($idx);
+
+        $this->assertCount(0, $this->subIdxBatch->unlinkedFiles);
+        $this->assertCount(0, $this->subIdxBatch->files);
+    }
+
+    /** @test */
+    function it_can_delete_a_single_sub_file()
+    {
+        $sub = $this->createUnlinkedBatchFile_sub($this->subIdxBatch);
+        $idx = $this->createUnlinkedBatchFile_idx($this->subIdxBatch);
+
+        Storage::assertExists([$sub->storage_file_path, $idx->storage_file_path]);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postDelete($this->subIdxBatch, [
+                'sub' => $sub->id,
+            ])
+            ->assertStatus(302);
+
+        Storage::assertMissing($sub->storage_file_path);
+        Storage::assertExists($idx->storage_file_path);
+
+        $this->assertModelDoesntExist($sub);
+        $this->assertModelExists($idx);
+
+        $this->assertCount(1, $this->subIdxBatch->unlinkedFiles);
+        $this->assertCount(0, $this->subIdxBatch->files);
+    }
+
+    /** @test */
+    function it_only_deletes_your_own_files()
+    {
+        $anotherBatch = $this->createSubIdxBatch();
+
+        $anotherSub = $this->createUnlinkedBatchFile_sub($anotherBatch);
+
+        Storage::assertExists($anotherSub->storage_file_path);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postDelete($this->subIdxBatch, [
+                'sub' => $anotherSub->id,
+            ])
+            ->assertStatus(302);
+
+        $this->assertModelExists($anotherSub);
+
+        Storage::assertExists($anotherSub->storage_file_path);
+    }
+
     private function showUnlinked($subIdxBatch)
     {
         return $this->get(route('user.subIdxBatch.showUnlinked', $subIdxBatch));
@@ -164,5 +232,10 @@ class SubIdxBatchUnlinkedFilesControllerTest extends TestCase
             'sub' => $subId,
             'idx' => $idxId,
         ]);
+    }
+
+    private function postDelete($subIdxBatch, $data)
+    {
+        return $this->post(route('user.subIdxBatch.deleteUnlinked', $subIdxBatch), $data);
     }
 }
