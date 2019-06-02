@@ -9,7 +9,7 @@ export const DownloadLink = (props: {url: string, text: string}) => (
         <button className="cursor-pointer">
             {props.text}
             <svg className="ml-2 h-4 w-4">
-                <use xlinkHref="#download-arrow"/>
+                <use xlinkHref="#svg-download-arrow"/>
             </svg>
         </button>
     </form>

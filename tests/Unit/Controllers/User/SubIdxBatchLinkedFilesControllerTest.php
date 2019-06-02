@@ -56,7 +56,7 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->showLinked($this->subIdxBatch)
             ->assertStatus(200)
-            ->assertDontSee('xlink:href="#unlink"');
+            ->assertDontSee('xlink:href="#svg-unlink"');
     }
 
     /** @test */
@@ -67,7 +67,7 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->showLinked($this->subIdxBatch)
             ->assertStatus(200)
-            ->assertDontSee('xlink:href="#unlink"');
+            ->assertDontSee('xlink:href="#svg-unlink"');
     }
 
     /** @test */
@@ -80,7 +80,7 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->showLinked($this->subIdxBatch)
             ->assertStatus(200)
-            ->assertSee('xlink:href="#unlink"');
+            ->assertSee('xlink:href="#svg-unlink"');
     }
 
     /** @test */

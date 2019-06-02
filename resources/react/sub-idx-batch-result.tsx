@@ -45,8 +45,8 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
                         <div className="flex py-1 ml-4 mb-2 border-b hover:bg-grey-lightest" key={language.id}>
                             <div className="flex-grow">{language.language}</div>
                             <div className="w-32 text-right">
-                                {language.isProcessing && <LabelWithSvg svg="#processing-spinner" text="Processing"/>}
-                                {language.isQueued && <LabelWithSvg svg="#loading-spinner" text="Queued"/>}
+                                {language.isProcessing && <LabelWithSvg svg="#svg-processing-spinner" text="Processing"/>}
+                                {language.isQueued && <LabelWithSvg svg="#svg-loading-spinner" text="Queued"/>}
                                 {language.downloadUrl && <DownloadLink url={language.downloadUrl} text="Download"/>}
                             </div>
                         </div>
@@ -58,11 +58,11 @@ const SubIdxBatchResult = (props: {subIdxBatchId: string}) => {
 };
 
 
-const LabelWithSvg = (props: {svg: '#loading-spinner' | '#processing-spinner', text: string}) => (
+const LabelWithSvg = (props: {svg: '#svg-loading-spinner' | '#svg-processing-spinner', text: string}) => (
     <div className="flex items-center">
         <div className="flex-grow mr-2">{props.text}</div>
 
-        <svg className={(props.svg === '#loading-spinner' ? 'spin-steps-8' : 'spin')+' h-5 w-5'}>
+        <svg className={(props.svg === '#svg-loading-spinner' ? 'spin-steps-8' : 'spin')+' h-5 w-5'}>
             <use xlinkHref={props.svg}/>
         </svg>
     </div>

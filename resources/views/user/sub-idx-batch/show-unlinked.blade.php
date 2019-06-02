@@ -46,7 +46,7 @@
             @if($unlinkedSubFiles && $unlinkedIdxFiles)
                 <button class="btn flex items-center mt-8" formaction="{{ route('user.subIdxBatch.link', $subIdxBatch) }}">
                     <svg class="h-5 w-5 mr-2 fill-current text-white">
-                        <use xlink:href="#link"></use>
+                        <use xlink:href="#svg-link"></use>
                     </svg>
 
                     Link selected files

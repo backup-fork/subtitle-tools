@@ -43,7 +43,7 @@
                 {{ csrf_field() }}
                 <button class="mt-2 mr-2" title="Unlink">
                     <svg class="h-5 w-5">
-                        <use xlink:href="#unlink"></use>
+                        <use xlink:href="#svg-unlink"></use>
                     </svg>
                 </button>
             </form>
