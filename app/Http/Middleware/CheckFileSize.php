@@ -10,7 +10,7 @@ class CheckFileSize
 {
     public function handle($request, Closure $next)
     {
-        $maxFileSizeBytes = 10 * 1024 * 1024;
+        $maxFileSizeBytes = 13 * 1024 * 1024;
 
         foreach ($request->files->keys() as $key) {
             foreach (array_wrap($request->file($key)) as $file) {
