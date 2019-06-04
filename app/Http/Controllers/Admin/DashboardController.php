@@ -57,8 +57,8 @@ class DashboardController
         $uploadMaxFileSize = ini_get('upload_max_filesize');
         $maxFileUploads = ini_get('max_file_uploads');
 
-        $dependencies['post_max_size: '.$postMaxSize] = (int) $postMaxSize >= 100;
-        $dependencies['upload_max_filesize: '.$uploadMaxFileSize] = (int) $uploadMaxFileSize >= 100;
+        $dependencies['post_max_size: '.$postMaxSize] = (int) $postMaxSize >= 130;
+        $dependencies['upload_max_filesize: '.$uploadMaxFileSize] = (int) $uploadMaxFileSize >= 130;
         $dependencies['max_file_uploads: '.$maxFileUploads] = (int) $maxFileUploads >= 100;
 
         $dependencies['Opcache'] = function_exists('opcache_get_status') && (opcache_get_status()['opcache_enabled'] ?? false);

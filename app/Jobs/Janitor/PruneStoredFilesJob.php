@@ -12,6 +12,8 @@ use RuntimeException;
 
 class PruneStoredFilesJob extends BaseJob implements ShouldQueue
 {
+    public $timeout = 300;
+
     public function handle()
     {
         if ($this->isOnCheckedMigration()) {
