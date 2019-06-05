@@ -11,7 +11,7 @@ class LoginController
 
     public function index()
     {
-        return view('login');
+        return view('guest.auth.login');
     }
 
     protected function authenticated(Request $request, $user)

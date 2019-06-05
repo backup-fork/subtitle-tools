@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Snapshots\Drivers\JsonDriver;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -25,6 +26,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->testFilesStoragePath = base_path('tests/Files/');
+
+        Mail::fake();
 
         $this->settingUp();
     }

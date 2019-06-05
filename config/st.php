@@ -33,7 +33,7 @@ return [
      *   PruneStoredFiles command
      *
      */
-    'checked-migration' => '2019_04_26_094412_create_sub_idx_batches_table',
+    'checked-migration' => '2019_06_05_203623_create_password_resets_table',
 
     'tesseract' => [
 

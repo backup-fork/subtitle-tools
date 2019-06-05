@@ -43,6 +43,11 @@
                 @include('helpers.svg.chart', ['class' => 'h-4 w-4 ml-2 min-w-5'])
             </a>
 
+            <a class="flex items-center justify-center sm:justify-end mb-2 text-black hover:underline" href="{{ route('login') }}">
+                Login
+                @include('helpers.svg.user', ['class' => 'h-4 w-4 ml-2 min-w-5'])
+            </a>
+
             <a class="flex items-center justify-center sm:justify-end text-black hover:underline" href="https://github.com/SjorsO/subtitle-tools">
                 Github
                 @include('helpers.svg.github', ['class' => 'h-5 w-5 ml-2 min-w-5'])
