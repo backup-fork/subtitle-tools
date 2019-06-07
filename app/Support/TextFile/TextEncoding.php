@@ -32,6 +32,7 @@ class TextEncoding
         'iso-8859-2' => 'ISO-8859-2', // Romanian (gets detected as windows-1252)
         'iso-8859-3' => 'ISO-8859-3',
         'iso-8859-5' => 'ISO-8859-5',
+        'iso-8859-6' => 'ISO-8859-6',
         'iso-8859-7' => 'ISO-8859-7', // Greek, almost identical to "windows-1253"
         'iso-8859-8' => 'ISO-8859-8',
         'iso-8859-9' => 'ISO-8859-9', // Turkish
