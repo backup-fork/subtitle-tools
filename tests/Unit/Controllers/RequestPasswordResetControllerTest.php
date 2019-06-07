@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Str;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RequestPasswordResetControllerTest extends TestCase
@@ -52,11 +52,25 @@ class RequestPasswordResetControllerTest extends TestCase
     }
 
     /** @test */
+    function it_throttles_reset_requests()
+    {
+        $user = $this->createUser();
+
+        $this->createToken($user, now()->subMinutes(5));
+
+        $this->postRequestReset($user->email)
+            ->assertSessionHasErrors('email')
+            ->assertStatus(302);
+
+        Mail::assertNothingQueued();
+    }
+
+    /** @test */
     function it_updates_existing_tokens()
     {
         $user = $this->createUser();
 
-        [$email, $token] = $this->createToken($user);
+        [$email, $token] = $this->createToken($user, now()->subHours(2));
 
         $this->postRequestReset($user->email)
             ->assertSessionHasNoErrors()
@@ -77,7 +91,7 @@ class RequestPasswordResetControllerTest extends TestCase
             ->assertStatus(302);
     }
 
-    private function createToken($email)
+    private function createToken($email, $createdAt = null)
     {
         if ($email instanceof User) {
             $email = $email->email;
@@ -88,7 +102,7 @@ class RequestPasswordResetControllerTest extends TestCase
         DB::table('password_resets')->insert([
             'email' => $email,
             'token' => $token,
-            'created_at' => now(),
+            'created_at' => $createdAt ?? now(),
         ]);
 
         return [$email, $token];

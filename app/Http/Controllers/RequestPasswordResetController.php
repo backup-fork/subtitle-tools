@@ -26,6 +26,15 @@ class RequestPasswordResetController
             return back()->withErrors(['email' => 'No user found with this email']);
         }
 
+        $hasRecentlyRequested = DB::table('password_resets')
+            ->where('email', $email)
+            ->where('created_at', '>', now()->subMinutes(30)->toDateTimeString())
+            ->exists();
+
+        if ($hasRecentlyRequested) {
+            return back()->withErrors(['email' => 'You already requested a password reset recently']);
+        }
+
         DB::table('password_resets')->updateOrInsert([
             'email' => $email,
         ], [
