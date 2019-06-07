@@ -4,12 +4,12 @@ namespace Tests;
 
 use App\Models\FileGroup;
 use App\Models\StoredFile;
-use App\Support\Facades\TempFile;
+use App\Support\Utils\TempFile;
 use Carbon\Carbon;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 use Spatie\Snapshots\Drivers\JsonDriver;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -26,8 +26,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->testFilesStoragePath = base_path('tests/Files/');
-
-        Mail::fake();
 
         $this->settingUp();
     }
@@ -52,7 +50,7 @@ abstract class TestCase extends BaseTestCase
     public function assertMatchesFileSnapshot($file)
     {
         if ($file instanceof StoredFile) {
-            $temporaryFilePath = TempFile::makeFilePath().'.txt';
+            $temporaryFilePath = (new TempFile)->makeFilePath().'.txt';
 
             // Git changes line endings to \n, but we save files with \r\n, so we have to change them
             $lines = preg_split("/\r\n|\n|\r/",
@@ -83,6 +81,19 @@ abstract class TestCase extends BaseTestCase
         $this->assertMatchesSnapshot($actual, new JsonDriver);
     }
 
+    public function assertMatchesEmailSnapshot(Mailable $email)
+    {
+        $html = $email->render();
+
+        $tempFile = (new TempFile)->makeFilePath().'.html';
+
+        touch($tempFile);
+
+        file_put_contents($tempFile, $html);
+
+        $this->assertMatchesFileSnapshot($tempFile);
+    }
+
     /**
      * Assert that the file job controller redirected to the file group result page.
      *
@@ -106,16 +117,16 @@ abstract class TestCase extends BaseTestCase
 
     public function assertModelExists($model)
     {
-        $this->assertNotNull(
-            $model::find($model->id),
+        $this->assertTrue(
+            $model::where('id', $model->id)->exists(),
             'Model does not exist in database'
         );
     }
 
     public function assertModelDoesntExist($model)
     {
-        $this->assertNull(
-            $model::find($model->id),
+        $this->assertFalse(
+            $model::where('id', $model->id)->exists(),
             'Model exists in database'
         );
     }

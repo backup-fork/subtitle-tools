@@ -13,6 +13,7 @@ use App\Http\Controllers\MergeController;
 use App\Http\Controllers\PinyinController;
 use App\Http\Controllers\Redirects;
 use App\Http\Controllers\RequestPasswordResetController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ShiftPartialController;
 use App\Http\Controllers\StatsController;
@@ -26,6 +27,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('request-password-reset', [RequestPasswordResetController::class, 'index'])->name('requestPasswordReset.index')->middleware('guest');
 Route::post('request-password-reset', [RequestPasswordResetController::class, 'post'])->name('requestPasswordReset.post')->middleware('guest');
 Route::get('password-reset-requested', [RequestPasswordResetController::class, 'success'])->name('requestPasswordReset.success');
+
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'index'])->name('resetPassword.index');
+Route::post('reset-password/{token}', [ResetPasswordController::class, 'post'])->name('resetPassword.post');
 
 Route::view('/', 'home')->name('home');
 
