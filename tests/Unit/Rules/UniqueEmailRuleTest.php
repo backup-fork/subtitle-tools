@@ -6,7 +6,7 @@ use App\Http\Rules\UniqueEmailRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UniqueEmailTest extends TestCase
+class UniqueEmailRuleTest extends TestCase
 {
     use RefreshDatabase;
 
