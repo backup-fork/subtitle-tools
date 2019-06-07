@@ -17,9 +17,9 @@ class SupControllerTest extends TestCase
     function it_rejects_files_that_are_not_sup()
     {
         $this->postSup([
-            'subtitle' => $this->createUploadedFile('text/ass/three-cues.ass'),
-            'ocrLanguage' => 'eng',
-        ])
+                'subtitle' => $this->createUploadedFile('text/ass/three-cues.ass'),
+                'ocrLanguage' => 'eng',
+            ])
             ->assertStatus(302)
             ->assertSessionHasErrors(['subtitle' => __('validation.not_a_valid_sup_file')]);
     }
@@ -30,9 +30,9 @@ class SupControllerTest extends TestCase
         Carbon::setTestNow('2018-05-01 12:00:00');
 
         $this->postSup($postData = [
-            'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
-            'ocrLanguage' => 'eng',
-        ])
+                'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
+                'ocrLanguage' => 'eng',
+            ])
             ->assertSessionHasNoErrors()
             ->assertStatus(302);
 
@@ -70,9 +70,9 @@ class SupControllerTest extends TestCase
     function it_records_sup_statistics()
     {
         $this->postSup([
-            'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
-            'ocrLanguage' => 'eng',
-        ])
+                'subtitle' => $this->createUploadedFile('sup/three-english-cues.sup'),
+                'ocrLanguage' => 'eng',
+            ])
             ->assertSessionHasNoErrors()
             ->assertStatus(302);
 
@@ -93,6 +93,8 @@ class SupControllerTest extends TestCase
     /** @test */
     function it_redirects_get_method_downloads_to_the_result_route()
     {
+        $this->get(route('sup.show.downloadRedirect', 'URL_KEY'))
+            ->assertRedirect(route('sup.show', 'URL_KEY'));
     }
 
     private function postSup(array $data)

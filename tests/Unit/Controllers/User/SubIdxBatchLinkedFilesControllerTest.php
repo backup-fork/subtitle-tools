@@ -27,7 +27,7 @@ class SubIdxBatchLinkedFilesControllerTest extends TestCase
         $this->actingAs($this->subIdxBatch->user)
             ->showLinked($this->subIdxBatch)
             ->assertStatus(200)
-            ->assertSee($batchFile->sub_original_name);
+            ->assertSee(e($batchFile->sub_original_name));
     }
 
     /** @test */

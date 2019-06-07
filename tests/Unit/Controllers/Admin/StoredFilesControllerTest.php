@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controllers\Admin;
 
+use App\Jobs\Diagnostic\CollectStoredFileMetaJob;
 use App\Models\StoredFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,13 +12,25 @@ class StoredFilesControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_can_show_a_stored_file()
+    function it_can_show_a_stored_file_without_meta()
     {
+        $storedFile = $this->createStoredFile();
+
+        $this->adminLogin()
+            ->get(route('admin.storedFiles.show', $storedFile))
+            ->assertStatus(200);
     }
 
     /** @test */
-    function it_can_download_stored_files()
+    function it_can_show_a_stored_file_with_meta()
     {
+        $storedFile = $this->createStoredFile();
+
+        (new CollectStoredFileMetaJob($storedFile))->handle();
+
+        $this->adminLogin()
+            ->get(route('admin.storedFiles.show', $storedFile))
+            ->assertStatus(200);
     }
 
     /** @test */
