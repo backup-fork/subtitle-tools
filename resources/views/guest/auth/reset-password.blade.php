@@ -30,6 +30,12 @@
 
     </form>
 
+    @error('password')
+    <div class="font-bold p-2 border-l-4 mb-4 border-red">
+        {{ $message }}
+    </div>
+    @enderror
+
     @error('email')
     <div class="font-bold p-2 border-l-4 mb-4 border-red">
         {{ $message }}
