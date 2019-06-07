@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Rules\UniqueEmailRule;
 use App\Mail\VerifyEmailEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class RegisterController
     public function post(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email|unique:users,email',
+            'email' => ['required', 'string', 'email', 'max:255', new UniqueEmailRule],
             'password' => 'required|string|min:8|confirmed',
         ]);
 

@@ -57,6 +57,20 @@ class RegisterControllerTest extends TestCase
         });
     }
 
+    /** @test */
+    function it_rejects_multiple_versions_of_the_same_email()
+    {
+        $this->createUser(['email' => 'user@example.com']);
+
+        $this->postRegister([
+                'email' => 'user+1@example.com',
+                'password' => 'the-password',
+                'password_confirmation' => 'the-password',
+            ])
+            ->assertSessionHasErrors(['email' => 'It looks like an account already exists with this email'])
+            ->assertStatus(302);
+    }
+
     private function showRegisterPage()
     {
         return $this->get(route('register.index'));
