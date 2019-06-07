@@ -14,7 +14,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('is_admin')->default(false);
             $table->dateTime('email_verified_at')->nullable();
-            $table->dateTime('last_seen_at')->useCurrent();
+            $table->string('email_verification_token')->nullable();
+            $table->dateTime('last_seen_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

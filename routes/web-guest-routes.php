@@ -12,6 +12,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MergeController;
 use App\Http\Controllers\PinyinController;
 use App\Http\Controllers\Redirects;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RequestPasswordResetController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ShiftController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ShiftPartialController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\SubIdxController;
 use App\Http\Controllers\SupController;
+use App\Http\Controllers\VerifyAccount;
 
 Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('login', [LoginController::class, 'login'])->name('login.post')->middleware('guest');
@@ -30,6 +32,12 @@ Route::get('password-reset-requested', [RequestPasswordResetController::class, '
 
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'index'])->name('resetPassword.index');
 Route::post('reset-password/{token}', [ResetPasswordController::class, 'post'])->name('resetPassword.post');
+
+Route::get('create-an-account', [RegisterController::class, 'index'])->name('register.index')->middleware('guest');
+Route::post('create-an-account', [RegisterController::class, 'post'])->name('register.post')->middleware('guest');
+Route::get('create-an-account/verify-email', [RegisterController::class, 'success'])->name('register.success');
+
+Route::get('verify-new-account/{email}/{token}', VerifyAccount::class)->name('verifyEmail');
 
 Route::view('/', 'home')->name('home');
 

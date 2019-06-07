@@ -34,7 +34,7 @@
 
 
     <div class="mt-6">
-        <a href="" class="text-black">Create an account</a>
+        <a href="{{ route('register.index') }}" class="text-black">Create an account</a>
 
         <br>
         <br>

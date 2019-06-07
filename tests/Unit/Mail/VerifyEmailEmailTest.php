@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Mail;
+namespace Tests\Mail;
 
-use App\Mail\PasswordResetEmail;
+use App\Mail\VerifyEmailEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PasswordResetEmailTest extends TestCase
+class VerifyEmailEmailTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -15,11 +15,13 @@ class PasswordResetEmailTest extends TestCase
     /** @test */
     function it_can_render_the_email()
     {
-        $user = $this->createUser(['email' => 'user@example.com']);
+        $user = $this->createUser([
+            'email' => 'user@example.com',
+            'email_verification_token' => $token = sha1('token'),
+            'email_verified_at' => null,
+        ]);
 
-        $token = sha1('token');
-
-        $email = new PasswordResetEmail($user->email, $token);
+        $email = new VerifyEmailEmail($user->email, $token);
 
         $email->build();
 
