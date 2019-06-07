@@ -48,6 +48,12 @@ class TextEncodingTest extends TestCase
     }
 
     /** @test */
+    function it_detects_encoding_for_iso_8859_6()
+    {
+        $this->assertEncoding('ISO-8859-6', 'iso-8859-6/iso-8859-6-000.txt');
+    }
+
+    /** @test */
     function it_detects_encoding_for_iso_8859_3()
     {
         $this->assertEncoding('ISO-8859-3', 'iso-8859-3/iso-8859-3-000.txt');
@@ -169,7 +175,7 @@ class TextEncodingTest extends TestCase
     /** @test */
     function it_detects_encoding_for_koi8_r()
     {
-        // no example files yet. Server detects files as "koi8-r", local env says "iso-8859-7"
+        $this->assertEncoding('KOI8-R', 'koi8-r/koi8-r-000.txt');
     }
 
     /** @test */
