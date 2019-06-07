@@ -52,6 +52,16 @@ class RequestPasswordResetControllerTest extends TestCase
     }
 
     /** @test */
+    function you_cant_request_a_reset_if_you_have_not_verified_your_email()
+    {
+        $user = $this->createUser(['email_verified_at' => null]);
+
+        $this->postRequestReset($user->email)
+            ->assertSessionHasErrors('email')
+            ->assertStatus(302);
+    }
+
+    /** @test */
     function it_throttles_reset_requests()
     {
         $user = $this->createUser();

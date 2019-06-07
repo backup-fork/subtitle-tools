@@ -47,6 +47,20 @@ class LoginControllerTest extends TestCase
     }
 
     /** @test */
+    function you_have_to_verify_your_email_before_you_can_login()
+    {
+        $user = $this->createUser([
+            'email_verified_at' => null,
+        ]);
+
+        $this->postLogin(['email' => $user->email, 'password' => 'password'])
+            ->assertSessionHasErrors()
+            ->assertStatus(302);
+
+        $this->assertGuest();
+    }
+
+    /** @test */
     function it_can_fail_a_login()
     {
         $user = factory(User::class)->create();

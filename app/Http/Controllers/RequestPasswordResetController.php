@@ -20,7 +20,10 @@ class RequestPasswordResetController
     {
         $email = $request->get('email');
 
-        $exists = User::where('email', $email)->exists();
+        $exists = User::query()
+            ->whereNotNull('email_verified_at')
+            ->where('email', $email)
+            ->exists();
 
         if (! $exists) {
             return back()->withErrors(['email' => 'No user found with this email']);
