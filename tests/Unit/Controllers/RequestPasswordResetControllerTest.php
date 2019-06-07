@@ -59,7 +59,7 @@ class RequestPasswordResetControllerTest extends TestCase
         $this->createToken($user, now()->subMinutes(5));
 
         $this->postRequestReset($user->email)
-            ->assertSessionHasErrors('email')
+            ->assertSessionHasErrors(['email' => 'You already requested a password reset recently'])
             ->assertStatus(302);
 
         Mail::assertNothingQueued();
