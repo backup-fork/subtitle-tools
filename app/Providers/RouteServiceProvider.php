@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\RecordUserActivity;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -26,13 +27,13 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/api-user-routes.php'));
 
 
-        Route::middleware(['web', 'auth', IsAdmin::class])
+        Route::middleware(['web', 'auth', IsAdmin::class, RecordUserActivity::class])
             ->name('admin.')
             ->prefix('st-admin')
             ->group(base_path('routes/web-admin-routes.php'));
 
 
-        Route::middleware(['web', 'auth'])
+        Route::middleware(['web', 'auth', RecordUserActivity::class])
             ->name('user.')
             ->group(base_path('routes/web-user-routes.php'));
     }
