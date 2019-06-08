@@ -16,7 +16,6 @@ class SubIdxBatch extends Model
     protected $casts = [
         'started_at' => 'datetime',
         'finished_at' => 'datetime',
-        'max_files' => 'int',
     ];
 
     public function user()

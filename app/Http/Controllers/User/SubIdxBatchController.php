@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
+use App\Models\SubIdxBatch\SubIdxBatch;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SubIdxBatchController
@@ -14,22 +15,26 @@ class SubIdxBatchController
         ]);
     }
 
-    public function create()
+    public function store()
     {
-        return view('user.sub-idx-batch.create');
-    }
-
-    public function store(Request $request)
-    {
-        $values = $request->validate([
-            'max_files' => 'required|numeric',
-        ]);
-
-        $subIdxBatch = user()->subIdxBatches()->create([
+        $subIdxBatch = user()
+            ->subIdxBatches()
+            ->create([
                 'id' => Str::uuid(),
                 'label' => user()->subIdxBatches()->count() + 1,
-            ] + $values);
+            ]);
 
         return redirect()->route('user.subIdxBatch.showUpload', $subIdxBatch);
+    }
+
+    public function delete(SubIdxBatch $subIdxBatch)
+    {
+        abort_if($subIdxBatch->started_at, 422);
+
+        $subIdxBatch->delete();
+
+        Storage::deleteDirectory("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id");
+
+        return redirect()->route('user.subIdxBatch.index');
     }
 }

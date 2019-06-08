@@ -7,7 +7,12 @@
     <div class="flex justify-between items-center">
         <h1>Sub/Idx Batches</h1>
 
-        <a href="{{ route('user.subIdxBatch.create') }}" class="btn">Create</a>
+
+        <form method="post" action="{{ route('user.subIdxBatch.store') }}">
+            {{ csrf_field() }}
+
+            <button class="btn">Create new</button>
+        </form>
     </div>
 
     @forelse($subIdxBatches as $batch)

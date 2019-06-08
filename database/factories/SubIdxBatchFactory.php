@@ -12,7 +12,6 @@ $factory->define(SubIdxBatch::class, function (Faker $faker) {
 
     return [
         'id' => $faker->uuid,
-        'max_files' => $faker->numberBetween(1, 10) * 100,
         'label' => (string) $label++,
         'created_at' => now()->subHours(100 - $label),
         'updated_at' => now(),

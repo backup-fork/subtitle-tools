@@ -12,7 +12,6 @@ class CreateSubIdxBatchesTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->string('label');
-            $table->unsignedInteger('max_files');
             $table->dateTime('started_at')->nullable();
             $table->dateTime('finished_at')->nullable();
             $table->timestamps();

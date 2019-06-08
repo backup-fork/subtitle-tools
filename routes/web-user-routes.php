@@ -11,8 +11,8 @@ use App\Http\Controllers\User\SubIdxBatchUploadController;
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/sub-idx-batches', [SubIdxBatchController::class, 'index'])->name('subIdxBatch.index');
-Route::get('/sub-idx-batches/create', [SubIdxBatchController::class, 'create'])->name('subIdxBatch.create');
 Route::post('/sub-idx-batches/create', [SubIdxBatchController::class, 'store'])->name('subIdxBatch.store');
+Route::delete('/sub-idx-batches/{subIdxBatch}', [SubIdxBatchController::class, 'delete'])->name('subIdxBatch.delete');
 
 Route::get('/sub-idx-batches/{subIdxBatch}/upload', [SubIdxBatchUploadController::class, 'index'])->name('subIdxBatch.showUpload');
 Route::post('/sub-idx-batches/{subIdxBatch}/upload', [SubIdxBatchUploadController::class, 'post'])->name('subIdxBatch.upload');

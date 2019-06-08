@@ -23,3 +23,12 @@ namespace Illuminate\Support
         }
     }
 }
+
+namespace Faker
+{
+    class Generator
+    {
+        // Added by a custom faker provider
+        public $fileName;
+    }
+}
