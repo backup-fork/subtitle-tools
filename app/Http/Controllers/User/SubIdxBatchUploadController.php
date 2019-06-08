@@ -63,6 +63,7 @@ class SubIdxBatchUploadController
             'invalidNames' => $invalidFileNames,
             'duplicateUnlinkedNames' => $this->duplicateUnlinkedNames,
             'duplicateLinkedNames' => $this->duplicateLinkedNames,
+            'automaticallyUpload' => $request->get('automatically_upload') ?? false,
         ]);
     }
 

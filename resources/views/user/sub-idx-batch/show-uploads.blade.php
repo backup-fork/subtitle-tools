@@ -7,7 +7,7 @@
     @include('user.sub-idx-batch.partials.show-header')
 
     <div class="w-96">
-        <form id="drop-container" class="relative p-4 mt-16 h-48 border-2 border-dashed" action="{{ route('user.subIdxBatch.upload', $subIdxBatch) }}" method="post" enctype="multipart/form-data" >
+        <form id="drop-container" class="relative p-4 mt-16 h-48 border-2 border-dashed" action="{{ route('user.subIdxBatch.upload', $subIdxBatch) }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
             <div class="hidden dropzone-instructions items-center justify-center flex-col">
@@ -26,11 +26,19 @@
                 </span>
             </div>
 
-            <input id="subtitles-input" accept=".sub,.idx" type="file" name="files[]" multiple required>
+            <input id="subtitles-input" accept=".sub,.idx" type="file" name="files[]" onchange="filesSelected(this)" multiple required>
 
+            <input type="hidden" id="input-automatically-upload" name="automatically_upload" value="0">
         </form>
 
-        <button form="drop-container" type="submit" class="tool-btn ml-auto">Upload</button>
+        <div class="flex justify-between items-center">
+            <label class="cursor-pointer">
+                <input type="checkbox" id="automatically-upload" {{ ($automaticallyUpload ?? false) ? 'checked' : '' }}>
+                Automatically upload
+            </label>
+
+            <button form="drop-container" type="submit" class="tool-btn ml-auto">Upload</button>
+        </div>
     </div>
 
 
@@ -83,3 +91,17 @@
     @endif
 
 @endsection
+
+@push('footer')
+    <script>
+        function filesSelected(inputElement) {
+            if (! document.getElementById('automatically-upload').checked) {
+                return;
+            }
+
+            document.getElementById('input-automatically-upload').value = 1;
+
+            document.getElementById('drop-container').submit();
+        }
+    </script>
+@endpush
