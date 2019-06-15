@@ -115,6 +115,15 @@ The list below shows which queue runs which jobs. The order in which the queues 
 * If it can be converted to `Srt`, implement the `TransformsToGenericSubtitle` interface
 * Add the `NewFormat` class to the `$formats` array in `\App\Subtitles\TextFileFormat`
 
+# Test users
+A seeded database has the following users. The password of every user is "password".
+
+| Email | Role | Scenario | 
+| ------ | ------ | ------ |
+| admin@example.com | Admin | |
+| user@example.com | User | Has sub/idx batches, has batch tokens |
+| user-new@example.com | User | Newly registered and verified user, has no batch tokens |
+
 ## Contributing
 Feel free to open a pull request if you want to add a new feature, or if you want to help improve the code, design, text, seo, or any other part of the website.
 
