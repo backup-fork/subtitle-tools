@@ -29,7 +29,21 @@ class SubIdxBatchStartControllerTest extends TestCase
 
         $this->actingAs($this->subIdxBatch->user)
             ->showStart($this->subIdxBatch)
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertDontSeeText('buy more');
+    }
+
+    /** @test */
+    function it_can_show_a_batch_when_you_dont_have_enough_tokens()
+    {
+        $this->createSubIdxBatchFiles(3, $this->subIdxBatch);
+
+        $this->subIdxBatch->user->update(['batch_tokens_left' => 2]);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->showStart($this->subIdxBatch)
+            ->assertStatus(200)
+            ->assertSeeText('buy more');
     }
 
     /** @test */
@@ -82,6 +96,18 @@ class SubIdxBatchStartControllerTest extends TestCase
     }
 
     /** @test */
+    function you_cant_start_a_batch_if_you_dont_have_enough_tokens()
+    {
+        $this->createSubIdxBatchFiles(3, $this->subIdxBatch);
+
+        $this->subIdxBatch->user->update(['batch_tokens_left' => 2]);
+
+        $this->actingAs($this->subIdxBatch->user)
+            ->postStart($this->subIdxBatch, ['en'])
+            ->assertStatus(422);
+    }
+
+    /** @test */
     function you_have_to_post_at_least_one_language()
     {
         VobSub2Srt::fake();
@@ -128,6 +154,8 @@ class SubIdxBatchStartControllerTest extends TestCase
         VobSub2Srt::fakeExtracting();
 
         $batchFile = $this->createSubIdxBatchFile($this->subIdxBatch);
+
+        $this->subIdxBatch->user->update(['batch_tokens_left' => 1]);
 
         $this->copyRealFileToStorage('sub-idx/many.sub', $batchFile->sub_storage_file_path);
         $this->copyRealFileToStorage('sub-idx/many.idx', $batchFile->idx_storage_file_path);

@@ -17,6 +17,7 @@ class SubIdxBatchStartController
         $subIdxBatch->load('files', 'unlinkedFiles');
 
         return view('user.sub-idx-batch.show-start', [
+            'user' => user(),
             'subIdxBatch' => $subIdxBatch,
             'languages' => $subIdxBatch->batchFileLanguageCount(),
         ]);
@@ -26,6 +27,10 @@ class SubIdxBatchStartController
     {
         if ($subIdxBatch->started_at) {
             abort(422, 'This batch has already started');
+        }
+
+        if ($subIdxBatch->files->count() > user()->batch_tokens_left) {
+            abort(422);
         }
 
         $availableLanguages = array_map(function ($array) {
