@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\SubIdxBatch\SubIdxBatch;
+use App\Models\SubIdxBatch\SubIdxBatchFile;
 use App\Models\SubIdxBatch\SubIdxUnlinkedBatchFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -61,7 +62,8 @@ class SubIdxBatchUnlinkedFilesController
         Storage::move($unlinkedSub->storage_file_path, $subStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.sub");
         Storage::move($unlinkedIdx->storage_file_path, $idxStoragePath = "sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid/a.idx");
 
-        $subIdxBatch->files()->create([
+        /** @var SubIdxBatchFile $subIdxBatchFile */
+        $subIdxBatchFile = $subIdxBatch->files()->create([
             'id' => $uuid,
             'sub_original_name' => $unlinkedSub->original_name,
             'idx_original_name' => $unlinkedIdx->original_name,
@@ -70,6 +72,10 @@ class SubIdxBatchUnlinkedFilesController
             'sub_storage_file_path' => $subStoragePath,
             'idx_storage_file_path' => $idxStoragePath,
         ]);
+
+        dispatch(function () use ($subIdxBatchFile) {
+            $subIdxBatchFile->languages();
+        });
 
         $unlinkedSub->delete();
         $unlinkedIdx->delete();

@@ -153,25 +153,19 @@ class SubIdxBatchUploadController
         $subHash = file_hash($sub);
         $idxHash = file_hash($idx);
 
-        $existingHashes = null;
+        $isDuplicate = $subIdxBatch->files()
+            ->where('sub_hash', $subHash)
+            ->where('idx_hash', $idxHash)
+            ->exists();
 
-        if ($existingHashes === null) {
-            $existingHashes = $subIdxBatch->files()
-                ->select('sub_hash', 'idx_hash')
-                ->get()
-                ->map(function (SubIdxBatchFile $batchFile) {
-                    return $batchFile->sub_hash.$batchFile->idx_hash;
-                })
-                ->all();
-        }
-
-        if (in_array($subHash.$idxHash, $existingHashes)) {
+        if ($isDuplicate) {
             $this->duplicateLinkedNames[] = $name;
 
             return;
         }
 
-        $subIdxBatch->files()->create([
+        /** @var SubIdxBatchFile $subIdxBatchFile */
+        $subIdxBatchFile = $subIdxBatch->files()->create([
             'id' => $uuid = Str::uuid(),
             'sub_original_name' => $name,
             'idx_original_name' => name_without_extension($idx),
@@ -180,6 +174,10 @@ class SubIdxBatchUploadController
             'sub_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $sub, 'a.sub'),
             'idx_storage_file_path' => Storage::putFileAs("sub-idx-batches/$subIdxBatch->user_id/$subIdxBatch->id/$uuid", $idx, 'a.idx'),
         ]);
+
+        dispatch(function () use ($subIdxBatchFile) {
+            $subIdxBatchFile->languages();
+        });
 
         $this->linkedNames[] = $name;
     }
