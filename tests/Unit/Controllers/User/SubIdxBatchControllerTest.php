@@ -41,6 +41,16 @@ class SubIdxBatchControllerTest extends TestCase
     }
 
     /** @test */
+    function you_cant_create_a_batch_if_you_have_no_tokens()
+    {
+        $user = $this->createUser(['batch_tokens_left' => 0]);
+
+        $this->userLogin($user)
+            ->storeBatch()
+            ->assertStatus(422);
+    }
+
+    /** @test */
     function it_can_delete_a_batch()
     {
         $user = $this->createUser();

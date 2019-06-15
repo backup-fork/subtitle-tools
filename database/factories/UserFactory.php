@@ -15,5 +15,7 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'email_verified_at' => now(),
         'last_seen_at' => now(),
+        'batch_tokens_left' => 100,
+        'batch_tokens_used' => $faker->randomElement([0, 0, 0, 10, 15, 100]),
     ];
 });

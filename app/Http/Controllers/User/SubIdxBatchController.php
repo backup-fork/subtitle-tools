@@ -11,14 +11,20 @@ class SubIdxBatchController
     public function index()
     {
         return view('user.sub-idx-batch.index', [
-            'subIdxBatches' => user()->subIdxBatches->sortByDesc('created_at'),
+            'user' => $user = user(),
+            'subIdxBatches' => $user->subIdxBatches->sortByDesc('created_at'),
         ]);
     }
 
     public function store()
     {
-        $subIdxBatch = user()
-            ->subIdxBatches()
+        $user = user();
+
+        if ($user->batch_tokens_left === 0) {
+            abort(422);
+        }
+
+        $subIdxBatch = $user->subIdxBatches()
             ->create([
                 'id' => Str::uuid(),
                 'label' => user()->subIdxBatches()->count() + 1,

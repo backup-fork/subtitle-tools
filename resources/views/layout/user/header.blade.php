@@ -2,16 +2,10 @@
 
     <h2 class="m-0 text-xl font-normal text-center">Subtitle Tools</h2>
 
+    <form method="post" action="{{ route('logout') }}">
+        {{ csrf_field() }}
 
-    <div class="flex">
-        <div class="mr-6">
-            My Account
-        </div>
+        <button type="submit">Log out</button>
+    </form>
 
-        <form method="post" action="{{ route('logout') }}">
-            {{ csrf_field() }}
-
-            <button type="submit">Log out</button>
-        </form>
-    </div>
 </div>

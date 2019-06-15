@@ -18,6 +18,8 @@ class User extends Authenticatable
         'is_admin' => 'bool',
         'email_verified_at' => 'datetime',
         'last_seen_at' => 'datetime',
+        'batch_tokens_left' => 'int',
+        'batch_tokens_used' => 'int',
     ];
 
     public function subIdxBatches()

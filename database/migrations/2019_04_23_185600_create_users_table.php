@@ -15,6 +15,8 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->default(false);
             $table->dateTime('email_verified_at')->nullable();
             $table->string('email_verification_token')->nullable();
+            $table->unsignedInteger('batch_tokens_left')->default(0);
+            $table->unsignedInteger('batch_tokens_used')->default(0);
             $table->dateTime('last_seen_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

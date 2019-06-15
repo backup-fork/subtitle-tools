@@ -4,4 +4,6 @@
 
     <a href="{{ route('user.subIdxBatch.index') }}" class="text-black pl-6 border-l-4 w-full py-4 {{ Route::is('user.subIdxBatch*') ? 'border-red-light font-bold' : 'border-grey-lighter' }}">Sub/Idx Batches</a>
 
+    <a href="{{ route('user.account.index') }}" class="text-black pl-6 border-l-4 w-full py-4 {{ Route::is('user.account*') ? 'border-red-light font-bold' : 'border-grey-lighter' }}">My Account</a>
+
 </div>

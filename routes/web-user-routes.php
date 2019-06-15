@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\User\BuyBatchTokensController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SubIdxBatchController;
 use App\Http\Controllers\User\SubIdxBatchDetailsController;
@@ -28,3 +30,7 @@ Route::get('/sub-idx-batches/{subIdxBatch}/start', [SubIdxBatchStartController::
 Route::post('/sub-idx-batches/{subIdxBatch}/start', [SubIdxBatchStartController::class, 'post'])->name('subIdxBatch.start');
 
 Route::get('/sub-idx-batches/{subIdxBatch}', [SubIdxBatchDetailsController::class, 'index'])->name('subIdxBatch.show');
+
+Route::get('/my-account', [AccountController::class, 'index'])->name('account.index');
+
+Route::get('/buy-batch-tokens', [BuyBatchTokensController::class, 'index'])->name('account.buyBatchTokens.index');
