@@ -8,6 +8,7 @@ use App\Models\SubIdxLanguage;
 use App\Support\Facades\VobSub2Srt;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SubIdxBatchStartControllerTest extends TestCase
@@ -160,6 +161,10 @@ class SubIdxBatchStartControllerTest extends TestCase
         $this->copyRealFileToStorage('sub-idx/many.sub', $batchFile->sub_storage_file_path);
         $this->copyRealFileToStorage('sub-idx/many.idx', $batchFile->idx_storage_file_path);
 
+        Storage::assertExists("sub-idx-batches/{$this->subIdxBatch->user_id}/{$this->subIdxBatch->id}");
+
+        $this->assertNull($this->subIdxBatch->finished_at);
+
         $this->actingAs($this->subIdxBatch->user)
             ->postStart($this->subIdxBatch, ['en', 'pl'])
             ->assertSessionHasNoErrors()
@@ -180,9 +185,6 @@ class SubIdxBatchStartControllerTest extends TestCase
         $this->assertSame('a', $subIdx->filename);
         $this->assertNotNull($subIdx->url_key);
 
-        $this->assertFileExists($subIdx->file_path_without_extension.'.sub');
-        $this->assertFileExists($subIdx->file_path_without_extension.'.idx');
-
         /** @var SubIdxLanguage $plLanguage */
         /** @var SubIdxLanguage $enLanguage */
         $plLanguage = $subIdx->languages->where('language', 'pl')->first();
@@ -196,6 +198,14 @@ class SubIdxBatchStartControllerTest extends TestCase
 
         $this->assertNotNull($plLanguage->finished_at);
         $this->assertNotNull($enLanguage->finished_at);
+
+        $this->assertNotNull($this->subIdxBatch->refresh()->finished_at);
+
+        // A listener cleans up all the source sub/idx files when the batch is done.
+        Storage::assertMissing("sub-idx-batches/{$this->subIdxBatch->user_id}/{$this->subIdxBatch->id}");
+        Storage::assertExists("sub-idx-batches/{$this->subIdxBatch->user_id}");
+        $this->assertFileNotExists($subIdx->file_path_without_extension.'.sub');
+        $this->assertFileNotExists($subIdx->file_path_without_extension.'.idx');
     }
 
     private function showStart($subIdxBatch)

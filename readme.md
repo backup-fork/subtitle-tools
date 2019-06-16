@@ -84,6 +84,7 @@ The list below shows which queue runs which jobs. The order in which the queues 
 - **default**
     - All `FileJobs`
     - `StartSubIdxBatchJob`
+    - `UpdateSubIdxBatchStatusJob`
 - **broadcast**
     - All events
 - **A100**
@@ -98,9 +99,9 @@ The list below shows which queue runs which jobs. The order in which the queues 
     - `OcrImageJob` (when the job in queue A300 takes too long, it is re-dispatched on this lower priority queue with a higher timeout)
 - **A500**
     - `RecordUploadedFileMimesJob` and other low priority diagnostic jobs
-- **A500**
     - `CollectSupMetaJob`
     - `CollectStoredFileMetaJob`
+    - `SubIdxbatch\RemoveSourceFiles`
 - **B200**
     - `ExtractSubIdxLanguageJob`
 </details>

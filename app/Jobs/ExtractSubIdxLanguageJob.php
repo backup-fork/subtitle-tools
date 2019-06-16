@@ -56,6 +56,10 @@ class ExtractSubIdxLanguageJob extends BaseJob implements ShouldQueue
 
         unlink($outputFilePath);
 
+        if ($batch = $this->subIdxLanguage->subIdx->batch) {
+            UpdateSubIdxBatchStatusJob::dispatch($batch);
+        }
+
         return $this->subIdxLanguage;
     }
 

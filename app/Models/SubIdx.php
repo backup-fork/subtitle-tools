@@ -30,7 +30,7 @@ class SubIdx extends Model
 
     public function batch()
     {
-        return $this->belongsTo(SubIdxBatch::class);
+        return $this->belongsTo(SubIdxBatch::class, 'sub_idx_batch_id');
     }
 
     public function getFilePathWithoutExtensionAttribute()

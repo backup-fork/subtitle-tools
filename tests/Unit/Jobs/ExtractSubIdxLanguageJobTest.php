@@ -10,6 +10,7 @@ use App\Models\SubIdxLanguageStats;
 use App\Support\Facades\VobSub2Srt;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -20,6 +21,8 @@ class ExtractSubIdxLanguageJobTest extends TestCase
     /** @test */
     function it_extracts_a_language_from_a_vobsub()
     {
+        Queue::fake();
+
         Carbon::setTestNow('2019-01-19 12:00:00');
 
         VobSub2Srt::fake()->outputSrt();
@@ -31,6 +34,8 @@ class ExtractSubIdxLanguageJobTest extends TestCase
         $this->assertNow($language->started_at);
         $this->assertNow($language->finished_at);
         $this->assertNull($language->error_message);
+
+        Queue::assertNothingPushed();
 
         $this->assertInstanceOf(StoredFile::class, $language->outputStoredFile);
     }
@@ -90,6 +95,18 @@ class ExtractSubIdxLanguageJobTest extends TestCase
     }
 
     /** @test */
+    function the_fake_can_throw_an_exception()
+    {
+        $this->expectException(RuntimeException::class);
+
+        VobSub2Srt::fake()->outputThrowException();
+
+        $language = $this->createSubIdxLanguage();
+
+        (new ExtractSubIdxLanguageJob($language))->handle();
+    }
+
+    /** @test */
     function it_saves_the_start_time_when_the_job_starts()
     {
         Carbon::setTestNow('2019-01-19 12:00:00');
@@ -101,12 +118,10 @@ class ExtractSubIdxLanguageJobTest extends TestCase
         try {
             (new ExtractSubIdxLanguageJob($language))->handle();
         } catch (RuntimeException $e) {
-            $this->assertNow($language->refresh()->started_at);
-
-            return;
+            //
         }
 
-        $this->fail('No exception thrown');
+        $this->assertNow($language->refresh()->started_at);
     }
 
     private function createSubIdxLanguage($path = 'sub-idx/error-and-nl'): SubIdxLanguage
