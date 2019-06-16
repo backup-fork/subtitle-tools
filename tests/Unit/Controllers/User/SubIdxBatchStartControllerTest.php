@@ -156,7 +156,12 @@ class SubIdxBatchStartControllerTest extends TestCase
 
         $batchFile = $this->createSubIdxBatchFile($this->subIdxBatch);
 
-        $this->subIdxBatch->user->update(['batch_tokens_left' => 1]);
+        $user = $this->subIdxBatch->user;
+
+        $user->update([
+            'batch_tokens_left' => 1,
+            'batch_tokens_used' => 15,
+        ]);
 
         $this->copyRealFileToStorage('sub-idx/many.sub', $batchFile->sub_storage_file_path);
         $this->copyRealFileToStorage('sub-idx/many.idx', $batchFile->idx_storage_file_path);
@@ -165,7 +170,7 @@ class SubIdxBatchStartControllerTest extends TestCase
 
         $this->assertNull($this->subIdxBatch->finished_at);
 
-        $this->actingAs($this->subIdxBatch->user)
+        $this->actingAs($user)
             ->postStart($this->subIdxBatch, ['en', 'pl'])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('user.subIdxBatch.show', $this->subIdxBatch));
@@ -206,6 +211,9 @@ class SubIdxBatchStartControllerTest extends TestCase
         Storage::assertExists("sub-idx-batches/{$this->subIdxBatch->user_id}");
         $this->assertFileNotExists($subIdx->file_path_without_extension.'.sub');
         $this->assertFileNotExists($subIdx->file_path_without_extension.'.idx');
+
+        $this->assertSame(0, $user->refresh()->batch_tokens_left);
+        $this->assertSame(16, $user->batch_tokens_used);
     }
 
     private function showStart($subIdxBatch)

@@ -29,7 +29,11 @@ class SubIdxBatchStartController
             abort(422, 'This batch has already started');
         }
 
-        if ($subIdxBatch->files->count() > user()->batch_tokens_left) {
+        $user = user();
+
+        $amountOfFiles = $subIdxBatch->files->count();
+
+        if ($amountOfFiles > $user->batch_tokens_left) {
             abort(422);
         }
 
@@ -43,6 +47,11 @@ class SubIdxBatchStartController
         ]);
 
         $subIdxBatch->update(['started_at' => now()]);
+
+        $user->update([
+            'batch_tokens_left' => $user->batch_tokens_left - $amountOfFiles,
+            'batch_tokens_used' => $user->batch_tokens_used + $amountOfFiles,
+        ]);
 
         StartSubIdxBatchJob::dispatch($subIdxBatch, $request->get('languages'));
 
