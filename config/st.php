@@ -33,7 +33,7 @@ return [
      *   PruneStoredFiles command
      *
      */
-    'checked-migration' => '2019_06_05_203623_create_password_resets_table',
+    'checked-migration' => '2019_06_16_112555_create_contact_forms_table',
 
     'tesseract' => [
 
