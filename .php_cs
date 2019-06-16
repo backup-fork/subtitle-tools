@@ -66,6 +66,7 @@ $finder = PhpCsFixer\Finder::create()
         'resources',
         'storage',
         'vendor',
+        'vendor',
     ]);
 
 return PhpCsFixer\Config::create()

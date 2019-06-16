@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'item.convertToSrt' => 'Convert to Srt',
     'item.convertToVtt' => 'Convert to Vtt',
     'item.cleanSrt' => 'Srt Cleaner',

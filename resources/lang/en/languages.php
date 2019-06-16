@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'subIdx' => [
         'unknown' => 'Unknown language',
         'failed' => 'Failed',

@@ -21,7 +21,7 @@
 
         <script>
             <?php
-                echo 'window.Laravel = ' . json_encode([
+                echo 'window.Laravel = '.json_encode([
                     'csrf_token' => csrf_token(),
                     'pusherKey' => config('broadcasting.connections.pusher.key'),
                     'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
