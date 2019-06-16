@@ -2,59 +2,59 @@
 
 namespace Tests\Unit\Controllers;
 
-use Illuminate\Support\Carbon;
+use App\Models\ContactForm;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ContactControllerTest extends TestCase
 {
-    protected $feedbackLogFilePath;
-
-    public function settingUp()
-    {
-        $this->feedbackLogFilePath = storage_path('logs/feedback.log');
-
-        Carbon::setTestNow('2018-07-14 12:30:00');
-
-        if (file_exists($this->feedbackLogFilePath)) {
-            unlink($this->feedbackLogFilePath);
-        }
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        if (file_exists($this->feedbackLogFilePath)) {
-            unlink($this->feedbackLogFilePath);
-        }
-    }
+    use RefreshDatabase;
 
     /** @test */
     function it_sends_feedback()
     {
         $this->post(route('contact.post'), [
-            'message' => 'Message Text',
-            'email' => 'Email Text',
-            'captcha' => '5',
-        ])
+                'message' => 'Message Text',
+                'email' => 'Email Text',
+                'captcha' => '5',
+            ])
             ->assertStatus(200)
             ->assertSessionHasNoErrors()
             ->assertSee('Thank you for your message');
 
-        $feedbackLines = read_lines($this->feedbackLogFilePath);
+        $contactForm = ContactForm::firstOrFail();
 
-        $this->assertSame([
-            '<strong>Saturday, the 14th of July at 12:30</strong><br>127.0.0.1<br><p>email: Email Text<br><br>Message Text</p><br><br>',
-        ], $feedbackLines);
+        $this->assertSame('Email Text', $contactForm->email);
+        $this->assertSame('Message Text', $contactForm->message);
+        $this->assertNull($contactForm->user_id);
+    }
+
+    /** @test */
+    function it_sends_feedback_without_an_email()
+    {
+        $this->post(route('contact.post'), [
+                'message' => 'Message Text',
+                'email' => null,
+                'captcha' => '5',
+            ])
+            ->assertStatus(200)
+            ->assertSessionHasNoErrors()
+            ->assertSee('Thank you for your message');
+
+        $contactForm = ContactForm::firstOrFail();
+
+        $this->assertNull($contactForm->email);
+        $this->assertSame('Message Text', $contactForm->message);
+        $this->assertNull($contactForm->user_id);
     }
 
     /** @test */
     function message_is_required()
     {
         $this->post(route('contact.post'), [
-            'email' => 'Email Text',
-            'captcha' => '5',
-        ])
+                'email' => 'Email Text',
+                'captcha' => '5',
+            ])
             ->assertStatus(302)
             ->assertSessionHasErrors('message');
     }
@@ -63,29 +63,11 @@ class ContactControllerTest extends TestCase
     function captcha_must_be_correct()
     {
         $this->post(route('contact.post'), [
-            'message' => 'content',
-            'captcha' => '6',
-        ])
+                'message' => 'content',
+                'captcha' => '6',
+            ])
             ->assertStatus(302)
             ->assertSessionHasErrors('captcha');
-    }
-
-    /** @test */
-    function email_field_is_optional()
-    {
-        $this->post(route('contact.post'), [
-            'message' => 'Message Text',
-            'captcha' => '5',
-        ])
-            ->assertStatus(200)
-            ->assertSessionHasNoErrors()
-            ->assertSee('Thank you for your message');
-
-        $feedbackLines = read_lines($this->feedbackLogFilePath);
-
-        $this->assertSame([
-            '<strong>Saturday, the 14th of July at 12:30</strong><br>127.0.0.1<br><p>email: (none)<br><br>Message Text</p><br><br>',
-        ], $feedbackLines);
     }
 
     /** @test */

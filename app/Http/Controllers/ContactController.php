@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ContactController
 {
@@ -14,19 +16,18 @@ class ContactController
     public function post(Request $request)
     {
         $request->validate([
-            'message' => 'required',
+            'message' => 'required|string|max:10000',
+            'email' => 'present|nullable|string|max:255',
             'captcha' => 'required|numeric|regex:/^5$/',
         ]);
 
-        $message = $request->get('message');
-        $email = $request->get('email') ?? '(none)';
+        ContactForm::create([
+            'id' => Str::uuid(),
+            'email' => $request->get('email'),
+            'ip' => $request->ip(),
+            'message' => $request->get('message'),
+        ]);
 
-        file_put_contents(
-            storage_path('logs/feedback.log'),
-            '<strong>'.now()->format('l, \t\h\e jS \\of F \a\t H:i').'</strong><br>'.$request->ip().'<br><p>email: '.e($email).'<br><br>'.e($message).'</p><br><br>',
-            FILE_APPEND
-        );
-
-        return view('contact')->with('sentMessage', true);
+        return view('contact', ['sentMessage' => true]);
     }
 }
