@@ -14,7 +14,7 @@ class CreateContactFormsTable extends Migration
             $table->string('email')->nullable();
             $table->string('ip');
             $table->string('message', 10000);
-            $table->dateTime('replied_at')->nullable();
+            $table->dateTime('read_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');

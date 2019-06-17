@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ContactForm;
 use App\Models\DiskUsage;
 use Illuminate\Support\Facades\DB;
 
@@ -9,11 +10,10 @@ class DashboardController
 {
     public function index()
     {
-        $feedbackFilePath = storage_path('logs/feedback.log');
         $logFilePath = storage_path('logs/laravel.log');
 
         return view('admin.dashboard', [
-            'feedbackLines' => file_exists($feedbackFilePath) ? read_lines($feedbackFilePath) : [],
+            'contactForms' => ContactForm::whereNull('read_at')->orderBy('created_at')->get(),
             'errorLogLines' => file_exists($logFilePath) ? read_lines($logFilePath) : [],
             'supervisor' => $this->getSupervisorInfo(),
             'diskUsage' => DiskUsage::latest()->first() ?? optional(),

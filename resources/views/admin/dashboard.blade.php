@@ -46,17 +46,22 @@
 
 
 
-    @if($feedbackLines)
-        <form id="feedback-log" class="mb-8" data-times-clicked="0" method="post" action="{{ route('admin.feedback.delete') }}">
-            {{ csrf_field() }}
-            {{ method_field('delete') }}
+    @if($contactForms->isNotEmpty())
+        <h4>Feedback</h4>
 
-            <div class="flex items-center mb-2">
-                <h4 class="mt-0 mr-16">feedback</h4>
-                <div class="text-xs text-red-light font-semibold cursor-pointer select-none" onclick="submitWhenClickedOften('feedback-log')">delete</div>
-            </div>
-            <pre class="text-xs max-w-md overflow-scroll max-h-96 p-4 border-2 bg-grey-lightest">{!! implode('', $feedbackLines) !!}</pre>
-        </form>
+        @foreach($contactForms as $contactForm)
+            <form class="mb-8 flex justify-between items-center max-w-md" method="post" action="{{ route('admin.feedback.markAsRead', $contactForm->id) }}">
+                <div class="p-4 mr-2 bg-grey-lightest">
+                    {{ csrf_field() }}
+
+                    <strong>{{ $contactForm->created_at->format('H:i:s Y-m-d') }}</strong>
+
+                    <div class="mt-1">{{ $contactForm->message }}</div>
+                </div>
+
+                <button>Mark as read</button>
+            </form>
+        @endforeach
     @endif
 
 

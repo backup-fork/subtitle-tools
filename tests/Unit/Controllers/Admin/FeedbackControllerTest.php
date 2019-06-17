@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controllers\Admin;
 
+use App\Models\ContactForm;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,18 +11,14 @@ class FeedbackControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_can_delete_the_feedback_log()
+    function it_can_mark_feedback_as_read()
     {
-        $feedbackFilePath = storage_path('logs/feedback.log');
-
-        file_put_contents($feedbackFilePath, 'abc123');
-
-        $this->assertFileExists($feedbackFilePath);
+        $contactForm = factory(ContactForm::class)->create(['read_at' => null]);
 
         $this->adminLogin()
-            ->delete(route('admin.feedback.delete'))
+            ->post(route('admin.feedback.markAsRead', $contactForm->id))
             ->assertStatus(302);
 
-        $this->assertFileNotExists($feedbackFilePath);
+        $this->assertNotNull($contactForm->refresh()->read_at);
     }
 }

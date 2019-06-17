@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ContactForm;
+
 class FeedbackController
 {
-    public function delete()
+    public function markAsRead(ContactForm $contactForm)
     {
-        $filePath = storage_path('logs/feedback.log');
-
-        if (file_exists($filePath)) {
-            unlink($filePath);
-        }
+        $contactForm->update(['read_at' => now()]);
 
         return back();
     }

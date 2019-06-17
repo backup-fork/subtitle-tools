@@ -18,7 +18,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::delete('/error-log', [ErrorLogController::class, 'delete'])->name('errorLog.delete');
 
-Route::delete('/feedback', [FeedbackController::class, 'delete'])->name('feedback.delete');
+Route::post('/feedback/{contactForm}/mark-as-read', [FeedbackController::class, 'markAsRead'])->name('feedback.markAsRead');
 
 Route::delete('/failed-jobs/truncate', [FailedJobsController::class, 'truncate'])->name('failedJobs.truncate');
 

@@ -11,6 +11,6 @@ class ContactForm extends Model
     public $incrementing = false;
 
     protected $casts = [
-        'replied_at' => 'datetime',
+        'read_at' => 'datetime',
     ];
 }
