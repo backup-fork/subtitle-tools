@@ -3,12 +3,13 @@
 namespace App\Support\Utils;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TempDir
 {
     public function make($identifier = 'temp')
     {
-        $newDirectoryName = date('Y-z').'-'.$identifier.'-'.str_random(16);
+        $newDirectoryName = date('Y-z-').$identifier.'-'.Str::random(16);
 
         Storage::makeDirectory('temporary-dirs/'.$newDirectoryName);
 

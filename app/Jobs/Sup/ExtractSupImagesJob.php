@@ -6,7 +6,7 @@ use App\Events\SupJobProgressChanged;
 use App\Jobs\BaseJob;
 use App\Models\SupJob;
 use App\Models\SupStats;
-use App\Support\Facades\TempDir;
+use App\Support\Utils\TempDir;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,7 +33,7 @@ class ExtractSupImagesJob extends BaseJob implements ShouldQueue
 
         $this->supJob->queue_time = $extractingStartedAt->diffInSeconds(new Carbon($this->supJob->created_at));
 
-        $this->supJob->temp_dir = TempDir::make('sup');
+        $this->supJob->temp_dir = (new TempDir)->make('sup');
 
         $this->supJob->save();
 

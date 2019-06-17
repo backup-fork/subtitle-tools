@@ -8,7 +8,6 @@ use App\Subtitles\TextFileFormat;
 use App\Subtitles\VobSub\VobSub2Srt;
 use App\Subtitles\VobSub\VobSub2SrtInterface;
 use App\Support\Utils\FileName;
-use App\Support\Utils\TempDir;
 use App\Support\Utils\TempFile;
 use Faker\Generator as Faker;
 use FileNameSeeder;
@@ -35,10 +34,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('TempFile', function ($app, $args) {
             return new TempFile();
-        });
-
-        $this->app->bind('TempDir', function ($app, $args) {
-            return new TempDir();
         });
 
         $this->app->singleton(VobSub2SrtInterface::class, VobSub2Srt::class);
